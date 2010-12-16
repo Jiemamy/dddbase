@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2010 Jiemamy Project and the Others.
- * Created on 2010/12/17
+ * Created on 2010/05/19
  *
  * This file is part of Jiemamy.
  *
@@ -18,67 +18,105 @@
  */
 package org.jiemamy.dddbase;
 
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+
+import java.util.Iterator;
 
 import org.junit.Test;
 
-import org.jiemamy.dddbase.sample.SampleValueObject;
-import org.jiemamy.dddbase.sample.SampleValueObjectBuilder;
+import org.jiemamy.dddbase.ValueObjectBuilder.BuilderConfigurator;
 
 /**
- * TODO for daisuke
+ * {@link ValueObjectBuilder}のテストクラス。
  * 
  * @version $Id$
- * @author daisuke
+ * @author Keisuke.K
  */
 public class ValueObjectBuilderTest {
 	
 	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
+	 * Test method for {@link org.jiemamy.dddbase.ValueObjectBuilder#addConfigurator(org.jiemamy.dddbase.ValueObjectBuilder.BuilderConfigurator)}.
 	 */
 	@Test
-	public void test01() throws Exception {
-		SampleValueObject foo10 = new SampleValueObjectBuilder().setString("foo").setNumber(10).build();
-		SampleValueObject foo20 = new SampleValueObjectBuilder().setString("foo").setNumber(20).build();
-		SampleValueObject bar10 = new SampleValueObjectBuilder().setString("bar").setNumber(10).build();
-		SampleValueObject bar20a = new SampleValueObjectBuilder().setString("bar").setNumber(20).build();
-		SampleValueObject bar20b = new SampleValueObjectBuilder().setString("bar").setNumber(20).build();
-		SampleValueObject null10 = new SampleValueObjectBuilder().setNumber(10).build();
-		SampleValueObject null20a = new SampleValueObjectBuilder().setNumber(20).build();
-		SampleValueObject null20b = new SampleValueObjectBuilder().setNumber(20).build();
+	public final void testAddConfigurator() {
+		BuilderMock builder = new BuilderMock();
 		
-		assertThat(foo10.equals(foo10), is(true));
-		assertThat(foo10.equals(foo20), is(false));
-		assertThat(foo10.equals(bar10), is(false));
-		assertThat(foo10.equals(bar20a), is(false));
-		assertThat(foo10.equals(null20a), is(false));
-		assertThat(null20a.equals(foo20), is(false));
-		assertThat(null10.equals(null20a), is(false));
-		assertThat(null20a.equals(null20b), is(true));
-		assertThat(bar20a.equals(bar20b), is(true));
-		assertThat(foo10.equals(new Object()), is(false));
-		assertThat(foo10.equals(null), is(false));
+		@SuppressWarnings("unchecked")
+		BuilderConfigurator<BuilderMock> configurator1 = mock(BuilderConfigurator.class);
+		@SuppressWarnings("unchecked")
+		BuilderConfigurator<BuilderMock> configurator2 = mock(BuilderConfigurator.class);
 		
-		assertThat(foo10.hashCode(), is(foo10.hashCode()));
-		assertThat(foo10.hashCode(), is(not(null20a.hashCode())));
-		assertThat(bar20a.hashCode(), is(bar20b.hashCode()));
+		builder.addConfigurator(configurator1);
+		
+		assertThat(builder.configurators.size(), is(1));
+		assertThat(builder.configurators.iterator().next(), is(configurator1));
+		
+		builder.addConfigurator(configurator2);
+		
+		assertThat(builder.configurators.size(), is(2));
+		
+		Iterator<BuilderConfigurator<BuilderMock>> iterator = builder.configurators.iterator();
+		assertThat(iterator.next(), is(configurator1));
+		assertThat(iterator.next(), is(configurator2));
 	}
 	
 	/**
-	 * TODO for daisuke
-	 * 
-	 * @throws Exception 例外が発生した場合
+	 * Test method for {@link org.jiemamy.dddbase.ValueObjectBuilder#build()}.
 	 */
 	@Test
-	public void test02() throws Exception {
-		SampleValueObject foo10 = new SampleValueObjectBuilder().setString("foo").setNumber(10).build();
-		SampleValueObject applied = new SampleValueObjectBuilder().setString("bar").apply(foo10);
+	public final void testBuild() {
+		BuilderMock builder = new BuilderMock() {
+			
+			@Override
+			protected ValueObject createValueObject() {
+				return new ValueObject() {
+					
+					@Override
+					public String toString() {
+						return "success";
+					}
+				};
+			}
+		};
 		
-		assertThat(applied.getNumber(), is(10));
-		assertThat(applied.getString(), is("bar"));
+		@SuppressWarnings("unchecked")
+		BuilderConfigurator<BuilderMock> configurator = mock(BuilderConfigurator.class);
+		builder.addConfigurator(configurator);
+		
+		ValueObject vo = builder.build();
+		
+		verify(configurator).configure(builder);
+		assertThat(vo, is(notNullValue()));
+		assertThat(vo.toString(), is("success"));
 	}
+	
+
+	// テスト用ビルダークラス
+	static class BuilderMock extends ValueObjectBuilder<ValueObject, BuilderMock> {
+		
+		@Override
+		protected void apply(ValueObject vo, BuilderMock builder) {
+		}
+		
+		@Override
+		protected ValueObject createValueObject() {
+			return null;
+		}
+		
+		@Override
+		protected BuilderMock getThis() {
+			return this;
+		}
+		
+		@Override
+		protected BuilderMock newInstance() {
+			return new BuilderMock();
+		}
+		
+	}
+	
 }

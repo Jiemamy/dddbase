@@ -114,7 +114,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * 
 	 * @param <S> 設定対象ビルダーの型
 	 */
-	protected static interface BuilderConfigurator<S> {
+	public static interface BuilderConfigurator<S> {
 		
 		/**
 		 * {@link ValueObjectBuilder#build()}内で呼ばれる際に実行するビルドアクションを定義する。
