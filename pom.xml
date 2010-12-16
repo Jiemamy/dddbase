@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.jiemamy</groupId>
     <artifactId>jiemamy-master</artifactId>
@@ -11,7 +9,7 @@
   <groupId>org.jiemamy</groupId>
   <artifactId>dddbase</artifactId>
   <name>Domain Driven Design Base</name>
-  <version>1.0.0-SNAPSHOT</version>
+  <version>1.0.0</version>
   <issueManagement>
     <system>JIRA</system>
     <url>http://jira.jiemamy.org/browse/DDD</url>
@@ -39,9 +37,9 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:svn:http://svn.jiemamy.org/products/leto/dddbase/trunk</connection>
-    <developerConnection>scm:svn:http://svn.jiemamy.org/products/leto/dddbase/trunk</developerConnection>
-    <url>http://fisheye.jiemamy.org/browse/leto/dddbase/trunk</url>
+    <connection>scm:svn:http://svn.jiemamy.org/products/leto/dddbase/tags/dddbase-1.0.0</connection>
+    <developerConnection>scm:svn:http://svn.jiemamy.org/products/leto/dddbase/tags/dddbase-1.0.0</developerConnection>
+    <url>http://fisheye.jiemamy.org/browse/leto/dddbase/tags/dddbase-1.0.0</url>
   </scm>
   <dependencies>
     <dependency>
