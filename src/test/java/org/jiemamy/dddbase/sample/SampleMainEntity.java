@@ -27,8 +27,6 @@ import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OnMemoryRepository;
-import org.jiemamy.dddbase.Repository;
-import org.jiemamy.dddbase.RepositoryException;
 import org.jiemamy.dddbase.utils.CloneUtil;
 
 /**
@@ -43,7 +41,7 @@ public class SampleMainEntity extends AbstractEntity {
 	
 	private Collection<String> values = Lists.newArrayList();
 	
-	private Repository<SampleSubEntity> children = new OnMemoryRepository<SampleSubEntity>();
+	private OnMemoryRepository<SampleSubEntity> children = new OnMemoryRepository<SampleSubEntity>();
 	
 
 	/**
@@ -61,11 +59,7 @@ public class SampleMainEntity extends AbstractEntity {
 	 * @param child 子エンティティ
 	 */
 	public void addChild(SampleSubEntity child) {
-		try {
-			children.store(child);
-		} catch (RepositoryException e) {
-			throw new Error(e);
-		}
+		children.store(child);
 	}
 	
 	@Override
@@ -87,11 +81,7 @@ public class SampleMainEntity extends AbstractEntity {
 	
 	@Override
 	public Collection<? extends SampleSubEntity> getSubEntities() {
-		try {
-			return children.getEntitiesAsSet();
-		} catch (RepositoryException e) {
-			throw new Error(e);
-		}
+		return children.getEntitiesAsSet();
 	}
 	
 	/**

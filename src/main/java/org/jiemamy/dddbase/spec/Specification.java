@@ -22,7 +22,8 @@ package org.jiemamy.dddbase.spec;
  * {@link Specification}の実装は、 {@link AbstractSpecification}を基底クラスとして実装するとよい。
  * その場合、 {@link #isSatisfiedBy(Object)} を実装する必要しかない。</p>
  * 
- * @param <T> {@link Specification}の型
+ * @param <T> {@link Specification}が判定対象とするオブジェクトの型
+ * @since 1.0.0
  */
 public interface Specification<T> {
 	
@@ -32,6 +33,7 @@ public interface Specification<T> {
 	 * @param specification Specification to AND.
 	 * @return A new specification.
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 1.0.0
 	 */
 	Specification<T> and(Specification<T> specification);
 	
@@ -41,6 +43,7 @@ public interface Specification<T> {
 	 * @param t Object to test.
 	 * @return {@code true} if {@code t} satisfies the specification.
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 1.0.0
 	 */
 	boolean isSatisfiedBy(T t);
 	
@@ -48,6 +51,7 @@ public interface Specification<T> {
 	 * Create a new specification that is the NOT operation of {@code this} specification.
 	 * 
 	 * @return A new specification.
+	 * @since 1.0.0
 	 */
 	Specification<T> not();
 	
@@ -57,6 +61,7 @@ public interface Specification<T> {
 	 * @param specification Specification to OR.
 	 * @return A new specification.
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 1.0.0
 	 */
 	Specification<T> or(Specification<T> specification);
 }

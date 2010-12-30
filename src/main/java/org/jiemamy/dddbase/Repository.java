@@ -28,16 +28,9 @@ import java.util.UUID;
  * @param <T> 管理するエンティティの型
  * @version $Id$
  * @author daisuke
+ * @since 1.0.0
  */
-public interface Repository<T extends Entity> extends Cloneable {
-	
-	/**
-	 * リポジトリのクローンを取得する。
-	 * 
-	 * @return clone クローン
-	 * @since 0.3
-	 */
-	Repository<T> clone();
+public interface Repository<T extends Entity> {
 	
 	/**
 	 * このリポジトリが指定した実体を管理しているかどうかを返す。
@@ -45,6 +38,7 @@ public interface Repository<T extends Entity> extends Cloneable {
 	 * @param ref 実体参照
 	 * @return このリポジトリが指定した実体を管理している場合は{@code true}、そうでない場合は{@code false}
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 * @since 1.0.2
 	 */
 	boolean contains(EntityRef<?> ref) throws RepositoryException;
 	
@@ -54,6 +48,7 @@ public interface Repository<T extends Entity> extends Cloneable {
 	 * @param id ENTITY ID
 	 * @return このリポジトリが指定した実体を管理している場合は{@code true}、そうでない場合は{@code false}
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 * @since 1.0.2
 	 */
 	boolean contains(UUID id) throws RepositoryException;
 	
@@ -66,6 +61,7 @@ public interface Repository<T extends Entity> extends Cloneable {
 	 * @return 削除した実体
 	 * @throws EntityNotFoundException このリポジトリが指定した実体を管理していない場合
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 * @since 1.0.0
 	 */
 	T delete(EntityRef<? extends T> ref) throws RepositoryException;
 	
@@ -80,6 +76,7 @@ public interface Repository<T extends Entity> extends Cloneable {
 	 * 
 	 * @return 管理 {@link Entity} の {@link Set}
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 * @since 1.0.0
 	 */
 	List<T> getEntitiesAsList() throws RepositoryException;
 	
@@ -92,6 +89,7 @@ public interface Repository<T extends Entity> extends Cloneable {
 	 * 
 	 * @return 管理 {@link Entity} の {@link Set}
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 * @since 1.0.0
 	 */
 	Set<T> getEntitiesAsSet() throws RepositoryException;
 	
@@ -108,6 +106,7 @@ public interface Repository<T extends Entity> extends Cloneable {
 	 * @return 見つかった{@link Entity}
 	 * @throws EntityNotFoundException このリポジトリが指定した実体を管理していない場合
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 * @since 1.0.0
 	 */
 	<E extends Entity>E resolve(EntityRef<E> ref) throws RepositoryException;
 	
@@ -123,6 +122,7 @@ public interface Repository<T extends Entity> extends Cloneable {
 	 * @return 見つかった{@link Entity}
 	 * @throws EntityNotFoundException このリポジトリが指定した実体を管理していない場合
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 * @since 1.0.0
 	 */
 	Entity resolve(UUID id) throws RepositoryException;
 	
@@ -140,6 +140,7 @@ public interface Repository<T extends Entity> extends Cloneable {
 	 * @param entity 実体
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
 	 * @throws IllegalArgumentException 子エンティティのIDが、既に管理済みの{@link Entity}のIDと衝突した場合
+	 * @since 1.0.0
 	 */
 	void store(T entity) throws RepositoryException;
 }

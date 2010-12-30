@@ -23,7 +23,8 @@ import org.apache.commons.lang.Validate;
  * <p>ある {@link Specification} の否定をとる {@link Specification} 実装クラス。
  * デコレータではないので注意。</p>
  * 
- * @param <T> {@link NotSpecification}の型
+ * @param <T> {@link NotSpecification}が判定対象とするオブジェクトの型
+ * @since 1.0.0
  */
 public class NotSpecification<T> extends AbstractSpecification<T> {
 	
@@ -35,6 +36,7 @@ public class NotSpecification<T> extends AbstractSpecification<T> {
 	 *
 	 * @param spec1 Specification instance to not.
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 1.0.0
 	 */
 	public NotSpecification(final Specification<T> spec1) {
 		Validate.notNull(spec1);

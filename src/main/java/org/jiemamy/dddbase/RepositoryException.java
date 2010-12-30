@@ -23,12 +23,15 @@ package org.jiemamy.dddbase;
  * 
  * @version $Id$
  * @author daisuke
+	 * @since 1.0.0
  */
 @SuppressWarnings("serial")
 public class RepositoryException extends Exception {
 	
 	/**
 	 * インスタンスを生成する。
+	 * 
+	 * @since 1.0.0
 	 */
 	public RepositoryException() {
 		super();
@@ -38,6 +41,7 @@ public class RepositoryException extends Exception {
 	 * インスタンスを生成する。
 	 * 
 	 * @param message 例外メッセージ
+	 * @since 1.0.2
 	 */
 	public RepositoryException(String message) {
 		super(message);
@@ -48,6 +52,7 @@ public class RepositoryException extends Exception {
 	 * 
 	 * @param message 例外メッセージ
 	 * @param cause 起因例外
+	 * @since 1.0.2
 	 */
 	public RepositoryException(String message, Throwable cause) {
 		super(message, cause);
@@ -57,9 +62,9 @@ public class RepositoryException extends Exception {
 	 * インスタンスを生成する。
 	 * 
 	 * @param cause 起因例外
+	 * @since 1.0.2
 	 */
 	public RepositoryException(Throwable cause) {
 		super(cause);
 	}
-	
 }

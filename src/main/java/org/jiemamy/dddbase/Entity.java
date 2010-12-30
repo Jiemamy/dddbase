@@ -30,6 +30,7 @@ import java.util.UUID;
  * 
  * @see EntityRef
  * @version $Id$
+ * @since 1.0.0
  * @author daisuke
  */
 public interface Entity extends Cloneable {
@@ -46,7 +47,7 @@ public interface Entity extends Cloneable {
 	 * すべきである(should)。</p>
 	 * 
 	 * @return clone クローンオブジェクト
-	 * @since 0.3
+	 * @since 1.0.0
 	 * @see Object#clone()
 	 */
 	Entity clone();
@@ -63,6 +64,7 @@ public interface Entity extends Cloneable {
 	 * 
 	 * @param obj 比較対象オブジェクト
 	 * @return {@code obj}が{@link Entity}型であり、同じIDを持つ場合は{@code true}、そうでない場合は{@code false}
+	 * @since 1.0.0
 	 */
 	boolean equals(Object obj);
 	
@@ -73,6 +75,7 @@ public interface Entity extends Cloneable {
 	* 一貫していなければならない。</p>
 	* 
 	* @return ENTITY ID
+	* @since 1.0.0
 	*/
 	UUID getId();
 	
@@ -83,6 +86,7 @@ public interface Entity extends Cloneable {
 	 * エンティティ。（間接的には {@link Repository} が自動的に管理する）</p>
 	 * 
 	 * @return 子エンティティの集合
+	 * @since 1.0.0
 	 */
 	Collection<? extends Entity> getSubEntities();
 	
@@ -93,6 +97,7 @@ public interface Entity extends Cloneable {
 	 * ENTITY IDのハッシュ値を返すべき(should)である。</p>
 	 * 
 	 * @return ハッシュ値
+	 * @since 1.0.0
 	 */
 	int hashCode();
 	
@@ -100,7 +105,7 @@ public interface Entity extends Cloneable {
 	 * このENTITYの参照オブジェクト（{@link EntityRef}）を返す。
 	 * 
 	 * @return 参照オブジェクト
-	 * @since 0.3
+	 * @since 1.0.0
 	 */
 	EntityRef<? extends Entity> toReference();
 }

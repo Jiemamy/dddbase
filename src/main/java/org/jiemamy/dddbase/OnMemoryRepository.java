@@ -41,8 +41,9 @@ import org.jiemamy.dddbase.utils.CloneUtil;
  * @param <T> 管理するエンティティの型
  * @version $Id$
  * @author daisuke
+ * @since 1.0.0
  */
-public class OnMemoryRepository<T extends Entity> implements Repository<T> {
+public class OnMemoryRepository<T extends Entity> implements Repository<T>, Cloneable {
 	
 	private Set<T> mainStorage = Sets.newLinkedHashSet();
 	

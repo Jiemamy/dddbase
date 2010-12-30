@@ -37,44 +37,9 @@ import org.jiemamy.dddbase.Entity;
  * 
  * @version $Id$
  * @author daisuke
+ * @since 1.0.0
  */
 public final class CloneUtil {
-	
-	/**
-	 * 指定した {@link Collection} の要素を全て{@link Object#clone() クローン}し、
-	 * それらを要素とする新しい {@link HashSet} を返す。
-	 * 
-	 * @param <E> 要素の型
-	 * @param collection 元となる集合
-	 * @return {@link HashSet}
-	 */
-	public static <E extends Entity>HashSet<E> cloneEntityHashSet(Collection<E> collection) {
-		HashSet<E> cloneCollection = Sets.newHashSetWithExpectedSize(collection.size());
-		for (E element : collection) {
-			@SuppressWarnings("unchecked")
-			E cloneElement = (E) element.clone();
-			cloneCollection.add(cloneElement);
-		}
-		return cloneCollection;
-	}
-	
-	/**
-	 * 指定した {@link Collection} の要素を全て{@link Object#clone() クローン}し、
-	 * それらを要素とする新しい {@link LinkedHashSet} を返す。
-	 * 
-	 * @param <E> 要素の型
-	 * @param collection 元となる集合
-	 * @return {@link LinkedHashSet}
-	 */
-	public static <E extends Entity>LinkedHashSet<E> cloneEntityLinkedHashSet(Collection<E> collection) {
-		LinkedHashSet<E> cloneCollection = Sets.newLinkedHashSet();
-		for (E element : collection) {
-			@SuppressWarnings("unchecked")
-			E cloneElement = (E) element.clone();
-			cloneCollection.add(cloneElement);
-		}
-		return cloneCollection;
-	}
 	
 	/**
 	 * 指定した {@link Collection} の要素を全て{@link Object#clone() クローン}し、
@@ -83,6 +48,7 @@ public final class CloneUtil {
 	 * @param <E> 要素の型
 	 * @param collection 元となる集合
 	 * @return {@link ArrayList}
+	 * @since 1.0.0
 	 */
 	public static <E extends Entity>ArrayList<E> cloneEntityArrayList(Collection<E> collection) {
 		ArrayList<E> cloneCollection = Lists.newArrayListWithExpectedSize(collection.size());
@@ -102,6 +68,7 @@ public final class CloneUtil {
 	 * @param <V> 値の型
 	 * @param map 元となる写像
 	 * @return {@link HashMap}
+	 * @since 1.0.0
 	 */
 	public static <K, V extends Entity>HashMap<K, V> cloneEntityHashMap(Map<K, V> map) {
 		HashMap<K, V> cloneMap = Maps.newHashMapWithExpectedSize(map.size());
@@ -114,25 +81,41 @@ public final class CloneUtil {
 	}
 	
 	/**
-	 * 指定した {@link Collection} の要素を要素とする新しい {@link HashSet} を返す。
+	 * 指定した {@link Collection} の要素を全て{@link Object#clone() クローン}し、
+	 * それらを要素とする新しい {@link HashSet} を返す。
 	 * 
 	 * @param <E> 要素の型
 	 * @param collection 元となる集合
 	 * @return {@link HashSet}
+	 * @since 1.0.0
 	 */
-	public static <E>HashSet<E> cloneValueHashSet(Collection<E> collection) {
-		return Sets.newHashSet(collection);
+	public static <E extends Entity>HashSet<E> cloneEntityHashSet(Collection<E> collection) {
+		HashSet<E> cloneCollection = Sets.newHashSetWithExpectedSize(collection.size());
+		for (E element : collection) {
+			@SuppressWarnings("unchecked")
+			E cloneElement = (E) element.clone();
+			cloneCollection.add(cloneElement);
+		}
+		return cloneCollection;
 	}
 	
 	/**
-	 * 指定した {@link Collection} の要素を要素とする新しい {@link LinkedHashSet} を返す。
+	 * 指定した {@link Collection} の要素を全て{@link Object#clone() クローン}し、
+	 * それらを要素とする新しい {@link LinkedHashSet} を返す。
 	 * 
 	 * @param <E> 要素の型
 	 * @param collection 元となる集合
-	 * @return {@link HashSet}
+	 * @return {@link LinkedHashSet}
+	 * @since 1.0.0
 	 */
-	public static <E>LinkedHashSet<E> cloneValueLinkedHashSet(Collection<E> collection) {
-		return Sets.newLinkedHashSet(collection);
+	public static <E extends Entity>LinkedHashSet<E> cloneEntityLinkedHashSet(Collection<E> collection) {
+		LinkedHashSet<E> cloneCollection = Sets.newLinkedHashSet();
+		for (E element : collection) {
+			@SuppressWarnings("unchecked")
+			E cloneElement = (E) element.clone();
+			cloneCollection.add(cloneElement);
+		}
+		return cloneCollection;
 	}
 	
 	/**
@@ -141,6 +124,7 @@ public final class CloneUtil {
 	 * @param <E> 要素の型
 	 * @param collection 元となる集合
 	 * @return {@link HashSet}
+	 * @since 1.0.0
 	 */
 	public static <E>ArrayList<E> cloneValueArrayList(Collection<E> collection) {
 		return Lists.newArrayList(collection);
@@ -153,9 +137,34 @@ public final class CloneUtil {
 	 * @param <V> 値の型
 	 * @param map 元となる写像
 	 * @return {@link HashMap}
+	 * @since 1.0.0
 	 */
 	public static <K, V>HashMap<K, V> cloneValueHashMap(Map<K, V> map) {
 		return Maps.newHashMap(map);
+	}
+	
+	/**
+	 * 指定した {@link Collection} の要素を要素とする新しい {@link HashSet} を返す。
+	 * 
+	 * @param <E> 要素の型
+	 * @param collection 元となる集合
+	 * @return {@link HashSet}
+	 * @since 1.0.0
+	 */
+	public static <E>HashSet<E> cloneValueHashSet(Collection<E> collection) {
+		return Sets.newHashSet(collection);
+	}
+	
+	/**
+	 * 指定した {@link Collection} の要素を要素とする新しい {@link LinkedHashSet} を返す。
+	 * 
+	 * @param <E> 要素の型
+	 * @param collection 元となる集合
+	 * @return {@link HashSet}
+	 * @since 1.0.0
+	 */
+	public static <E>LinkedHashSet<E> cloneValueLinkedHashSet(Collection<E> collection) {
+		return Sets.newLinkedHashSet(collection);
 	}
 	
 	private CloneUtil() {

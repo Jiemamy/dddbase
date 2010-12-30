@@ -29,6 +29,7 @@ import com.google.common.collect.Lists;
  * @author daisuke
  * @param <T> ビルド対象のインスタンスの型
  * @param <S> このビルダークラスの型
+ * @since 1.0.0
  */
 public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueObjectBuilder<T, S>> {
 	
@@ -40,6 +41,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * 
 	 * @param vo 状態を引用する{@link ValueObject}
 	 * @return vo の内容に対して、このビルダの設定を上書きした{@link ValueObject}の新しいインスタンス
+	 * @since 1.0.0
 	 */
 	public T apply(T vo) {
 		S builder = newInstance();
@@ -56,6 +58,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * ビルダの設定に基づいて{@link ValueObject}の新しいインスタンスを生成する。
 	 * 
 	 * @return {@link ValueObject}の新しいインスタンス
+	 * @since 1.0.0
 	 */
 	public T build() {
 		for (BuilderConfigurator<S> configurator : configurators) {
@@ -69,6 +72,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * {@link BuilderConfigurator}を追加する。
 	 * 
 	 * @param configurator {@link BuilderConfigurator}
+	 * @since 1.0.0
 	 */
 	protected void addConfigurator(BuilderConfigurator<S> configurator) {
 		configurators.add(configurator);
@@ -79,6 +83,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * 
 	 * @param vo 状態を引用する{@link ValueObject}
 	 * @param builder ビルダ
+	 * @since 1.0.0
 	 */
 	protected abstract void apply(T vo, S builder);
 	
@@ -91,6 +96,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * </p>
 	 * 
 	 * @return {@link ValueObject}の新しいインスタンス
+	 * @since 1.0.0
 	 */
 	protected abstract T createValueObject();
 	
@@ -98,6 +104,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * このビルダークラスのインスタンスを返す。
 	 * 
 	 * @return このビルダークラスのインスタンス。
+	 * @since 1.0.0
 	 */
 	protected abstract S getThis();
 	
@@ -105,6 +112,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * このビルダークラスの新しいインスタンスを返す。
 	 * 
 	 * @return このビルダークラスの新しいインスタンス。
+	 * @since 1.0.0
 	 */
 	protected abstract S newInstance();
 	
@@ -113,6 +121,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 * {@link ValueObjectBuilder#build()}内で順次実行されるビルダの設定を定義するインタフェース。
 	 * 
 	 * @param <S> 設定対象ビルダーの型
+	 * @since 1.0.0
 	 */
 	public static interface BuilderConfigurator<S> {
 		
@@ -120,6 +129,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 		 * {@link ValueObjectBuilder#build()}内で呼ばれる際に実行するビルドアクションを定義する。
 		 * 
 		 * @param builder ビルダーインスタンス
+		 * @since 1.0.0
 		 */
 		void configure(S builder);
 		

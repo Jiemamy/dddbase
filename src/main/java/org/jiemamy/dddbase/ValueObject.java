@@ -25,6 +25,7 @@ package org.jiemamy.dddbase;
  * 
  * @version $Id$
  * @author daisuke
+ * @since 1.0.0
  */
 public interface ValueObject {
 	
@@ -33,6 +34,7 @@ public interface ValueObject {
 	 * 
 	 * @param obj 比較対象オブジェクト
 	 * @return 等価の場合は{@code true}、そうでない場合は{@code false}
+	 * @since 1.0.0
 	 */
 	boolean equals(Object obj);
 }

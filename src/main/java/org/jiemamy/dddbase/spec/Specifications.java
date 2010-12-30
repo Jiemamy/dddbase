@@ -23,6 +23,7 @@ package org.jiemamy.dddbase.spec;
  * 
  * @version $Id$
  * @author daisuke
+ * @since 1.0.0
  */
 public final class Specifications {
 	
@@ -31,6 +32,7 @@ public final class Specifications {
 	 * 
 	 * @param <T> 生成する仕様の型
 	 * @return 生成したインスタンス
+	 * @since 1.0.0
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T>Specification<T> alwaysFalse() {
@@ -42,6 +44,7 @@ public final class Specifications {
 	 * 
 	 * @param <T> 生成する仕様の型
 	 * @return 生成したインスタンス
+	 * @since 1.0.0
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T>Specification<T> alwaysTrue() {

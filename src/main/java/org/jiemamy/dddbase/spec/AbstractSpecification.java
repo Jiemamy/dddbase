@@ -21,7 +21,8 @@ package org.jiemamy.dddbase.spec;
  * <p>{@link #and(Specification)}, {@link #or(Specification)}, {@link #not()}を
  * 実装済みである。</p>
  * 
- * @param <T> {@link AbstractSpecification}の型
+ * @param <T> {@link AbstractSpecification}が判定対象とするオブジェクトの型
+ * @since 1.0.0
  */
 public abstract class AbstractSpecification<T> implements Specification<T> {
 	

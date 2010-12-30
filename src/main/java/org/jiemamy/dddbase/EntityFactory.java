@@ -26,6 +26,7 @@ import java.util.UUID;
  * @param <T> 生成する {@link Entity}の型
  * @version $Id$
  * @author daisuke
+ * @since 1.0.0
  */
 public interface EntityFactory<T extends Entity> {
 	
@@ -35,6 +36,7 @@ public interface EntityFactory<T extends Entity> {
 	 * <p>ENTITY IDは自動生成される。</p>
 	 * 
 	 * @return 新しい {@link Entity}のインスタンス
+	 * @since 1.0.0
 	 */
 	T build();
 	
@@ -44,6 +46,7 @@ public interface EntityFactory<T extends Entity> {
 	 * @param id  ENTITY ID
 	 * @return 新しい {@link Entity}のインスタンス
 	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
+	 * @since 1.0.0
 	 */
 	T build(UUID id);
 	

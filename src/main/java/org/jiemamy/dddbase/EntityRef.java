@@ -28,6 +28,7 @@ import java.util.UUID;
  * @param <T> 実体のモデル型
  * @see Entity
  * @author daisuke
+ * @since 1.0.0
  */
 public interface EntityRef<T extends Entity> extends ValueObject {
 	
@@ -36,6 +37,7 @@ public interface EntityRef<T extends Entity> extends ValueObject {
 	 * 
 	 * @param obj 比較対象
 	 * @return 同じIDの要素を参照している場合は{@code true}、そうでない場合は{@code false}
+	 * @since 1.0.0
 	 */
 	boolean equals(Object obj);
 	
@@ -43,6 +45,7 @@ public interface EntityRef<T extends Entity> extends ValueObject {
 	 * 実体を特定する記述子としてのモデルIDを取得する。
 	 * 
 	 * @return 実体を特定する記述子としてのモデルID
+	 * @since 1.0.0
 	 */
 	UUID getReferentId();
 	
@@ -58,6 +61,7 @@ public interface EntityRef<T extends Entity> extends ValueObject {
 	 * 
 	 * @param target 対象{@link Entity}
 	 * @return この参照オブジェクトが引数{@code target}の参照の場合は{@code true}、そうでない場合は{@code false}
+	 * @since 1.0.0
 	 */
 	boolean isReferenceOf(Entity target);
 }

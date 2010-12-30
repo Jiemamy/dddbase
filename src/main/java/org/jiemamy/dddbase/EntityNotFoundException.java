@@ -21,6 +21,7 @@ package org.jiemamy.dddbase;
  * 
  * @version $Id$
  * @author daisuke
+ * @since 1.0.0
  */
 @SuppressWarnings("serial")
 public class EntityNotFoundException extends RuntimeException {
@@ -29,6 +30,7 @@ public class EntityNotFoundException extends RuntimeException {
 	 * インスタンスを生成する。
 	 * 
 	 * @param predicate エンティティの検索条件
+	 * @since 1.0.0
 	 */
 	public EntityNotFoundException(String predicate) {
 		super(predicate);

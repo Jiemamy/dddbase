@@ -30,6 +30,7 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * @param <T> 参照対象オブジェクトの型
  * @version $Id$
  * @author daisuke
+ * @since 1.0.0
  */
 public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	
@@ -39,6 +40,7 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	 * @param <T> 参照対象オブジェクトの型
 	 * @param referentId 参照先のモデルID
 	 * @return 参照オブジェクト
+	 * @since 1.0.0
 	 */
 	public static <T extends Entity>DefaultEntityRef<T> of(UUID referentId) {
 		return new DefaultEntityRef<T>(referentId);
@@ -53,6 +55,7 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	 * 
 	 * @param referent 定義オブジェクト
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 1.0.0
 	 */
 	public DefaultEntityRef(T referent) {
 		Validate.notNull(referent);
@@ -65,6 +68,7 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	 * 
 	 * @param referentId 参照先のモデルID
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 1.0.0
 	 */
 	public DefaultEntityRef(UUID referentId) {
 		Validate.notNull(referentId);

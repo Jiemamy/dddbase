@@ -29,6 +29,7 @@ import org.apache.commons.lang.Validate;
  * 
  * @version $Id$
  * @author daisuke
+ * @since 1.0.0
  */
 public abstract class AbstractEntity implements Entity {
 	
@@ -40,6 +41,7 @@ public abstract class AbstractEntity implements Entity {
 	 * 
 	 * @param id ENTITY ID
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 1.0.0
 	 */
 	public AbstractEntity(UUID id) {
 		Validate.notNull(id);
@@ -79,6 +81,7 @@ public abstract class AbstractEntity implements Entity {
 	 * <p>デフォルト実装として、空のリストを返す。必要に応じてオーバーライドすべきである。</p>
 	 * 
 	 * @return 空のリスト
+	 * @since 1.0.0
 	 */
 	public Collection<? extends Entity> getSubEntities() {
 		return Collections.emptyList();
