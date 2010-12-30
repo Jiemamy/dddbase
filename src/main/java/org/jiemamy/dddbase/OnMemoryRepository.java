@@ -148,10 +148,10 @@ public class OnMemoryRepository<T extends Entity> implements Repository<T> {
 			if (subStorage.containsKey(sub.getId())) {
 				// 取り除いても衝突するならば、取り除かずに例外
 				// FORMAT-OFF
-			throw new IllegalArgumentException(MessageFormat.format(
-					"SubEntity({0})@MainEntity({1}) is collision",
-					sub.getId(), entity.getId()));
-			// FORMAT-ON
+				throw new IllegalArgumentException(MessageFormat.format(
+						"SubEntity({0})@MainEntity({1}) is collision",
+						sub.getId(), entity.getId()));
+				// FORMAT-ON
 			}
 		}
 		

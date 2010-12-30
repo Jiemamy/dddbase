@@ -27,4 +27,39 @@ package org.jiemamy.dddbase;
 @SuppressWarnings("serial")
 public class RepositoryException extends Exception {
 	
+	/**
+	 * インスタンスを生成する。
+	 */
+	public RepositoryException() {
+		super();
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param message 例外メッセージ
+	 */
+	public RepositoryException(String message) {
+		super(message);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param message 例外メッセージ
+	 * @param cause 起因例外
+	 */
+	public RepositoryException(String message, Throwable cause) {
+		super(message, cause);
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param cause 起因例外
+	 */
+	public RepositoryException(Throwable cause) {
+		super(cause);
+	}
+	
 }

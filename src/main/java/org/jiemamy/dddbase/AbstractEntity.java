@@ -73,6 +73,13 @@ public abstract class AbstractEntity implements Entity {
 		return id;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * <p>デフォルト実装として、空のリストを返す。必要に応じてオーバーライドすべきである。</p>
+	 * 
+	 * @return 空のリスト
+	 */
 	public Collection<? extends Entity> getSubEntities() {
 		return Collections.emptyList();
 	}

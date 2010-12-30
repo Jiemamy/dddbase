@@ -37,8 +37,8 @@ public interface Entity extends Cloneable {
 	/**
 	 * エンティティのクローンを取得する。
 	 * 
-	 * <p>プロパティとして保持する可変オブジェクト(主に{@link Collection})もクローンし、
-	 * {@link Collection}の要素も可変オブジェクトである場合は、その要素もクローンする。</p>
+	 * <p>プロパティとして保持する可変オブジェクト(主に{@link Collection})も複製し、
+	 * {@link Collection}の要素も可変オブジェクトである場合は、その要素も複製する。</p>
 	 * 
 	 * <p>この型のサブタイプは、必ずこのメソッドを再定義し、戻り値型を自分自身の型に共変して宣言
 	 * すべきである(should)。例えば、{@code FooEntity extends Entity} という型を宣言したら、
@@ -52,13 +52,17 @@ public interface Entity extends Cloneable {
 	Entity clone();
 	
 	/**
-	 * ENTITY IDの等価性(equals)を以て、ENTITYの同一性を比較する。
+	 * このENTITYと比較対象オブジェクトの同一性を検証する。
 	 * 
-	 * <p>実装型が異なったとしても、{@code obj}が{@link Entity}型であり、
+	 * <p>このインターフェイスの実装では、ENTITY IDの等価性(equals)を以て、ENTITYの同一性を比較する。
+	 * 引数に{@code null}を与えた場合や、 {@link Entity}型ではないオブジェクトを与えた場合は、
+	 * {@code false}となる。</p>
+	 * 
+	 * <p>また、実装型が異なったとしても、{@code obj}が{@link Entity}型であり、
 	 * そのIDが一致した場合は同一とする。</p>
 	 * 
 	 * @param obj 比較対象オブジェクト
-	 * @return 同じIDを持つ場合は{@code true}、そうでない場合は{@code false}
+	 * @return {@code obj}が{@link Entity}型であり、同じIDを持つ場合は{@code true}、そうでない場合は{@code false}
 	 */
 	boolean equals(Object obj);
 	
@@ -66,7 +70,7 @@ public interface Entity extends Cloneable {
 	* ENTITY IDを取得する。
 	* 
 	* <p>IDは、ENTITYとしてのライフサイクル開始時に指定または自動生成され、ライフサイクルを通して
-	* 一貫していなければならない。ライフサイクルの終了と共にIDは削除される。</p>
+	* 一貫していなければならない。</p>
 	* 
 	* @return ENTITY ID
 	*/
@@ -75,7 +79,7 @@ public interface Entity extends Cloneable {
 	/**
 	 * 子エンティティの集合を取得する。
 	 * 
-	 * <p>このエンティティが保持するエンティティであり、 {@link Repository} では直接管理されない
+	 * <p>このエンティティが保持するエンティティであり、{@link Repository}では直接管理されない
 	 * エンティティ。（間接的には {@link Repository} が自動的に管理する）</p>
 	 * 
 	 * @return 子エンティティの集合
@@ -83,7 +87,17 @@ public interface Entity extends Cloneable {
 	Collection<? extends Entity> getSubEntities();
 	
 	/**
-	 * 参照オブジェクトを返す。
+	 * このENTITYのハッシュ値を返す。
+	 * 
+	 * <p>このインターフェイスの実装では、{@link #equals(Object)}との整合性を保つため、
+	 * ENTITY IDのハッシュ値を返すべき(should)である。</p>
+	 * 
+	 * @return ハッシュ値
+	 */
+	int hashCode();
+	
+	/**
+	 * このENTITYの参照オブジェクト（{@link EntityRef}）を返す。
 	 * 
 	 * @return 参照オブジェクト
 	 * @since 0.3

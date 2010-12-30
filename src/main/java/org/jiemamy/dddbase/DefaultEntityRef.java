@@ -45,7 +45,7 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	}
 	
 
-	private final UUID referentId;
+	final UUID referentId;
 	
 
 	/**
