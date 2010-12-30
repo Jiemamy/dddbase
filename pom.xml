@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.jiemamy</groupId>
     <artifactId>jiemamy-master</artifactId>
-    <version>1.6.1</version>
+    <version>1.6.2</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jiemamy</groupId>
@@ -50,7 +50,6 @@
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-library</artifactId>
-      <version>1.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -65,7 +64,6 @@
     <dependency>
       <groupId>com.google.collections</groupId>
       <artifactId>google-collections</artifactId>
-      <version>1.0</version>
     </dependency>
   </dependencies>
   <repositories>
