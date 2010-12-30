@@ -289,4 +289,39 @@ public class OnMemoryRepositoryTest {
 		assertThat(list.get(2), is(equalTo(e2)));
 		assertThat(list.get(3), is(equalTo(e1)));
 	}
+	
+	/**
+	 * {@link OnMemoryRepository#contains(UUID)}のテスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test11_containsUUID() throws Exception {
+		SampleMainEntity e1 = new SampleMainEntity(ID1);
+		SampleSubEntity se1 = new SampleSubEntity(ID2);
+		e1.addChild(se1);
+		repos.store(e1);
+		
+		assertThat(repos.contains(ID1), is(true));
+		assertThat(repos.contains(ID2), is(true));
+		assertThat(repos.contains(ID3), is(false));
+	}
+	
+	/**
+	 * {@link OnMemoryRepository#contains(EntityRef)}のテスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test12_containsEntityRef() throws Exception {
+		SampleMainEntity e1 = new SampleMainEntity(ID1);
+		SampleSubEntity se1 = new SampleSubEntity(ID2);
+		SampleMainEntity e2 = new SampleMainEntity(ID3);
+		e1.addChild(se1);
+		repos.store(e1);
+		
+		assertThat(repos.contains(e1.toReference()), is(true));
+		assertThat(repos.contains(se1.toReference()), is(true));
+		assertThat(repos.contains(e2.toReference()), is(false));
+	}
 }
