@@ -62,6 +62,25 @@ public class OnMemoryRepository<T extends Entity> implements Repository<T> {
 		}
 	}
 	
+	public boolean contains(EntityRef<?> ref) {
+		return contains(ref.getReferentId());
+	}
+	
+	public boolean contains(final UUID id) {
+		Iterable<Entity> all = Iterables.concat(mainStorage, subStorage.values());
+		try {
+			Iterables.find(all, new Predicate<Entity>() {
+				
+				public boolean apply(Entity input) {
+					return input.getId().equals(id);
+				}
+			});
+			return true;
+		} catch (NoSuchElementException e) {
+			return false;
+		}
+	}
+	
 	public T delete(EntityRef<? extends T> ref) {
 		Validate.notNull(ref);
 		T deleted = deleteMain(ref);

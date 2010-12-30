@@ -40,6 +40,24 @@ public interface Repository<T extends Entity> extends Cloneable {
 	Repository<T> clone();
 	
 	/**
+	 * このリポジトリが指定した実体を管理しているかどうかを返す。
+	 * 
+	 * @param ref 実体参照
+	 * @return このリポジトリが指定した実体を管理している場合は{@code true}、そうでない場合は{@code false}
+	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 */
+	boolean contains(EntityRef<?> ref) throws RepositoryException;
+	
+	/**
+	 * このリポジトリが指定した実体を管理しているかどうかを返す。
+	 * 
+	 * @param id ENTITY ID
+	 * @return このリポジトリが指定した実体を管理している場合は{@code true}、そうでない場合は{@code false}
+	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 */
+	boolean contains(UUID id) throws RepositoryException;
+	
+	/**
 	 * 参照が指す実体（{@link Entity}）をリポジトリの管理下から外す。
 	 * 
 	 * <p>この {@link Entity} の子エンティティも同時に管理下から外す。</p>
