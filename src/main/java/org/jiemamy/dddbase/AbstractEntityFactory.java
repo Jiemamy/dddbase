@@ -24,7 +24,7 @@ import java.util.UUID;
  * {@link EntityFactory}の抽象実装クラス。
  * 
  * @param <T> 生成する {@link Entity}の型
- * @version $Id: AbstractEntityFactory.java 353 2010-12-03 15:27:55Z daisuke $
+ * @version $Id$
  * @author daisuke
  */
 public abstract class AbstractEntityFactory<T extends Entity> implements EntityFactory<T> {

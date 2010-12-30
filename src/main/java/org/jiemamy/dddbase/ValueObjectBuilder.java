@@ -25,7 +25,7 @@ import com.google.common.collect.Lists;
 /**
  * {@link ValueObject}のインスタンスを生成するビルダー。
  * 
- * @version $Id: ValueObjectBuilder.java 376 2010-12-13 15:59:34Z daisuke $
+ * @version $Id$
  * @author daisuke
  * @param <T> ビルド対象のインスタンスの型
  * @param <S> このビルダークラスの型

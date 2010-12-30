@@ -24,7 +24,7 @@ import java.util.UUID;
  * {@link Entity}のインスタンスを生成するためのFACTORY。
  * 
  * @param <T> 生成する {@link Entity}の型
- * @version $Id: EntityFactory.java 353 2010-12-03 15:27:55Z daisuke $
+ * @version $Id$
  * @author daisuke
  */
 public interface EntityFactory<T extends Entity> {
