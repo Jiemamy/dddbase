@@ -42,7 +42,7 @@ import org.junit.Test;
 import org.jiemamy.dddbase.sample.SampleMainEntity;
 
 /**
- * TODO for daisuke
+ * {@link CloneUtil}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

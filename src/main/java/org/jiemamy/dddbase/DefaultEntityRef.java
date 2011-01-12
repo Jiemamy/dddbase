@@ -55,12 +55,13 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	 * 
 	 * @param referent 定義オブジェクト
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws IllegalArgumentException 引数に{@code referent.getId()}が{@code null}であるエンティティを与えた場合
 	 * @since 1.0.0
 	 */
 	public DefaultEntityRef(T referent) {
 		Validate.notNull(referent);
+		Validate.notNull(referent.getId());
 		referentId = referent.getId();
-		assert referentId != null;
 	}
 	
 	/**

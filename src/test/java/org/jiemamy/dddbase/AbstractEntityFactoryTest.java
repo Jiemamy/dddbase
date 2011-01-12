@@ -33,7 +33,7 @@ import org.jiemamy.dddbase.sample.SampleMainEntityFactory;
 import org.jiemamy.dddbase.sample.SampleSubEntity;
 
 /**
- * TODO for daisuke
+ * {@link AbstractEntityFactory}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -48,12 +48,12 @@ public class AbstractEntityFactoryTest {
 	
 
 	/**
-	 * TODO for daisuke
+	 * 生成したインスタンスの挙動テスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test01() throws Exception {
+	public void test01_生成したインスタンスの挙動テスト() throws Exception {
 		SampleMainEntity e1a = new SampleMainEntityFactory().setString("foo").build(ID1);
 		SampleMainEntity e1b = new SampleMainEntityFactory().setString("foo").build(ID1);
 		SampleMainEntity e2 = new SampleMainEntityFactory().setString("foo").build(ID2);

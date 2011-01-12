@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.jiemamy.dddbase.sample.SampleMainEntity;
 
 /**
- * TODO for daisuke
+ * {@link Entity}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -53,12 +53,12 @@ public class EntityTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link Entity#equals(Object)}と{@link Entity#hashCode()}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test02_() throws Exception {
+	public void test02_equals_hashCode() throws Exception {
 		SampleMainEntity e1 = new SampleMainEntity(ID1);
 		SampleMainEntity e2a = new SampleMainEntity(ID2);
 		SampleMainEntity e2b = new SampleMainEntity(ID2);

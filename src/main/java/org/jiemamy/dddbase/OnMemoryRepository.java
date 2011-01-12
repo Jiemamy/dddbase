@@ -89,6 +89,7 @@ public class OnMemoryRepository<T extends Entity> implements Repository<T>, Clon
 		return deleted;
 	}
 	
+	@Deprecated
 	public List<T> getEntitiesAsList() {
 		return CloneUtil.cloneEntityArrayList(mainStorage);
 	}

@@ -105,4 +105,9 @@ public class SampleMainEntity extends AbstractEntity {
 	public EntityRef<? extends SampleMainEntity> toReference() {
 		return new DefaultEntityRef<SampleMainEntity>(this);
 	}
+	
+	@Override
+	public String toString() {
+		return getId().toString() + ":" + string;
+	}
 }

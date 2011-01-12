@@ -27,7 +27,7 @@ import java.util.UUID;
 import org.junit.Test;
 
 /**
- * TODO for daisuke
+ * {@link DefaultEntityRef}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

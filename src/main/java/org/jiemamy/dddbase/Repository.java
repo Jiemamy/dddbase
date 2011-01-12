@@ -77,7 +77,9 @@ public interface Repository<T extends Entity> {
 	 * @return 管理 {@link Entity} の {@link Set}
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
 	 * @since 1.0.0
+	 * @deprecated use {@link OrderedRepository}
 	 */
+	@Deprecated
 	List<T> getEntitiesAsList() throws RepositoryException;
 	
 	/**
@@ -139,7 +141,9 @@ public interface Repository<T extends Entity> {
 	 * 
 	 * @param entity 実体
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
-	 * @throws IllegalArgumentException 子エンティティのIDが、既に管理済みの{@link Entity}のIDと衝突した場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws ConsistencyException 子エンティティのIDが、既に管理済みの{@link Entity}のIDと衝突した場合
+	 * @throws ConsistencyException その他、エンティティ同士が満たすべき条件を満たさない場合
 	 * @since 1.0.0
 	 */
 	void store(T entity) throws RepositoryException;

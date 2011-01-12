@@ -24,7 +24,7 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 /**
- * TODO for daisuke
+ * {@link AbstractSpecification}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -39,7 +39,7 @@ public class AbstractSpecificationTest {
 	
 
 	/**
-	 * TODO for daisuke
+	 * {@link AbstractSpecification#and(Specification)}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -52,7 +52,7 @@ public class AbstractSpecificationTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link AbstractSpecification#or(Specification)}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -66,7 +66,7 @@ public class AbstractSpecificationTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link AbstractSpecification#not()}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
