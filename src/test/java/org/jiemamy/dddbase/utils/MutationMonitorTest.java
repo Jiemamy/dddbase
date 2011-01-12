@@ -18,6 +18,7 @@
  */
 package org.jiemamy.dddbase.utils;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -167,9 +168,8 @@ public class MutationMonitorTest {
 		assertThat(wraped.size(), is(3));
 		
 		mockStream.flush();
-		assertThat(baos.toString(CharEncoding.UTF_8), endsWith("[main] WARN  o.j.dddbase.utils.MutationMonitor -"
-				+ " public abstract java.lang.Object java.util.Map.put(java.lang.Object,java.lang.Object)"
-				+ " on {2=20, 1=10}\n"));
+		assertThat(baos.toString(CharEncoding.UTF_8), containsString("[main] WARN  o.j.dddbase.utils.MutationMonitor -"
+				+ " public abstract java.lang.Object java.util.Map.put(java.lang.Object,java.lang.Object) on "));
 	}
 	
 	/**
@@ -224,8 +224,8 @@ public class MutationMonitorTest {
 		assertThat(wraped.size(), is(3));
 		
 		mockStream.flush();
-		assertThat(baos.toString(CharEncoding.UTF_8), endsWith("[main] WARN  o.j.dddbase.utils.MutationMonitor -"
-				+ " public abstract boolean java.util.Set.add(java.lang.Object) on [2, 1]\n"));
+		assertThat(baos.toString(CharEncoding.UTF_8), containsString("[main] WARN  o.j.dddbase.utils.MutationMonitor -"
+				+ " public abstract boolean java.util.Set.add(java.lang.Object) on "));
 	}
 	
 	/**
@@ -280,8 +280,8 @@ public class MutationMonitorTest {
 		assertThat(wraped.size(), is(3));
 		
 		mockStream.flush();
-		assertThat(baos.toString(CharEncoding.UTF_8), endsWith("[main] WARN  o.j.dddbase.utils.MutationMonitor -"
-				+ " public abstract boolean java.util.Set.add(java.lang.Object) on [1, 2]\n"));
+		assertThat(baos.toString(CharEncoding.UTF_8), containsString("[main] WARN  o.j.dddbase.utils.MutationMonitor -"
+				+ " public abstract boolean java.util.Set.add(java.lang.Object) on "));
 	}
 	
 	/**
