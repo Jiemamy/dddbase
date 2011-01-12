@@ -32,6 +32,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
 
 import org.jiemamy.dddbase.utils.CloneUtil;
 
@@ -164,6 +166,11 @@ public class OnMemoryRepository<T extends Entity> implements Repository<T>, Clon
 		for (Entity sub : clone.getSubEntities()) {
 			subStorage.put(sub.getId(), sub);
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 	
 	T deleteMain(EntityRef<? extends T> ref) {

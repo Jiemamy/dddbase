@@ -23,6 +23,9 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 import org.jiemamy.dddbase.utils.CloneUtil;
 
 /**
@@ -86,6 +89,11 @@ public class OrderedOnMemoryRepository<T extends OrderedEntity> extends OnMemory
 		Collections.swap(list, index1, index2);
 		list.get(index1).setIndex(index1);
 		list.get(index2).setIndex(index2);
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 	
 	@Override

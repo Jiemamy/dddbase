@@ -15,6 +15,9 @@
  */
 package org.jiemamy.dddbase.spec;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang.builder.ToStringStyle;
+
 /**
  * {@link Specification}の抽象実装クラス。
  * 
@@ -36,5 +39,10 @@ public abstract class AbstractSpecification<T> implements Specification<T> {
 	
 	public Specification<T> or(final Specification<T> specification) {
 		return new OrSpecification<T>(this, specification);
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 }

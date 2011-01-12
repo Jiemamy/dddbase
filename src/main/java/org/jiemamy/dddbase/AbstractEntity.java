@@ -91,4 +91,9 @@ public abstract class AbstractEntity implements Entity {
 	public final int hashCode() {
 		return id.hashCode();
 	}
+	
+	@Override
+	public String toString() {
+		return getClass().getName() + "@" + id;
+	}
 }
