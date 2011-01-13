@@ -129,22 +129,23 @@ public interface Repository<T extends Entity> {
 	Entity resolve(UUID id) throws RepositoryException;
 	
 	/**
-	 * 実体（{@link Entity}）をリポジトリの管理下に置く。
+	 * {@link Entity}をリポジトリの管理下に置く。
 	 * 
-	 * <p>リポジトリは、この実体のクローンを管理する。従って、ストア後にこのエンティティに
+	 * <p>リポジトリは、この実体のクローンを管理する。従って、ストア後に{@code entity}に
 	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
 	 * 
-	 * <p>この {@link Entity} のIDと同じIDを持つ {@link Entity} が既に管理下にある場合は、
-	 * 既存の {@link Entity} を削除し、今回指定した {@link Entity} を配下に置く。</p>
+	 * <p>リポジトリが既に{@code entity}と同じIDを持つ{@link Entity}を管理していた場合は、
+	 * 既存の{@link Entity}を削除し、新たに{@code entity}を配下に置く。</p>
 	 * 
-	 * <p>この {@link Entity} の子エンティティも同時に管理下に置く。</p>
+	 * <p>{@code entity}の子エンティティも同時に管理下に置き、 {@link #resolve}可能になる。</p>
 	 * 
 	 * @param entity 実体
+	 * @return リポジトリが既に{@code entity}と同じIDを持つ{@link Entity}を管理していた場合、その削除された古い{@link Entity}、そうでない場合は{@code null}
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @throws ConsistencyException 子エンティティのIDが、既に管理済みの{@link Entity}のIDと衝突した場合
 	 * @throws ConsistencyException その他、エンティティ同士が満たすべき条件を満たさない場合
 	 * @since 1.0.0
 	 */
-	void store(T entity) throws RepositoryException;
+	T store(T entity) throws RepositoryException;
 }

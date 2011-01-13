@@ -57,16 +57,17 @@ public class OrderedOnMemoryRepository<T extends OrderedEntity> extends OnMemory
 	}
 	
 	@Override
-	public synchronized void store(T entity) {
+	public synchronized T store(T entity) {
+		T old;
 		if (list.contains(entity)) {
 			int index = list.indexOf(entity);
-			super.store(entity);
+			old = super.store(entity);
 			entity.setIndex(index);
 			@SuppressWarnings("unchecked")
 			T clone = (T) entity.clone();
 			list.add(index, clone);
 		} else {
-			super.store(entity);
+			old = super.store(entity);
 			if (entity.getIndex() < 0 || entity.getIndex() >= list.size()) {
 				entity.setIndex(list.size());
 				@SuppressWarnings("unchecked")
@@ -83,6 +84,7 @@ public class OrderedOnMemoryRepository<T extends OrderedEntity> extends OnMemory
 				list.add(target);
 			}
 		}
+		return old;
 	}
 	
 	public synchronized void swap(int index1, int index2) {

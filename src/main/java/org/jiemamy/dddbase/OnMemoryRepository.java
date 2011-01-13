@@ -119,16 +119,21 @@ public class OnMemoryRepository<T extends Entity> implements Repository<T>, Clon
 		}
 	}
 	
-	public void store(T entity) {
+	public T store(T entity) {
 		Validate.notNull(entity);
 		
+		T old = null;
 		try {
-			Entity old = resolve(entity.toReference());
+			@SuppressWarnings("unchecked")
+			T o = (T) resolve(entity.toReference());
+			old = o;
+			
 			// create copy for check
 			Map<UUID, Entity> copy = Maps.newHashMap(subStorage);
 			for (Entity sub : old.getSubEntities()) {
 				copy.remove(sub.getId());
 			}
+			
 			// check
 			for (Entity sub : entity.getSubEntities()) {
 				if (copy.containsKey(sub.getId())) {
@@ -166,6 +171,7 @@ public class OnMemoryRepository<T extends Entity> implements Repository<T>, Clon
 		for (Entity sub : clone.getSubEntities()) {
 			subStorage.put(sub.getId(), sub);
 		}
+		return old;
 	}
 	
 	@Override

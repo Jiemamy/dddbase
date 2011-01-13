@@ -49,8 +49,8 @@ public interface OrderedRepository<T extends OrderedEntity> extends Repository<T
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * <p>このインターフェイスの実装では、{@code entity}のリストインデックス（{@link OrderedEntity#getIndex()}）によって
-	 * 適切な順序をリポジトリが保持する。</p>
+	 * <p>このインターフェイスの実装では、{@code entity}のリストインデックス
+	 * （{@link OrderedEntity#getIndex()}）によって適切な順序をリポジトリが保持する。</p>
 	 * 
 	 * <ul>
 	 *   <li>リポジトリが既に{@code entity}とIDが同じエンティティを管理している場合は、
@@ -66,7 +66,7 @@ public interface OrderedRepository<T extends OrderedEntity> extends Repository<T
 	 * 
 	 * @since 1.2.0
 	 */
-	void store(T entity) throws RepositoryException;
+	T store(T entity) throws RepositoryException;
 	
 	/**
 	 * 保持エンティティのリストの順序を入れ替える。
