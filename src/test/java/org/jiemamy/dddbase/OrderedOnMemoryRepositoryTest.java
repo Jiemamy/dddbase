@@ -106,28 +106,32 @@ public class OrderedOnMemoryRepositoryTest {
 		assertThat(repos.getEntitiesAsList().get(3).getString(), is("e4"));
 		check(repos.getEntitiesAsList());
 		
-		repos.swap(0, 0);
-		assertThat(repos.getEntitiesAsList().size(), is(4));
+		repos.delete(e3b.toReference());
+		assertThat(repos.getEntitiesAsList().size(), is(3));
 		assertThat(repos.getEntitiesAsList().get(0).getString(), is("e1"));
-		assertThat(repos.getEntitiesAsList().get(1).getString(), is("e3b"));
-		assertThat(repos.getEntitiesAsList().get(2).getString(), is("e2"));
-		assertThat(repos.getEntitiesAsList().get(3).getString(), is("e4"));
+		assertThat(repos.getEntitiesAsList().get(1).getString(), is("e2"));
+		assertThat(repos.getEntitiesAsList().get(2).getString(), is("e4"));
 		check(repos.getEntitiesAsList());
 		
-		repos.swap(0, 3);
-		assertThat(repos.getEntitiesAsList().size(), is(4));
+		repos.swap(0, 0);
+		assertThat(repos.getEntitiesAsList().size(), is(3));
+		assertThat(repos.getEntitiesAsList().get(0).getString(), is("e1"));
+		assertThat(repos.getEntitiesAsList().get(1).getString(), is("e2"));
+		assertThat(repos.getEntitiesAsList().get(2).getString(), is("e4"));
+		check(repos.getEntitiesAsList());
+		
+		repos.swap(0, 2);
+		assertThat(repos.getEntitiesAsList().size(), is(3));
 		assertThat(repos.getEntitiesAsList().get(0).getString(), is("e4"));
-		assertThat(repos.getEntitiesAsList().get(1).getString(), is("e3b"));
-		assertThat(repos.getEntitiesAsList().get(2).getString(), is("e2"));
-		assertThat(repos.getEntitiesAsList().get(3).getString(), is("e1"));
+		assertThat(repos.getEntitiesAsList().get(1).getString(), is("e2"));
+		assertThat(repos.getEntitiesAsList().get(2).getString(), is("e1"));
 		check(repos.getEntitiesAsList());
 		
-		repos.swap(1, 3);
-		assertThat(repos.getEntitiesAsList().size(), is(4));
+		repos.swap(1, 2);
+		assertThat(repos.getEntitiesAsList().size(), is(3));
 		assertThat(repos.getEntitiesAsList().get(0).getString(), is("e4"));
 		assertThat(repos.getEntitiesAsList().get(1).getString(), is("e1"));
 		assertThat(repos.getEntitiesAsList().get(2).getString(), is("e2"));
-		assertThat(repos.getEntitiesAsList().get(3).getString(), is("e3b"));
 		check(repos.getEntitiesAsList());
 	}
 	

@@ -99,7 +99,7 @@ public class SampleOrderedEntity extends AbstractEntity implements OrderedEntity
 	
 	@Override
 	public String toString() {
-		return getId().toString() + ":" + string;
+		return getId().toString() + ":" + string + ":" + index;
 	}
 	
 }

@@ -66,6 +66,9 @@ public class OrderedOnMemoryRepository<T extends OrderedEntity> extends OnMemory
 			@SuppressWarnings("unchecked")
 			T clone = (T) entity.clone();
 			list.add(index, clone);
+			for (int i = index + 1; i < list.size(); i++) {
+				list.get(i).setIndex(i);
+			}
 		} else {
 			old = super.store(entity);
 			if (entity.getIndex() < 0 || entity.getIndex() >= list.size()) {
@@ -102,6 +105,9 @@ public class OrderedOnMemoryRepository<T extends OrderedEntity> extends OnMemory
 	protected synchronized T deleteMain(EntityRef<? extends T> ref) {
 		T deleted = super.deleteMain(ref);
 		list.remove(deleted);
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).setIndex(i);
+		}
 		return deleted;
 	}
 	
