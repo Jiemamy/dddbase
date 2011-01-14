@@ -51,6 +51,18 @@ public final class Specifications {
 		return (Specification<T>) AlwaysTrueSpecification.INSTANCE;
 	}
 	
+	public static <T>Specification<? super T> and(Specification<T> s1, Specification<T> s2) {
+		return new AndSpecification<T>(s1, s2);
+	}
+	
+	public static <T>Specification<? super T> not(Specification<T> s) {
+		return new NotSpecification<T>(s);
+	}
+	
+	public static <T>Specification<? super T> or(Specification<T> s1, Specification<T> s2) {
+		return new OrSpecification<T>(s1, s2);
+	}
+	
 	private Specifications() {
 	}
 	
