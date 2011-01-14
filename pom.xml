@@ -9,7 +9,7 @@
   <groupId>org.jiemamy</groupId>
   <artifactId>dddbase</artifactId>
   <name>Domain Driven Design Base</name>
-  <version>1.1.2-SNAPSHOT</version>
+  <version>1.1.2</version>
   <issueManagement>
     <system>JIRA</system>
     <url>http://jira.jiemamy.org/browse/DDD</url>
@@ -37,9 +37,9 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:svn:http://svn.jiemamy.org/products/leto/dddbase/trunk</connection>
-    <developerConnection>scm:svn:http://svn.jiemamy.org/products/leto/dddbase/trunk</developerConnection>
-    <url>http://fisheye.jiemamy.org/browse/leto/dddbase/trunk</url>
+    <connection>scm:svn:http://svn.jiemamy.org/products/leto/dddbase/tags/dddbase-1.1.2</connection>
+    <developerConnection>scm:svn:http://svn.jiemamy.org/products/leto/dddbase/tags/dddbase-1.1.2</developerConnection>
+    <url>http://fisheye.jiemamy.org/browse/leto/dddbase/tags/dddbase-1.1.2</url>
   </scm>
   <dependencies>
     <dependency>
