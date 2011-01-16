@@ -52,6 +52,16 @@ public class OrderedOnMemoryRepository<T extends OrderedEntity> extends OnMemory
 	}
 	
 	@Override
+	public synchronized T delete(EntityRef<? extends T> ref) {
+		T deleted = super.delete(ref);
+		list.remove(deleted);
+		for (int i = 0; i < list.size(); i++) {
+			list.get(i).setIndex(i);
+		}
+		return deleted;
+	}
+	
+	@Override
 	public synchronized List<T> getEntitiesAsList() {
 		return CloneUtil.cloneEntityArrayList(list);
 	}
@@ -65,7 +75,7 @@ public class OrderedOnMemoryRepository<T extends OrderedEntity> extends OnMemory
 			entity.setIndex(index);
 			@SuppressWarnings("unchecked")
 			T clone = (T) entity.clone();
-			list.add(index, clone);
+			list.set(index, clone);
 			for (int i = index + 1; i < list.size(); i++) {
 				list.get(i).setIndex(i);
 			}
@@ -99,16 +109,6 @@ public class OrderedOnMemoryRepository<T extends OrderedEntity> extends OnMemory
 	@Override
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-	}
-	
-	@Override
-	protected synchronized T deleteMain(EntityRef<? extends T> ref) {
-		T deleted = super.deleteMain(ref);
-		list.remove(deleted);
-		for (int i = 0; i < list.size(); i++) {
-			list.get(i).setIndex(i);
-		}
-		return deleted;
 	}
 	
 }

@@ -75,29 +75,29 @@ public class OnMemoryRepositoryTest {
 	@Test
 	public void test01_エンティティを保存削除して_保存エンティティ数が正常に動いていることを確認() throws Exception {
 		assertThat(repos.managedMainEntityCount(), is(0));
-		assertThat(repos.managedSubEntityCount(), is(0));
+		assertThat(repos.managedAllEntityCount(), is(0));
 		
 		SampleMainEntity e1 = new SampleMainEntity(ID1);
 		repos.store(e1);
 		
 		assertThat(repos.managedMainEntityCount(), is(1));
-		assertThat(repos.managedSubEntityCount(), is(0));
+		assertThat(repos.managedAllEntityCount(), is(1));
 		
 		repos.delete(e1.toReference());
 		
 		assertThat(repos.managedMainEntityCount(), is(0));
-		assertThat(repos.managedSubEntityCount(), is(0));
+		assertThat(repos.managedAllEntityCount(), is(0));
 		
 		e1.addChild(new SampleSubEntity(ID2));
 		repos.store(e1);
 		
 		assertThat(repos.managedMainEntityCount(), is(1));
-		assertThat(repos.managedSubEntityCount(), is(1));
+		assertThat(repos.managedAllEntityCount(), is(2));
 		
 		repos.delete(e1.toReference());
 		
 		assertThat(repos.managedMainEntityCount(), is(0));
-		assertThat(repos.managedSubEntityCount(), is(0));
+		assertThat(repos.managedAllEntityCount(), is(0));
 	}
 	
 	/**

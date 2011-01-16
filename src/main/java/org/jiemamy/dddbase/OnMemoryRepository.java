@@ -18,24 +18,19 @@
  */
 package org.jiemamy.dddbase;
 
-import java.text.MessageFormat;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.UUID;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
-
-import org.jiemamy.dddbase.utils.CloneUtil;
 
 /**
  * {@link Repository}のオンメモリ実装クラス。
@@ -45,133 +40,40 @@ import org.jiemamy.dddbase.utils.CloneUtil;
  * @author daisuke
  * @since 1.0.0
  */
-public class OnMemoryRepository<T extends Entity> implements Repository<T>, Cloneable {
+public class OnMemoryRepository<T extends Entity> extends OnMemoryEntityResolver<T> implements Repository<T> {
 	
-	private Set<T> mainStorage = Sets.newLinkedHashSet();
-	
-	private Map<UUID, Entity> subStorage = Maps.newHashMap();
-	
-
 	@Override
 	public OnMemoryRepository<T> clone() {
-		try {
-			@SuppressWarnings("unchecked")
-			OnMemoryRepository<T> clone = (OnMemoryRepository<T>) super.clone();
-			clone.mainStorage = CloneUtil.cloneEntityLinkedHashSet(mainStorage);
-			clone.subStorage = CloneUtil.cloneEntityHashMap(subStorage);
-			return clone;
-		} catch (CloneNotSupportedException e) {
-			throw new Error("clone not supported", e);
-		}
-	}
-	
-	public boolean contains(EntityRef<?> ref) {
-		return contains(ref.getReferentId());
-	}
-	
-	public boolean contains(final UUID id) {
-		Iterable<Entity> all = Iterables.concat(mainStorage, subStorage.values());
-		try {
-			Iterables.find(all, new Predicate<Entity>() {
-				
-				public boolean apply(Entity input) {
-					return input.getId().equals(id);
-				}
-			});
-			return true;
-		} catch (NoSuchElementException e) {
-			return false;
-		}
+		OnMemoryRepository<T> clone = (OnMemoryRepository<T>) super.clone();
+		return clone;
 	}
 	
 	public T delete(EntityRef<? extends T> ref) {
 		Validate.notNull(ref);
-		T deleted = deleteMain(ref);
-		deleteSub(deleted);
-		return deleted;
+		Map<UUID, T> storage = getStorage();
+		if (storage.containsKey(ref.getReferentId()) == false) {
+			throw new EntityNotFoundException("id=" + ref.getReferentId());
+		}
+		return getStorage().remove(ref.getReferentId());
 	}
 	
 	@Deprecated
 	public List<T> getEntitiesAsList() {
-		return CloneUtil.cloneEntityArrayList(mainStorage);
+		return Lists.newArrayList(getStorage().values());
 	}
 	
 	public Set<T> getEntitiesAsSet() {
-		return CloneUtil.cloneEntityHashSet(mainStorage);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public <E extends Entity>E resolve(EntityRef<E> ref) {
-		return (E) resolve(ref.getReferentId());
-	}
-	
-	public Entity resolve(final UUID id) {
-		Iterable<Entity> all = Iterables.concat(mainStorage, subStorage.values());
-		try {
-			return Iterables.find(all, new Predicate<Entity>() {
-				
-				public boolean apply(Entity input) {
-					return input.getId().equals(id);
-				}
-			}).clone();
-		} catch (NoSuchElementException e) {
-			throw new EntityNotFoundException("id=" + id);
-		}
+		return Sets.newHashSet(getStorage().values());
 	}
 	
 	public T store(T entity) {
 		Validate.notNull(entity);
-		
-		T old = null;
-		try {
-			@SuppressWarnings("unchecked")
-			T o = (T) resolve(entity.toReference());
-			old = o;
-			
-			// create copy for check
-			Map<UUID, Entity> copy = Maps.newHashMap(subStorage);
-			for (Entity sub : old.getSubEntities()) {
-				copy.remove(sub.getId());
-			}
-			
-			// check
-			for (Entity sub : entity.getSubEntities()) {
-				if (copy.containsKey(sub.getId())) {
-					// 取り除いても衝突するならば、取り除かずに例外
-					// FORMAT-OFF
-					throw new IllegalArgumentException(MessageFormat.format(
-							"SubEntity({0})@MainEntity({1}) is collision",
-							sub.getId(), entity.getId()));
-					// FORMAT-ON
-				}
-			}
-			// delete
-			@SuppressWarnings("unchecked")
-			EntityRef<? extends T> oldReference = (EntityRef<? extends T>) old.toReference();
-			delete(oldReference);
-		} catch (EntityNotFoundException e) {
-			// ignore
-		}
-		
-		for (Entity sub : entity.getSubEntities()) {
-			if (subStorage.containsKey(sub.getId())) {
-				// 取り除いても衝突するならば、取り除かずに例外
-				// FORMAT-OFF
-				throw new IllegalArgumentException(MessageFormat.format(
-						"SubEntity({0})@MainEntity({1}) is collision",
-						sub.getId(), entity.getId()));
-				// FORMAT-ON
-			}
-		}
+		chechConsistency(entity);
 		
 		@SuppressWarnings("unchecked")
 		T clone = (T) entity.clone();
 		
-		mainStorage.add(clone);
-		for (Entity sub : clone.getSubEntities()) {
-			subStorage.put(sub.getId(), sub);
-		}
-		return old;
+		return getStorage().put(clone.getId(), clone);
 	}
 	
 	@Override
@@ -179,34 +81,40 @@ public class OnMemoryRepository<T extends Entity> implements Repository<T>, Clon
 		return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
 	}
 	
-	T deleteMain(EntityRef<? extends T> ref) {
-		Iterator<T> iterator = mainStorage.iterator();
-		T removed = null;
-		while (iterator.hasNext()) {
-			T next = iterator.next();
-			if (ref.isReferenceOf(next)) {
-				iterator.remove();
-				removed = next;
-				break;
-			}
+	int managedAllEntityCount() {
+		Set<UUID> collector = Sets.newHashSet();
+		for (T entity : getStorage().values()) {
+			collectAllId(entity, collector);
 		}
-		if (removed == null) {
-			throw new EntityNotFoundException("ref=" + ref);
-		}
-		return removed;
-	}
-	
-	<E extends Entity>void deleteSub(T main) {
-		for (Entity entity : main.getSubEntities()) {
-			subStorage.remove(entity.getId());
-		}
+		return collector.size();
 	}
 	
 	int managedMainEntityCount() {
-		return mainStorage.size();
+		return getStorage().size();
 	}
 	
-	int managedSubEntityCount() {
-		return subStorage.size();
+	private void chechConsistency(T entityToAdd) {
+		// create copy for check
+		Map<UUID, T> copy = Maps.newHashMap(getStorage());
+		copy.remove(entityToAdd.getId());
+		Set<UUID> idsToAdd = collectAllId(entityToAdd, new HashSet<UUID>());
+		
+		Set<UUID> base = Sets.newHashSet();
+		for (T entity : copy.values()) {
+			collectAllId(entity, base);
+		}
+		
+		base.retainAll(idsToAdd);
+		if (base.size() > 0) {
+			throw new IllegalArgumentException("collision " + base);
+		}
+	}
+	
+	private Set<UUID> collectAllId(Entity entity, Set<UUID> collector) {
+		collector.add(entity.getId());
+		for (Entity e : entity.getSubEntities()) {
+			collectAllId(e, collector);
+		}
+		return collector;
 	}
 }

@@ -18,7 +18,6 @@ package org.jiemamy.dddbase;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 
 /**
  * DDD における REPOSITORY を表すインターフェイス。
@@ -30,27 +29,7 @@ import java.util.UUID;
  * @author daisuke
  * @since 1.0.0
  */
-public interface Repository<T extends Entity> {
-	
-	/**
-	 * このリポジトリが指定した実体を管理しているかどうかを返す。
-	 * 
-	 * @param ref 実体参照
-	 * @return このリポジトリが指定した実体を管理している場合は{@code true}、そうでない場合は{@code false}
-	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
-	 * @since 1.0.2
-	 */
-	boolean contains(EntityRef<?> ref) throws RepositoryException;
-	
-	/**
-	 * このリポジトリが指定した実体を管理しているかどうかを返す。
-	 * 
-	 * @param id ENTITY ID
-	 * @return このリポジトリが指定した実体を管理している場合は{@code true}、そうでない場合は{@code false}
-	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
-	 * @since 1.0.2
-	 */
-	boolean contains(UUID id) throws RepositoryException;
+public interface Repository<T extends Entity> extends EntityResolver {
 	
 	/**
 	 * 参照が指す実体（{@link Entity}）をリポジトリの管理下から外す。
@@ -94,39 +73,6 @@ public interface Repository<T extends Entity> {
 	 * @since 1.0.0
 	 */
 	Set<T> getEntitiesAsSet() throws RepositoryException;
-	
-	/**
-	 * リポジトリが管理する {@link Entity} の中から、指定した参照が指す実体（{@link Entity}）を探して返す。
-	 * 
-	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
-	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
-	 * 
-	 * <p>検索対象は子エンティティも含む。</p>
-	 * 
-	 * @param <E> {@link Entity}の型
-	 * @param ref 実体参照
-	 * @return 見つかった{@link Entity}
-	 * @throws EntityNotFoundException このリポジトリが指定した実体を管理していない場合
-	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
-	 * @since 1.0.0
-	 */
-	<E extends Entity>E resolve(EntityRef<E> ref) throws RepositoryException;
-	
-	/**
-	 * リポジトリが管理する {@link Entity} の中から、指定したIDを持つ実体（{@link Entity}）を探して返す。
-	 * 
-	 * <p>リポジトリは、この実体のクローンを返す。従って、取得した {@link Entity}に対して
-	 * ミューテーションを起こしても、ストアした実体には影響を及ぼさない。</p>
-	 * 
-	 * <p>検索対象は子エンティティも含む。</p>
-	 * 
-	 * @param id ENTITY ID
-	 * @return 見つかった{@link Entity}
-	 * @throws EntityNotFoundException このリポジトリが指定した実体を管理していない場合
-	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
-	 * @since 1.0.0
-	 */
-	Entity resolve(UUID id) throws RepositoryException;
 	
 	/**
 	 * {@link Entity}をリポジトリの管理下に置く。
