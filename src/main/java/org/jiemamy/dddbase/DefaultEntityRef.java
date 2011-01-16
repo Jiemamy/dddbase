@@ -105,9 +105,6 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	
 	@Override
 	public String toString() {
-		ReflectionToStringBuilder toStringBuilder =
-				new ReflectionToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE);
-		
-		return toStringBuilder.toString();
+		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
 	}
 }

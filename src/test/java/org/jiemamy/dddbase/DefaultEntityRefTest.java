@@ -26,6 +26,8 @@ import java.util.UUID;
 
 import org.junit.Test;
 
+import org.jiemamy.dddbase.sample.SampleMainEntity;
+
 /**
  * {@link DefaultEntityRef}のテストクラス。
  * 
@@ -70,6 +72,27 @@ public class DefaultEntityRefTest {
 		
 		assertThat(ref1.equals(new Object()), is(false));
 		assertThat(ref1.equals(null), is(false));
+	}
+	
+	/**
+	 * {@link DefaultEntityRef#isReferenceOf(Entity)}のテスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test02_isReferenceOf() throws Exception {
+		DefaultEntityRef<Entity> ref1 = new DefaultEntityRef<Entity>(ID1);
+		DefaultEntityRef<Entity> ref2a = new DefaultEntityRef<Entity>(ID2);
+		DefaultEntityRef<Entity> ref2b = DefaultEntityRef.of(ID2);
 		
+		Entity e1 = new SampleMainEntity(ID1);
+		Entity e2 = new SampleMainEntity(ID2);
+		
+		assertThat(ref1.isReferenceOf(e1), is(true));
+		assertThat(ref1.isReferenceOf(e2), is(false));
+		assertThat(ref2a.isReferenceOf(e1), is(false));
+		assertThat(ref2a.isReferenceOf(e2), is(true));
+		assertThat(ref2b.isReferenceOf(e1), is(false));
+		assertThat(ref2b.isReferenceOf(e2), is(true));
 	}
 }
