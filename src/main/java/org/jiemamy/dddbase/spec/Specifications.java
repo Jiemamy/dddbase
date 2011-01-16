@@ -51,14 +51,37 @@ public final class Specifications {
 		return (Specification<T>) AlwaysTrueSpecification.INSTANCE;
 	}
 	
+	/**
+	 * 2つの仕様の論理積(OR)をとる仕様を生成する。
+	 * 
+	 * @param <T> 仕様の検証対象オブジェクトの型
+	 * @param s1 仕様1
+	 * @param s2 仕様2
+	 * @return 論理積仕様
+	 */
 	public static <T>Specification<? super T> and(Specification<T> s1, Specification<T> s2) {
 		return new AndSpecification<T>(s1, s2);
 	}
 	
+	/**
+	 * 否定(NOT)をとる仕様を生成する。
+	 * 
+	 * @param <T> 仕様の検証対象オブジェクトの型
+	 * @param s 仕様
+	 * @return 否定仕様
+	 */
 	public static <T>Specification<? super T> not(Specification<T> s) {
 		return new NotSpecification<T>(s);
 	}
 	
+	/**
+	 * 2つの仕様の論理和(AND)をとる仕様を生成する。
+	 * 
+	 * @param <T> 仕様の検証対象オブジェクトの型
+	 * @param s1 仕様1
+	 * @param s2 仕様2
+	 * @return 論理和仕様
+	 */
 	public static <T>Specification<? super T> or(Specification<T> s1, Specification<T> s2) {
 		return new OrSpecification<T>(s1, s2);
 	}
