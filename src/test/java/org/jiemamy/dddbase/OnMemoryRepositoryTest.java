@@ -26,9 +26,11 @@ import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -101,12 +103,12 @@ public class OnMemoryRepositoryTest {
 	}
 	
 	/**
-	 * IDから実体を解決できる。
+	 * IDから実体を解決でき、元のインスタンスとは異なる。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test02_referenceから実体を解決できる() throws Exception {
+	public void test02_referenceから実体を解決でき_元のインスタンスとは異なる() throws Exception {
 		SampleMainEntity e1 = new SampleMainEntity(ID1);
 		SampleSubEntity se1 = new SampleSubEntity(ID2);
 		e1.addChild(se1);
@@ -114,6 +116,14 @@ public class OnMemoryRepositoryTest {
 		
 		assertThat(repos.resolve(ID1), is(equalTo((Entity) e1)));
 		assertThat(repos.resolve(ID2), is(equalTo((Entity) se1)));
+		
+		assertThat(repos.resolve(ID1), is(not(sameInstance((Entity) e1))));
+		assertThat(repos.resolve(ID2), is(not(sameInstance((Entity) se1))));
+		
+		SampleMainEntity resolved = (SampleMainEntity) repos.resolve(ID1);
+		resolved.setString("!!");
+		assertThat(e1.getString(), is(not("!!")));
+		assertThat(((SampleMainEntity) repos.resolve(ID1)).getString(), is(not("!!")));
 	}
 	
 	/**
@@ -130,6 +140,14 @@ public class OnMemoryRepositoryTest {
 		
 		assertThat(repos.resolve(e1.toReference()), is(equalTo(e1)));
 		assertThat(repos.resolve(se1.toReference()), is(equalTo(se1)));
+		
+		assertThat(repos.resolve(e1.toReference()), is(not(sameInstance(e1))));
+		assertThat(repos.resolve(se1.toReference()), is(not(sameInstance(se1))));
+		
+		SampleMainEntity resolved = repos.resolve(e1.toReference());
+		resolved.setString("!!");
+		assertThat(e1.getString(), is(not("!!")));
+		assertThat(repos.resolve(e1.toReference()).getString(), is(not("!!")));
 	}
 	
 	/**
@@ -279,6 +297,18 @@ public class OnMemoryRepositoryTest {
 		repos.store(e1);
 		
 		assertThat(repos.getEntitiesAsSet(), hasItems(e1, e2, e3, e4));
+		
+		Map<UUID, SampleMainEntity> map = Maps.newHashMapWithExpectedSize(4);
+		for (SampleMainEntity retrieved : repos.getEntitiesAsSet()) {
+			map.put(retrieved.getId(), retrieved);
+		}
+		assertThat(map.get(ID1), is(not(sameInstance(e1))));
+		assertThat(map.get(ID2), is(not(sameInstance(e2))));
+		assertThat(map.get(ID3), is(not(sameInstance(e3))));
+		assertThat(map.get(ID4), is(not(sameInstance(e4))));
+		
+		map.get(ID1).setString("!!");
+		assertThat(repos.resolve(e1.toReference()).getString(), is(not("!!")));
 	}
 	
 	/**

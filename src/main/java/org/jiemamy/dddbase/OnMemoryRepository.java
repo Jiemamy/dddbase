@@ -24,13 +24,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
+import org.jiemamy.dddbase.utils.CloneUtil;
+import org.jiemamy.dddbase.utils.MutationMonitor;
 
 /**
  * {@link Repository}のオンメモリ実装クラス。
@@ -59,11 +61,11 @@ public class OnMemoryRepository<T extends Entity> extends OnMemoryEntityResolver
 	
 	@Deprecated
 	public List<T> getEntitiesAsList() {
-		return Lists.newArrayList(getStorage().values());
+		return MutationMonitor.monitor(CloneUtil.cloneEntityArrayList(getStorage().values()));
 	}
 	
 	public Set<T> getEntitiesAsSet() {
-		return Sets.newHashSet(getStorage().values());
+		return MutationMonitor.monitor(CloneUtil.cloneEntityHashSet(getStorage().values()));
 	}
 	
 	public T store(T entity) {
