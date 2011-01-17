@@ -17,7 +17,7 @@
 package org.jiemamy.dddbase;
 
 /**
- * REPOSITORYに対するクエリの結果、該当する {@link Entity} が見つからなかったことを表す例外クラス。
+ * クエリの結果、該当する {@link Entity} が見つからなかったことを表す例外クラス。
  * 
  * @version $Id$
  * @author daisuke
