@@ -45,7 +45,7 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	T delete(EntityRef<? extends T> ref) throws RepositoryException;
 	
 	/**
-	 * 管理している実体を {@link List} として返す。
+	 * 管理している主たる実体を {@link List} として返す。
 	 * 
 	 * <p>{@link List}の順序は、{@link #store(Entity)}した順序となる。</p>
 	 * 
@@ -62,7 +62,7 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	List<T> getEntitiesAsList() throws RepositoryException;
 	
 	/**
-	 * 管理している実体を {@link Set} として返す。
+	 * 管理している主たる実体を{@link Set}として返す。
 	 * 
 	 * <p>返される{@link Set}やその要素{@link Entity}は他に
 	 * 影響を及ぼさない独立したインスタンスである。つまりこの{@link Set}や

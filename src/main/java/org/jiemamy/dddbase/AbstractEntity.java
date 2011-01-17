@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
+import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.Validate;
 
 /**
@@ -94,6 +95,6 @@ public abstract class AbstractEntity implements Entity {
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "@" + id;
+		return ClassUtils.getShortCanonicalName(getClass()) + "@" + id + "/" + Integer.toHexString(hashCode());
 	}
 }

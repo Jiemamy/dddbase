@@ -24,6 +24,8 @@ import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import org.jiemamy.dddbase.utils.CloneUtil;
 
 /**
@@ -85,6 +87,11 @@ public abstract class OnMemoryEntityResolver<T extends Entity> implements Entity
 			throw new EntityNotFoundException("id=" + id);
 		}
 		return map.get(id);
+	}
+	
+	@Override
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this);
 	}
 	
 	/**
