@@ -93,8 +93,12 @@ public abstract class AbstractEntity implements Entity {
 		return id.hashCode();
 	}
 	
+	public EntityRef<? extends AbstractEntity> toReference() {
+		return new DefaultEntityRef<AbstractEntity>(this);
+	}
+	
 	@Override
 	public String toString() {
-		return ClassUtils.getShortCanonicalName(getClass()) + "@" + id + "/" + Integer.toHexString(hashCode());
+		return ClassUtils.getShortClassName(getClass()) + "@" + id + "/" + Integer.toHexString(hashCode());
 	}
 }

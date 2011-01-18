@@ -20,7 +20,7 @@ package org.jiemamy.dddbase.sample;
 
 import java.util.UUID;
 
-import org.jiemamy.dddbase.AbstractEntity;
+import org.jiemamy.dddbase.AbstractOrderedEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OrderedEntity;
@@ -31,11 +31,9 @@ import org.jiemamy.dddbase.OrderedEntity;
  * @version $Id$
  * @author daisuke
  */
-public class SampleOrderedEntity extends AbstractEntity implements OrderedEntity {
+public class SampleOrderedEntity extends AbstractOrderedEntity {
 	
 	private String string;
-	
-	private int index = -1;
 	
 
 	/**
@@ -67,17 +65,13 @@ public class SampleOrderedEntity extends AbstractEntity implements OrderedEntity
 	 */
 	public SampleOrderedEntity(UUID id, String string, int index) {
 		this(id, string);
-		this.index = index;
+		setIndex(index);
 	}
 	
 	@Override
 	public SampleOrderedEntity clone() {
 		SampleOrderedEntity clone = (SampleOrderedEntity) super.clone();
 		return clone;
-	}
-	
-	public int getIndex() {
-		return index;
 	}
 	
 	/**
@@ -89,17 +83,13 @@ public class SampleOrderedEntity extends AbstractEntity implements OrderedEntity
 		return string;
 	}
 	
-	public void setIndex(int index) {
-		this.index = index;
-	}
-	
+	@Override
 	public EntityRef<? extends SampleOrderedEntity> toReference() {
 		return new DefaultEntityRef<SampleOrderedEntity>(this);
 	}
 	
 	@Override
 	public String toString() {
-		return getId().toString() + ":" + string + ":" + index;
+		return super.toString() + "[" + string + "]";
 	}
-	
 }

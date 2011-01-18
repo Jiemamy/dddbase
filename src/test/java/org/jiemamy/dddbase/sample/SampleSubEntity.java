@@ -46,8 +46,8 @@ public class SampleSubEntity extends AbstractEntity {
 		return (SampleSubEntity) super.clone();
 	}
 	
+	@Override
 	public EntityRef<? extends SampleSubEntity> toReference() {
 		return new DefaultEntityRef<SampleSubEntity>(this);
 	}
-	
 }

@@ -102,12 +102,13 @@ public class SampleMainEntity extends AbstractEntity {
 		this.string = string;
 	}
 	
+	@Override
 	public EntityRef<? extends SampleMainEntity> toReference() {
 		return new DefaultEntityRef<SampleMainEntity>(this);
 	}
 	
 	@Override
 	public String toString() {
-		return getId().toString() + ":" + string;
+		return super.toString() + "[" + string + "]";
 	}
 }
