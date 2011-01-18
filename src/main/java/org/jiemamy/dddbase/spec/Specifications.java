@@ -109,6 +109,5 @@ public final class Specifications {
 		public boolean isSatisfiedBy(Object t) {
 			return true;
 		}
-		
 	}
 }
