@@ -99,6 +99,7 @@ public abstract class AbstractEntity implements Entity {
 	
 	@Override
 	public String toString() {
-		return ClassUtils.getShortClassName(getClass()) + "@" + id + "/" + Integer.toHexString(hashCode());
+		return ClassUtils.getShortClassName(getClass()) + "@" + Integer.toHexString(hashCode()) + "/"
+				+ id.toString().substring(0, 8);
 	}
 }

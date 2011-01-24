@@ -21,8 +21,6 @@ package org.jiemamy.dddbase;
 import java.util.UUID;
 
 import org.apache.commons.lang.Validate;
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
-import org.apache.commons.lang.builder.ToStringStyle;
 
 /**
  * 参照オブジェクトのデフォルト実装。
@@ -105,6 +103,6 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	
 	@Override
 	public String toString() {
-		return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
+		return "Ref(" + referentId.toString().substring(0, 8) + ")";
 	}
 }

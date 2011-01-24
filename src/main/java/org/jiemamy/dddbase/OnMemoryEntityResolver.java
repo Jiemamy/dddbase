@@ -24,8 +24,6 @@ import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-
 import org.jiemamy.dddbase.utils.CloneUtil;
 
 /**
@@ -91,7 +89,7 @@ public abstract class OnMemoryEntityResolver<T extends Entity> implements Entity
 	
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
+		return getClass().getName() + "@" + Integer.toHexString(hashCode()) + storage.values();
 	}
 	
 	/**
@@ -105,5 +103,4 @@ public abstract class OnMemoryEntityResolver<T extends Entity> implements Entity
 	protected Map<UUID, T> getStorage() {
 		return storage;
 	}
-	
 }
