@@ -77,22 +77,24 @@ public class OrderedOnMemoryRepository<T extends OrderedEntity> extends OnMemory
 				list.get(i).setIndex(i);
 			}
 		} else {
-			old = super.store(entity);
+			T target;
 			if (entity.getIndex() < 0 || entity.getIndex() >= list.size()) {
 				entity.setIndex(list.size());
 				@SuppressWarnings("unchecked")
 				T clone = (T) entity.clone();
-				list.add(clone);
+				target = clone;
 			} else {
 				@SuppressWarnings("unchecked")
 				T clone = (T) entity.clone();
-				T target = clone;
+				target = clone;
 				for (int i = clone.getIndex(); i < list.size(); i++) {
+					super.store(target);
 					target = list.set(i, target);
 					target.setIndex(i + 1);
 				}
-				list.add(target);
 			}
+			old = super.store(target);
+			list.add(target);
 		}
 		return old;
 	}

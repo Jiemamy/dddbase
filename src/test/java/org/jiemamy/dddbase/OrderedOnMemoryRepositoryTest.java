@@ -37,13 +37,13 @@ import org.jiemamy.dddbase.sample.SampleOrderedEntity;
  */
 public class OrderedOnMemoryRepositoryTest {
 	
-	private static final UUID ID1 = UUID.randomUUID();
+	private static final UUID ID1 = UUID.fromString("aaaaaaaa-c98c-41e9-8472-d7dbc2e284d8");
 	
-	private static final UUID ID2 = UUID.randomUUID();
+	private static final UUID ID2 = UUID.fromString("bbbbbbbb-769e-4392-9802-2ce4330d7cc4");
 	
-	private static final UUID ID3 = UUID.randomUUID();
+	private static final UUID ID3 = UUID.fromString("cccccccc-00d2-4228-a2c6-1f7b5c979f92");
 	
-	private static final UUID ID4 = UUID.randomUUID();
+	private static final UUID ID4 = UUID.fromString("dddddddd-9a57-458c-a0a7-221149808cbd");
 	
 	private OrderedOnMemoryRepository<SampleOrderedEntity> repos;
 	
@@ -161,6 +161,49 @@ public class OrderedOnMemoryRepositoryTest {
 		assertThat(list.get(1).getString(), is("e3b"));
 		assertThat(list.get(2).getString(), is("e2"));
 		assertThat(list.get(3).getString(), is("e1"));
+	}
+	
+	/**
+	 * デフォルトのindexは-1であり、store後には保存したindexが設定されている。
+	 * resolveしたエンティティにもindexが設定されている。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test02_resolve() throws Exception {
+		SampleOrderedEntity e1 = new SampleOrderedEntity(ID1, "e1");
+		assertThat(e1.getIndex(), is(-1));
+		
+		repos.store(e1);
+		assertThat(e1.getIndex(), is(0));
+		
+		SampleOrderedEntity resolved1 = repos.resolve(e1.toReference());
+		assertThat(resolved1.getIndex(), is(0));
+		
+		// ---
+		
+		SampleOrderedEntity e2 = new SampleOrderedEntity(ID2, "e2");
+		assertThat(e2.getIndex(), is(-1));
+		
+		repos.store(e2);
+		assertThat(e2.getIndex(), is(1));
+		
+		SampleOrderedEntity resolved2 = repos.resolve(e2.toReference());
+		assertThat(resolved2.getIndex(), is(1));
+		
+		// ---
+		
+		SampleOrderedEntity e3 = new SampleOrderedEntity(ID3, "e3");
+		e3.setIndex(1);
+		
+		repos.store(e3);
+		assertThat(e3.getIndex(), is(1));
+		
+		SampleOrderedEntity resolved3 = repos.resolve(e3.toReference());
+		assertThat(resolved3.getIndex(), is(1));
+		assertThat(repos.resolve(e1.toReference()).getIndex(), is(0));
+		assertThat(repos.resolve(e2.toReference()).getIndex(), is(2));
+		assertThat(repos.resolve(e3.toReference()).getIndex(), is(1));
 	}
 	
 	private void check(List<? extends OrderedEntity> list) {
