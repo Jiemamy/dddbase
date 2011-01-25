@@ -62,6 +62,6 @@ public abstract class AbstractOrderedEntity extends AbstractEntity implements Or
 	
 	@Override
 	public String toString() {
-		return super.toString() + "/" + index;
+		return super.toString() + "/idx=" + index;
 	}
 }

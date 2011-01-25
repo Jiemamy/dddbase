@@ -24,6 +24,8 @@ import java.util.UUID;
 
 import com.google.common.collect.Maps;
 
+import org.apache.commons.lang.ClassUtils;
+
 import org.jiemamy.dddbase.utils.CloneUtil;
 
 /**
@@ -89,7 +91,11 @@ public abstract class OnMemoryEntityResolver<T extends Entity> implements Entity
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "@" + Integer.toHexString(hashCode()) + storage.values();
+		StringBuilder sb = new StringBuilder();
+		sb.append(ClassUtils.getShortClassName(getClass()));
+		sb.append("@ih=").append(Integer.toHexString(System.identityHashCode(this)));
+		sb.append(storage.values().toString());
+		return sb.toString();
 	}
 	
 	/**

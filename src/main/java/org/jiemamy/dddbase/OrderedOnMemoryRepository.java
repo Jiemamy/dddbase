@@ -23,6 +23,8 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import org.apache.commons.lang.ClassUtils;
+
 import org.jiemamy.dddbase.utils.CloneUtil;
 
 /**
@@ -107,7 +109,11 @@ public class OrderedOnMemoryRepository<T extends OrderedEntity> extends OnMemory
 	
 	@Override
 	public String toString() {
-		return getClass().getName() + "@" + Integer.toHexString(hashCode()) + list;
+		StringBuilder sb = new StringBuilder();
+		sb.append(ClassUtils.getShortClassName(getClass()));
+		sb.append("@ih=").append(Integer.toHexString(System.identityHashCode(this)));
+		sb.append(list.toString());
+		return sb.toString();
 	}
 	
 }
