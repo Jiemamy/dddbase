@@ -40,6 +40,7 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	 * @return 削除した実体
 	 * @throws EntityNotFoundException このリポジトリが指定した実体を管理していない場合
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
 	T delete(EntityRef<? extends T> ref) throws RepositoryException;
@@ -88,9 +89,9 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	 * @param entity 実体
 	 * @return リポジトリが既に{@code entity}と同じIDを持つ{@link Entity}を管理していた場合、その削除された古い{@link Entity}、そうでない場合は{@code null}
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
-	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @throws ConsistencyException 子エンティティのIDが、既に管理済みの{@link Entity}のIDと衝突した場合
 	 * @throws ConsistencyException その他、エンティティ同士が満たすべき条件を満たさない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
 	T store(T entity) throws RepositoryException;
