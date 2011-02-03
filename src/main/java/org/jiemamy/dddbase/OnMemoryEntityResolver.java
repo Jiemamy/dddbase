@@ -25,6 +25,7 @@ import java.util.UUID;
 import com.google.common.collect.Maps;
 
 import org.apache.commons.lang.ClassUtils;
+import org.apache.commons.lang.Validate;
 
 import org.jiemamy.dddbase.utils.CloneUtil;
 
@@ -69,19 +70,23 @@ public abstract class OnMemoryEntityResolver<T extends Entity> implements Entity
 	}
 	
 	public boolean contains(EntityRef<?> ref) {
+		Validate.notNull(ref);
 		return contains(ref.getReferentId());
 	}
 	
 	public boolean contains(UUID id) {
+		Validate.notNull(id);
 		return getAll(storage.values(), new HashMap<UUID, Entity>()).containsKey(id);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public <E extends Entity>E resolve(EntityRef<E> ref) {
+		Validate.notNull(ref);
 		return (E) resolve(ref.getReferentId());
 	}
 	
 	public Entity resolve(UUID id) {
+		Validate.notNull(id);
 		Map<UUID, Entity> map = getAll(CloneUtil.cloneEntityArrayList(storage.values()), new HashMap<UUID, Entity>());
 		if (map.containsKey(id) == false) {
 			throw new EntityNotFoundException("id=" + id);

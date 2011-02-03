@@ -35,6 +35,7 @@ public interface EntityResolver {
 	 * @param ref 実体参照
 	 * @return 指定した実体参照を解決できる場合は{@code true}、そうでない場合は{@code false}
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.2
 	 */
 	boolean contains(EntityRef<?> ref) throws RepositoryException;
@@ -45,6 +46,7 @@ public interface EntityResolver {
 	 * @param id ENTITY ID
 	 * @return 指定したIDを持つ実体を引き当てられる場合は{@code true}、そうでない場合は{@code false}
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.2
 	 */
 	boolean contains(UUID id) throws RepositoryException;
@@ -62,6 +64,7 @@ public interface EntityResolver {
 	 * @return 見つかった{@link Entity}
 	 * @throws EntityNotFoundException このリゾルバが指定した実体を解決できない場合
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
 	<E extends Entity>E resolve(EntityRef<E> ref) throws RepositoryException;
@@ -78,6 +81,7 @@ public interface EntityResolver {
 	 * @return 見つかった{@link Entity}
 	 * @throws EntityNotFoundException このリゾルバが指定した実体を解決できない場合
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
 	Entity resolve(UUID id) throws RepositoryException;

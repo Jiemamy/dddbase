@@ -15,12 +15,16 @@
  */
 package org.jiemamy.dddbase.spec;
 
+import org.jiemamy.dddbase.ValueObject;
+
 /**
  * 仕様を表すモデル。
  * 
  * <p>DDD本の中で説明している Specification パターンに則ったオブジェクトを表すインターフェイス。
  * {@link Specification}の実装は、 {@link AbstractSpecification}を基底クラスとして実装するとよい。
  * その場合、 {@link #isSatisfiedBy(Object)} を実装する必要しかない。</p>
+ * 
+ * <p>このインターフェイスの実装は {@link ValueObject} であることが望ましいが、実装にゆだねられる。</p>
  * 
  * @param <T> {@link Specification}が判定対象とするオブジェクトの型
  * @since 1.0.0
