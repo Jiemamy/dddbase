@@ -23,7 +23,7 @@ package org.jiemamy.dddbase;
  * 
  * @version $Id$
  * @author daisuke
-	 * @since 1.0.0
+ * @since 1.0.0
  */
 @SuppressWarnings("serial")
 public class RepositoryException extends Exception {

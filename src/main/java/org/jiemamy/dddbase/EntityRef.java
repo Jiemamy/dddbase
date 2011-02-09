@@ -26,9 +26,10 @@ import java.util.UUID;
  * <p>このインターフェイスの実装は、イミュータブルでなければならない(must)。</p>
  * 
  * @param <T> 実体のモデル型
- * @see Entity
+ * @version $Id$
  * @author daisuke
  * @since 1.0.0
+ * @see Entity
  */
 public interface EntityRef<T extends Entity> extends ValueObject {
 	

@@ -21,10 +21,11 @@ package org.jiemamy.dddbase;
 import java.util.UUID;
 
 /**
- * TODO for daisuke
+ * {@link OrderedEntity}の骨格実装クラス。
  * 
  * @version $Id$
  * @author daisuke
+ * @since 1.2.0
  */
 public abstract class AbstractOrderedEntity extends AbstractEntity implements OrderedEntity {
 	

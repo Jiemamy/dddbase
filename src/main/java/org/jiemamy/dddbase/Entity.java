@@ -28,10 +28,10 @@ import java.util.UUID;
  * また、ENTITYはIDを持ち、そのIDはENTITYのライフサイクルを通じて不変である。
  * {@link EntityRef}により参照可能なオブジェクトでもある。</p>
  * 
- * @see EntityRef
  * @version $Id$
- * @since 1.0.0
  * @author daisuke
+ * @since 1.0.0
+ * @see EntityRef
  */
 public interface Entity extends Cloneable {
 	

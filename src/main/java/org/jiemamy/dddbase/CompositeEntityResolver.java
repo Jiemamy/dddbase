@@ -27,6 +27,7 @@ import org.apache.commons.lang.Validate;
  * 
  * @version $Id$
  * @author daisuke
+ * @since 1.1.3
  */
 public class CompositeEntityResolver implements EntityResolver {
 	

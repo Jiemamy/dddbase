@@ -25,6 +25,7 @@ import java.util.UUID;
  * 
  * @version $Id$
  * @author daisuke
+ * @since 1.1.3
  */
 public class OnMemoryCompositeEntityResolver extends CompositeEntityResolver {
 	

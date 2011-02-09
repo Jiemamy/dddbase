@@ -25,6 +25,8 @@ import org.apache.commons.lang.builder.ToStringStyle;
  * 実装済みである。</p>
  * 
  * @param <T> {@link AbstractSpecification}が判定対象とするオブジェクトの型
+ * @version $Id$
+ * @author daisuke
  * @since 1.0.0
  */
 public abstract class AbstractSpecification<T> implements Specification<T> {

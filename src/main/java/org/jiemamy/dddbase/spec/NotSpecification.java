@@ -24,6 +24,8 @@ import org.apache.commons.lang.Validate;
  * デコレータではないので注意。</p>
  * 
  * @param <T> {@link NotSpecification}が判定対象とするオブジェクトの型
+ * @version $Id$
+ * @author daisuke
  * @since 1.0.0
  */
 public class NotSpecification<T> extends AbstractSpecification<T> {

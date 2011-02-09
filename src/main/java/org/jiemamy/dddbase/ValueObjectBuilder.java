@@ -25,10 +25,10 @@ import com.google.common.collect.Lists;
 /**
  * {@link ValueObject}のインスタンスを生成するビルダー。
  * 
- * @version $Id$
- * @author daisuke
  * @param <T> ビルド対象のインスタンスの型
  * @param <S> このビルダークラスの型
+ * @version $Id$
+ * @author daisuke
  * @since 1.0.0
  */
 public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueObjectBuilder<T, S>> {

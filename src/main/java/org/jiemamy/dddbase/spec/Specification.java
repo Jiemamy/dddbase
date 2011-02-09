@@ -27,6 +27,8 @@ import org.jiemamy.dddbase.ValueObject;
  * <p>このインターフェイスの実装は {@link ValueObject} であることが望ましいが、実装にゆだねられる。</p>
  * 
  * @param <T> {@link Specification}が判定対象とするオブジェクトの型
+ * @version $Id$
+ * @author daisuke
  * @since 1.0.0
  */
 public interface Specification<T> {
