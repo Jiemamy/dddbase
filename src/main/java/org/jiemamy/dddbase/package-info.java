@@ -7,7 +7,7 @@
  *  <li>{@link org.jiemamy.dddbase.Repository}</li>
  * </ul>
  * 
- * @version $Id: package-info.java 923 2011-02-09 08:41:16Z daisuke $
+ * @version $Id$
  * @author daisuke
  * @since 1.0.0
  */
