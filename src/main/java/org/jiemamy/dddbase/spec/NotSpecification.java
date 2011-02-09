@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 the Sisioh Project ant the Others.
+ * Copyright 2007-2011 Jiemamy Project and the Others.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
