@@ -15,8 +15,8 @@
     <url>http://jira.jiemamy.org/browse/DDD</url>
   </issueManagement>
   <ciManagement>
-    <system>hudson</system>
-    <url>http://hudson.jiemamy.org/job/dddbase/</url>
+    <system>bamboo</system>
+    <url>http://bamboo.jiemamy.org/browse/DDD-DEF</url>
     <notifiers>
       <notifier>
         <sendOnSuccess>false</sendOnSuccess>
