@@ -39,6 +39,7 @@ public class CompositeEntityResolver implements EntityResolver {
 	 * 
 	 * @param resolvers リゾルバ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 1.1.3
 	 */
 	public CompositeEntityResolver(EntityResolver... resolvers) {
 		Validate.noNullElements(resolvers);

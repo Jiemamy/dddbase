@@ -37,7 +37,7 @@ public abstract class AbstractOrderedEntity extends AbstractEntity implements Or
 	 * 
 	 * @param id ENTITY ID
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 1.1.4
+	 * @since 1.2.0
 	 */
 	public AbstractOrderedEntity(UUID id) {
 		super(id);

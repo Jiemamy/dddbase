@@ -34,6 +34,7 @@ public class OnMemoryCompositeEntityResolver extends CompositeEntityResolver {
 	 * 
 	 * @param resolvers リゾルバ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 1.1.3
 	 */
 	public OnMemoryCompositeEntityResolver(OnMemoryEntityResolver<?>... resolvers) {
 		super(resolvers);

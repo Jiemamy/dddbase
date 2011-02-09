@@ -37,6 +37,7 @@ public interface OrderedEntity extends Entity {
 	 * 
 	 * @return リストインデックス
 	 * @see OrderedOnMemoryRepository#store(OrderedEntity)
+	 * @since 1.2.0
 	 */
 	int getIndex();
 	
@@ -46,6 +47,7 @@ public interface OrderedEntity extends Entity {
 	 * <p>リポジトリに管理されていないエンティティでは「ストアした際に位置すべきリストインデックス」を設定する。</p>
 	 * 
 	 * @param index リストインデックス
+	 * @since 1.2.0
 	 */
 	void setIndex(int index);
 	

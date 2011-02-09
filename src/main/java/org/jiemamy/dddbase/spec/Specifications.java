@@ -58,6 +58,7 @@ public final class Specifications {
 	 * @param s1 仕様1
 	 * @param s2 仕様2
 	 * @return 論理積仕様
+	 * @since 1.1.2
 	 */
 	public static <T>Specification<? super T> and(Specification<T> s1, Specification<T> s2) {
 		return new AndSpecification<T>(s1, s2);
@@ -69,6 +70,7 @@ public final class Specifications {
 	 * @param <T> 仕様の検証対象オブジェクトの型
 	 * @param s 仕様
 	 * @return 否定仕様
+	 * @since 1.1.2
 	 */
 	public static <T>Specification<? super T> not(Specification<T> s) {
 		return new NotSpecification<T>(s);
@@ -81,6 +83,7 @@ public final class Specifications {
 	 * @param s1 仕様1
 	 * @param s2 仕様2
 	 * @return 論理和仕様
+	 * @since 1.1.2
 	 */
 	public static <T>Specification<? super T> or(Specification<T> s1, Specification<T> s2) {
 		return new OrSpecification<T>(s1, s2);

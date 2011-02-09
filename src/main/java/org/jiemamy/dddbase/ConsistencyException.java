@@ -30,6 +30,8 @@ public class ConsistencyException extends IllegalArgumentException {
 	
 	/**
 	 * インスタンスを生成する。
+	 * 
+	 * @since 1.2.0
 	 */
 	public ConsistencyException() {
 	}
@@ -38,6 +40,7 @@ public class ConsistencyException extends IllegalArgumentException {
 	 * インスタンスを生成する。
 	 * 
 	 * @param message 例外メッセージ
+	 * @since 1.2.0
 	 */
 	public ConsistencyException(String message) {
 		super(message);
@@ -48,6 +51,7 @@ public class ConsistencyException extends IllegalArgumentException {
 	 * 
 	 * @param message 例外メッセージ
 	 * @param cause 起因例外
+	 * @since 1.2.0
 	 */
 	public ConsistencyException(String message, Throwable cause) {
 		super(message, cause);
@@ -57,6 +61,7 @@ public class ConsistencyException extends IllegalArgumentException {
 	 * インスタンスを生成する。
 	 * 
 	 * @param cause 起因例外
+	 * @since 1.2.0
 	 */
 	public ConsistencyException(Throwable cause) {
 		super(cause);

@@ -34,6 +34,7 @@ import org.jiemamy.dddbase.utils.CloneUtil;
  * @param <T> このリゾルバが保持する主たる{@link Entity}の型
  * @version $Id$
  * @author daisuke
+ * @since 1.1.3
  */
 public abstract class OnMemoryEntityResolver<T extends Entity> implements EntityResolver, Cloneable {
 	
@@ -109,6 +110,7 @@ public abstract class OnMemoryEntityResolver<T extends Entity> implements Entity
 	 * この {@link Map} のキーは、対応する値の {@link Entity} が持つ ENTITY ID でなければならない。</p>
 	 * 
 	 * @return ストレージ
+	 * @since 1.1.3
 	 */
 	protected Map<UUID, T> getStorage() {
 		return storage;
