@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.jiemamy.dddbase.sample.SampleMainEntity;
 
 /**
- * TODO for daisuke
+ * {@link CompositeEntityResolver}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -52,7 +52,7 @@ public class CompositeEntityResolverTest {
 	
 
 	/**
-	 * TODO for daisuke
+	 * {@link CompositeEntityResolver#contains}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -85,7 +85,7 @@ public class CompositeEntityResolverTest {
 	}
 	
 	/**
-	 * TODO for daisuke
+	 * {@link CompositeEntityResolver#resolve}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
