@@ -43,7 +43,7 @@ public class OnMemoryCompositeEntityResolver extends CompositeEntityResolver {
 		try {
 			return super.contains(ref);
 		} catch (RepositoryException e) {
-			throw new Error(e);
+			throw new AssertionError(e);
 		}
 	}
 	
@@ -52,7 +52,7 @@ public class OnMemoryCompositeEntityResolver extends CompositeEntityResolver {
 		try {
 			return super.contains(id);
 		} catch (RepositoryException e) {
-			throw new Error(e);
+			throw new AssertionError(e);
 		}
 	}
 	
@@ -61,7 +61,7 @@ public class OnMemoryCompositeEntityResolver extends CompositeEntityResolver {
 		try {
 			return super.resolve(ref);
 		} catch (RepositoryException e) {
-			throw new Error(e);
+			throw new AssertionError(e);
 		}
 	}
 	
@@ -70,7 +70,7 @@ public class OnMemoryCompositeEntityResolver extends CompositeEntityResolver {
 		try {
 			return super.resolve(id);
 		} catch (RepositoryException e) {
-			throw new Error(e);
+			throw new AssertionError(e);
 		}
 	}
 	

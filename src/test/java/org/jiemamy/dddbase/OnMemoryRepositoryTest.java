@@ -25,7 +25,6 @@ import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -312,40 +311,12 @@ public class OnMemoryRepositoryTest {
 	}
 	
 	/**
-	 * コレクション取得2。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	@Deprecated
-	public void test11_コレクション取得2() throws Exception {
-		SampleMainEntity e1 = new SampleMainEntity(ID1);
-		SampleMainEntity e3 = new SampleMainEntity(ID3);
-		SampleMainEntity e2 = new SampleMainEntity(ID2);
-		SampleMainEntity e4 = new SampleMainEntity(ID4);
-		
-		repos.store(e4);
-		repos.store(e3);
-		repos.store(e2);
-		repos.store(e1);
-		
-		assertThat(repos.getEntitiesAsList(), hasItems(e1, e2, e3, e4));
-		
-		// storeした順番が保持される。
-		List<SampleMainEntity> list = repos.getEntitiesAsList();
-		assertThat(list.get(0), is(equalTo(e4)));
-		assertThat(list.get(1), is(equalTo(e3)));
-		assertThat(list.get(2), is(equalTo(e2)));
-		assertThat(list.get(3), is(equalTo(e1)));
-	}
-	
-	/**
 	 * {@link OnMemoryRepository#contains(UUID)}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test12_containsUUID() throws Exception {
+	public void test11_containsUUID() throws Exception {
 		SampleMainEntity e1 = new SampleMainEntity(ID1);
 		SampleSubEntity se1 = new SampleSubEntity(ID2);
 		e1.addChild(se1);
@@ -362,7 +333,7 @@ public class OnMemoryRepositoryTest {
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
-	public void test13_containsEntityRef() throws Exception {
+	public void test12_containsEntityRef() throws Exception {
 		SampleMainEntity e1 = new SampleMainEntity(ID1);
 		SampleSubEntity se1 = new SampleSubEntity(ID2);
 		SampleMainEntity e2 = new SampleMainEntity(ID3);

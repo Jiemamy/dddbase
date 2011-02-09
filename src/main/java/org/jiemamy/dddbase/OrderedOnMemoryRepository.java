@@ -60,7 +60,6 @@ public class OrderedOnMemoryRepository<T extends OrderedEntity> extends OnMemory
 		return deleted;
 	}
 	
-	@Override
 	public synchronized List<T> getEntitiesAsList() {
 		return CloneUtil.cloneEntityArrayList(list);
 	}

@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -58,6 +59,26 @@ public final class CloneUtil {
 			cloneCollection.add(cloneElement);
 		}
 		return cloneCollection;
+	}
+	
+	/**
+	 * 指定した {@link Map} の値({@link Map#values()})を全て{@link Object#clone() クローン}し、
+	 * それらを値とする新しい {@link ConcurrentHashMap} を返す。
+	 * 
+	 * @param <K> キーの型
+	 * @param <V> 値の型
+	 * @param map 元となる写像
+	 * @return {@link ConcurrentHashMap}
+	 * @since 1.0.0
+	 */
+	public static <K, V extends Entity>ConcurrentHashMap<K, V> cloneEntityConcurrentHashMap(Map<K, V> map) {
+		ConcurrentHashMap<K, V> cloneMap = new ConcurrentHashMap<K, V>(map.size());
+		for (Entry<K, V> element : map.entrySet()) {
+			@SuppressWarnings("unchecked")
+			V cloneValue = (V) element.getValue().clone();
+			cloneMap.put(element.getKey(), cloneValue);
+		}
+		return cloneMap;
 	}
 	
 	/**

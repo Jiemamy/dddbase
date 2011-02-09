@@ -16,7 +16,6 @@
  */
 package org.jiemamy.dddbase;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -44,23 +43,6 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	 * @since 1.0.0
 	 */
 	T delete(EntityRef<? extends T> ref) throws RepositoryException;
-	
-	/**
-	 * 管理している主たる実体を {@link List} として返す。
-	 * 
-	 * <p>{@link List}の順序は、{@link #store(Entity)}した順序となる。</p>
-	 * 
-	 * <p>返される{@link List}やその要素{@link Entity}は他に
-	 * 影響を及ぼさない独立したインスタンスである。つまりこの{@link List}や
-	 * その要素{@link Entity}へのミューテーションは、リポジトリに影響を及ぼさない。</p>
-	 * 
-	 * @return 管理 {@link Entity} の {@link Set}
-	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
-	 * @since 1.0.0
-	 * @deprecated use {@link OrderedRepository}
-	 */
-	@Deprecated
-	List<T> getEntitiesAsList() throws RepositoryException;
 	
 	/**
 	 * 管理している主たる実体を{@link Set}として返す。

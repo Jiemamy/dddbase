@@ -19,7 +19,6 @@
 package org.jiemamy.dddbase;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -55,11 +54,6 @@ public class OnMemoryRepository<T extends Entity> extends OnMemoryEntityResolver
 			throw new EntityNotFoundException("id=" + ref.getReferentId());
 		}
 		return getStorage().remove(ref.getReferentId());
-	}
-	
-	@Deprecated
-	public List<T> getEntitiesAsList() {
-		return MutationMonitor.monitor(CloneUtil.cloneEntityArrayList(getStorage().values()));
 	}
 	
 	public Set<T> getEntitiesAsSet() {

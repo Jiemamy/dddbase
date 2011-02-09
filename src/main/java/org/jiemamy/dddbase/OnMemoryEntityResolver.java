@@ -21,8 +21,7 @@ package org.jiemamy.dddbase;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import com.google.common.collect.Maps;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.Validate;
@@ -54,7 +53,7 @@ public abstract class OnMemoryEntityResolver<T extends Entity> implements Entity
 	}
 	
 
-	private Map<UUID, T> storage = Maps.newLinkedHashMap();
+	private Map<UUID, T> storage = new ConcurrentHashMap<UUID, T>();
 	
 
 	@Override
@@ -62,7 +61,7 @@ public abstract class OnMemoryEntityResolver<T extends Entity> implements Entity
 		try {
 			@SuppressWarnings("unchecked")
 			OnMemoryEntityResolver<T> clone = (OnMemoryEntityResolver<T>) super.clone();
-			clone.storage = CloneUtil.cloneEntityHashMap(storage);
+			clone.storage = CloneUtil.cloneEntityConcurrentHashMap(storage);
 			return clone;
 		} catch (CloneNotSupportedException e) {
 			throw new Error("clone not supported", e);
