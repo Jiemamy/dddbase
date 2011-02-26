@@ -31,6 +31,25 @@ import java.util.Set;
 public interface Repository<T extends Entity> extends EntityResolver {
 	
 	/**
+	 * 指定したリスナを登録する。
+	 * 
+	 * @param listener 登録するリスナ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 0.3
+	 */
+	void addListener(RepositoryEventListener listener);
+	
+	/**
+	 * 指定したリスナを、通知の判断を行う戦略と共に登録する。
+	 * 
+	 * @param listener 登録するリスナ
+	 * @param strategy リスナに対してEDITコマンドの通知を行うかどうかを判断する戦略。{@code null}の場合はデフォルト戦略を利用する。
+	 * @throws IllegalArgumentException 引数{@code listener}に{@code null}を与えた場合
+	 * @since 0.3
+	 */
+	void addListener(RepositoryEventListener listener, DispatchStrategy strategy);
+	
+	/**
 	 * 参照が指す実体（{@link Entity}）をリポジトリの管理下から外す。
 	 * 
 	 * <p>この {@link Entity} の子エンティティも同時に管理下から外す。</p>
@@ -45,6 +64,15 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	T delete(EntityRef<? extends T> ref) throws RepositoryException;
 	
 	/**
+	 * 発生したイベントをリスナに通知する。
+	 * 
+	 * @param event 発生したイベント
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 0.3
+	 */
+	void fireEvent(RepositoryEvent<?> event);
+	
+	/**
 	 * 管理している主たる実体を{@link Set}として返す。
 	 * 
 	 * <p>返される{@link Set}やその要素{@link Entity}は他に
@@ -56,6 +84,24 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	 * @since 1.0.0
 	 */
 	Set<T> getEntitiesAsSet() throws RepositoryException;
+	
+	/**
+	 * 指定されたリスナを削除する。
+	 * 
+	 * @param listener 削除するリスナ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 0.3
+	 */
+	void removeListener(RepositoryEventListener listener);
+	
+	/**
+	 * リスナに対する通知が必要かどうかを判断するためのデフォルト戦略を設定する。
+	 * 
+	 * @param defaultStrategy デフォルトで適用される{@link DispatchStrategy}の実装インスタンス
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 0.3
+	 */
+	void setDefaultStrategy(DispatchStrategy defaultStrategy);
 	
 	/**
 	 * {@link Entity}をリポジトリの管理下に置く。

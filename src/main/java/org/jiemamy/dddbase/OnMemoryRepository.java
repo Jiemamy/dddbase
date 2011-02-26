@@ -41,6 +41,26 @@ import org.jiemamy.dddbase.utils.MutationMonitor;
  */
 public class OnMemoryRepository<T extends Entity> extends OnMemoryEntityResolver<T> implements Repository<T> {
 	
+	private Map<RepositoryEventListener, DispatchStrategy> listeners = Maps.newHashMap();
+	
+	private DispatchStrategy defaultStrategy = new DispatchStrategy() {
+		
+		public boolean judgeIftargetOf(RepositoryEventListener listener, RepositoryEvent<?> event) {
+			return true;
+		}
+	};
+	
+
+	public void addListener(RepositoryEventListener listener) {
+		Validate.notNull(listener);
+		addListener(listener, null);
+	}
+	
+	public void addListener(RepositoryEventListener listener, DispatchStrategy strategy) {
+		Validate.notNull(listener);
+		listeners.put(listener, strategy);
+	}
+	
 	@Override
 	public OnMemoryRepository<T> clone() {
 		OnMemoryRepository<T> clone = (OnMemoryRepository<T>) super.clone();
@@ -53,11 +73,36 @@ public class OnMemoryRepository<T extends Entity> extends OnMemoryEntityResolver
 		if (storage.containsKey(ref.getReferentId()) == false) {
 			throw new EntityNotFoundException("id=" + ref.getReferentId());
 		}
-		return getStorage().remove(ref.getReferentId());
+		T deleted = getStorage().remove(ref.getReferentId());
+		fireEvent(new RepositoryEvent<T>(this, deleted, null));
+		return deleted;
+	}
+	
+	public void fireEvent(RepositoryEvent<?> event) {
+		for (Map.Entry<RepositoryEventListener, DispatchStrategy> entry : listeners.entrySet()) {
+			RepositoryEventListener listener = entry.getKey();
+			DispatchStrategy strategy = entry.getValue();
+			if (strategy == null) {
+				strategy = defaultStrategy;
+			}
+			if (strategy.judgeIftargetOf(listener, event)) {
+				listener.repositoryUpdated(event);
+			}
+		}
 	}
 	
 	public Set<T> getEntitiesAsSet() {
 		return MutationMonitor.monitor(CloneUtil.cloneEntityHashSet(getStorage().values()));
+	}
+	
+	public void removeListener(RepositoryEventListener listener) {
+		Validate.notNull(listener);
+		listeners.remove(listener);
+	}
+	
+	public void setDefaultStrategy(DispatchStrategy defaultStrategy) {
+		Validate.notNull(defaultStrategy);
+		this.defaultStrategy = defaultStrategy;
 	}
 	
 	public T store(T entity) {
@@ -67,7 +112,9 @@ public class OnMemoryRepository<T extends Entity> extends OnMemoryEntityResolver
 		@SuppressWarnings("unchecked")
 		T clone = (T) entity.clone();
 		
-		return getStorage().put(clone.getId(), clone);
+		T old = getStorage().put(clone.getId(), clone);
+		fireEvent(new RepositoryEvent<T>(this, old, entity));
+		return old;
 	}
 	
 	int managedAllEntityCount() {

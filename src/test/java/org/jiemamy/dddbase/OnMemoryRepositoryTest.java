@@ -22,8 +22,17 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 import java.util.Map;
 import java.util.UUID;
@@ -33,6 +42,7 @@ import com.google.common.collect.Maps;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 
 import org.jiemamy.dddbase.sample.SampleMainEntity;
 import org.jiemamy.dddbase.sample.SampleSubEntity;
@@ -343,5 +353,171 @@ public class OnMemoryRepositoryTest {
 		assertThat(repos.contains(e1.toReference()), is(true));
 		assertThat(repos.contains(se1.toReference()), is(true));
 		assertThat(repos.contains(e2.toReference()), is(false));
+	}
+	
+	/**
+	 * repositoryに対するadd時にlistenerに対してeventが飛ぶこと。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	@SuppressWarnings({
+		"rawtypes",
+		"unchecked"
+	})
+	public void test13_repositoryに対するadd時にlistenerに対してeventが飛ぶこと() throws Exception {
+		ArgumentCaptor<RepositoryEvent> captor = ArgumentCaptor.forClass(RepositoryEvent.class);
+		
+		RepositoryEventListener listener = mock(RepositoryEventListener.class);
+		doNothing().when(listener).repositoryUpdated(captor.capture());
+		
+		repos.addListener(listener);
+		
+		SampleMainEntity e1a = new SampleMainEntity(ID1);
+		repos.store(e1a);
+		
+		verify(listener).repositoryUpdated(any(RepositoryEvent.class));
+		verifyNoMoreInteractions(listener);
+		RepositoryEvent<SampleMainEntity> event = captor.getValue();
+		assertThat(event.getSource(), is((Repository<SampleMainEntity>) repos));
+		assertThat(event.getBefore(), is(nullValue()));
+		assertThat(event.getAfter(), is(e1a));
+	}
+	
+	/**
+	 * repositoryに対するreplace時にlistenerに対してeventが飛ぶこと。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	@SuppressWarnings({
+		"rawtypes",
+		"unchecked"
+	})
+	public void test14_repositoryに対するreplace時にlistenerに対してeventが飛ぶこと() throws Exception {
+		SampleMainEntity e1a = new SampleMainEntity(ID1);
+		e1a.setString("before");
+		repos.store(e1a);
+		
+		ArgumentCaptor<RepositoryEvent> captor = ArgumentCaptor.forClass(RepositoryEvent.class);
+		
+		RepositoryEventListener listener = mock(RepositoryEventListener.class);
+		doNothing().when(listener).repositoryUpdated(captor.capture());
+		
+		repos.addListener(listener);
+		
+		SampleMainEntity e1b = new SampleMainEntity(ID1);
+		e1b.setString("after");
+		repos.store(e1b);
+		
+		verify(listener).repositoryUpdated(any(RepositoryEvent.class));
+		verifyNoMoreInteractions(listener);
+		RepositoryEvent<SampleMainEntity> event = captor.getValue();
+		assertThat(event.getSource(), is((Repository<SampleMainEntity>) repos));
+		assertThat(event.getBefore().getString(), is("before"));
+		assertThat(event.getAfter().getString(), is("after"));
+	}
+	
+	/**
+	 * repositoryに対するdelete時にlistenerに対してeventが飛ぶこと。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	@SuppressWarnings({
+		"rawtypes",
+		"unchecked"
+	})
+	public void test15_repositoryに対するdelete時にlistenerに対してeventが飛ぶこと() throws Exception {
+		SampleMainEntity e1a = new SampleMainEntity(ID1);
+		repos.store(e1a);
+		
+		ArgumentCaptor<RepositoryEvent> captor = ArgumentCaptor.forClass(RepositoryEvent.class);
+		
+		RepositoryEventListener listener = mock(RepositoryEventListener.class);
+		doNothing().when(listener).repositoryUpdated(captor.capture());
+		
+		repos.addListener(listener);
+		
+		repos.delete(e1a.toReference());
+		
+		verify(listener).repositoryUpdated(any(RepositoryEvent.class));
+		verifyNoMoreInteractions(listener);
+		RepositoryEvent<SampleMainEntity> event = captor.getValue();
+		assertThat(event.getSource(), is((Repository<SampleMainEntity>) repos));
+		assertThat(event.getBefore(), is(e1a));
+		assertThat(event.getAfter(), is(nullValue()));
+	}
+	
+	/**
+	 * listenerのadd時に設定したstrategyに応じてeventが飛ぶこと。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test16_listenerのadd時に設定したstrategyに応じてeventが飛ぶこと() throws Exception {
+		RepositoryEventListener listenerTrue = mock(RepositoryEventListener.class);
+		DispatchStrategy strategyTrue = mock(DispatchStrategy.class);
+		when(strategyTrue.judgeIftargetOf(eq(listenerTrue), any(RepositoryEvent.class))).thenReturn(true);
+		
+		RepositoryEventListener listenerFalse = mock(RepositoryEventListener.class);
+		DispatchStrategy strategyFalse = mock(DispatchStrategy.class);
+		when(strategyFalse.judgeIftargetOf(eq(listenerFalse), any(RepositoryEvent.class))).thenReturn(false);
+		
+		repos.addListener(listenerTrue, strategyTrue);
+		repos.addListener(listenerFalse, strategyFalse);
+		
+		SampleMainEntity e1a = new SampleMainEntity(ID1);
+		repos.store(e1a);
+		
+		verifyZeroInteractions(listenerFalse);
+		verify(listenerTrue).repositoryUpdated(any(RepositoryEvent.class));
+		verifyNoMoreInteractions(listenerTrue);
+	}
+	
+	/**
+	 * listenerのadd時にstrtegyを設定しなかった場合にdefaultが使われること。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test17_listenerのadd時にstrategyを設定しなかった場合にdefaultが使われること() throws Exception {
+		RepositoryEventListener listenerTrue = mock(RepositoryEventListener.class);
+		DispatchStrategy strategyTrue = mock(DispatchStrategy.class);
+		when(strategyTrue.judgeIftargetOf(eq(listenerTrue), any(RepositoryEvent.class))).thenReturn(true);
+		
+		RepositoryEventListener listenerFalse = mock(RepositoryEventListener.class);
+		DispatchStrategy strategyFalse = mock(DispatchStrategy.class);
+		when(strategyFalse.judgeIftargetOf(eq(listenerFalse), any(RepositoryEvent.class))).thenReturn(false);
+		
+		repos.setDefaultStrategy(strategyFalse);
+		
+		repos.addListener(listenerTrue, strategyTrue);
+		repos.addListener(listenerFalse);
+		
+		SampleMainEntity e1a = new SampleMainEntity(ID1);
+		repos.store(e1a);
+		
+		verifyZeroInteractions(listenerFalse);
+		verify(listenerTrue).repositoryUpdated(any(RepositoryEvent.class));
+		verifyNoMoreInteractions(listenerTrue);
+	}
+	
+	/**
+	 * listenerをremoveした場合にevent通知されないこと。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test18_listenerをremoveした場合にevent通知されないこと() throws Exception {
+		RepositoryEventListener listener = mock(RepositoryEventListener.class);
+		
+		repos.addListener(listener);
+		repos.removeListener(listener);
+		
+		SampleMainEntity e1a = new SampleMainEntity(ID1);
+		repos.store(e1a);
+		
+		verifyZeroInteractions(listener);
 	}
 }
