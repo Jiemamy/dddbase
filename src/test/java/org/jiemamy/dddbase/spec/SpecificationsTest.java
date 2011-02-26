@@ -56,4 +56,47 @@ public class SpecificationsTest {
 		assertThat(Specifications.alwaysTrue().isSatisfiedBy(""), is(true));
 		assertThat(Specifications.alwaysTrue().isSatisfiedBy(new Object()), is(true));
 	}
+	
+	/**
+	 * {@link Specifications#and(Specification, Specification)}のテスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test_and() throws Exception {
+		Specification<Object> t = Specifications.alwaysTrue();
+		Specification<Object> f = Specifications.alwaysFalse();
+		assertThat(Specifications.and(t, t).isSatisfiedBy(null), is(true));
+		assertThat(Specifications.and(t, f).isSatisfiedBy(null), is(false));
+		assertThat(Specifications.and(f, t).isSatisfiedBy(null), is(false));
+		assertThat(Specifications.and(f, f).isSatisfiedBy(null), is(false));
+	}
+	
+	/**
+	 * {@link Specifications#not(Specification)}のテスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test_not() throws Exception {
+		Specification<Object> t = Specifications.alwaysTrue();
+		Specification<Object> f = Specifications.alwaysFalse();
+		assertThat(Specifications.not(t).isSatisfiedBy(null), is(false));
+		assertThat(Specifications.not(f).isSatisfiedBy(null), is(true));
+	}
+	
+	/**
+	 * {@link Specifications#or(Specification, Specification)}のテスト。
+	 * 
+	 * @throws Exception 例外が発生した場合
+	 */
+	@Test
+	public void test_or() throws Exception {
+		Specification<Object> t = Specifications.alwaysTrue();
+		Specification<Object> f = Specifications.alwaysFalse();
+		assertThat(Specifications.or(t, t).isSatisfiedBy(null), is(true));
+		assertThat(Specifications.or(t, f).isSatisfiedBy(null), is(true));
+		assertThat(Specifications.or(f, t).isSatisfiedBy(null), is(true));
+		assertThat(Specifications.and(f, f).isSatisfiedBy(null), is(false));
+	}
 }
