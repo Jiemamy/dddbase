@@ -9,7 +9,7 @@
   <groupId>org.jiemamy</groupId>
   <artifactId>dddbase</artifactId>
   <name>Domain Driven Design Base</name>
-  <version>1.3.1-SNAPSHOT</version>
+  <version>1.4.0-SNAPSHOT</version>
   <issueManagement>
     <system>JIRA</system>
     <url>http://jira.jiemamy.org/browse/DDD</url>
