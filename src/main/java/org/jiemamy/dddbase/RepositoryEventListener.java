@@ -33,7 +33,7 @@ public interface RepositoryEventListener {
 	 * 
 	 * @param event イベント
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.3
+	 * @since 1.0.0
 	 */
 	void repositoryUpdated(RepositoryEvent<?> event);
 	

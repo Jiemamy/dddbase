@@ -35,7 +35,7 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	 * 
 	 * @param listener 登録するリスナ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.3
+	 * @since 1.0.0
 	 */
 	void addListener(RepositoryEventListener listener);
 	
@@ -45,7 +45,7 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	 * @param listener 登録するリスナ
 	 * @param strategy リスナに対してEDITコマンドの通知を行うかどうかを判断する戦略。{@code null}の場合はデフォルト戦略を利用する。
 	 * @throws IllegalArgumentException 引数{@code listener}に{@code null}を与えた場合
-	 * @since 0.3
+	 * @since 1.0.0
 	 */
 	void addListener(RepositoryEventListener listener, DispatchStrategy strategy);
 	
@@ -68,7 +68,7 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	 * 
 	 * @param event 発生したイベント
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.3
+	 * @since 1.0.0
 	 */
 	void fireEvent(RepositoryEvent<?> event);
 	
@@ -90,7 +90,7 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	 * 
 	 * @param listener 削除するリスナ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.3
+	 * @since 1.0.0
 	 */
 	void removeListener(RepositoryEventListener listener);
 	
@@ -99,7 +99,7 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	 * 
 	 * @param defaultStrategy デフォルトで適用される{@link DispatchStrategy}の実装インスタンス
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
-	 * @since 0.3
+	 * @since 1.0.0
 	 */
 	void setDefaultStrategy(DispatchStrategy defaultStrategy);
 	

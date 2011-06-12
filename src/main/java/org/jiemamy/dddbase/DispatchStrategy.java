@@ -21,7 +21,7 @@ package org.jiemamy.dddbase;
 /**
  * リスナに対してEDITコマンドの通知を行うかどうかを判断するための戦略インターフェイス。
  * 
- * @since 0.3
+ * @since 1.0.0
  * @author daisuke
  */
 public interface DispatchStrategy {
@@ -32,7 +32,7 @@ public interface DispatchStrategy {
 	 * @param listener リスナ
 	 * @param event イベント
 	 * @return dispatchが必要な場合は{@code true}、そうでない場合は{@code false}
-	 * @since 0.3
+	 * @since 1.0.0
 	 */
 	boolean judgeIftargetOf(RepositoryEventListener listener, RepositoryEvent<?> event);
 	
