@@ -3,12 +3,12 @@
   <parent>
     <groupId>org.jiemamy</groupId>
     <artifactId>jiemamy-master</artifactId>
-    <version>1.7.1</version>
+    <version>1.7.2</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>dddbase</artifactId>
   <name>Domain Driven Design Base</name>
-  <version>1.4.1-SNAPSHOT</version>
+  <version>1.4.0-SNAPSHOT</version>
   <issueManagement>
     <system>JIRA</system>
     <url>http://jira.jiemamy.org/browse/DDD</url>
