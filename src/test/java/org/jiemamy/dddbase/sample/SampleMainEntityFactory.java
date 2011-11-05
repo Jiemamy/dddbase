@@ -23,7 +23,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import org.jiemamy.dddbase.AbstractEntityFactory;
+import org.jiemamy.dddbase.UUIDEntityFactory;
 
 /**
  * サンプルとしての{@link SampleMainEntity}ビルダ実装。
@@ -31,7 +31,7 @@ import org.jiemamy.dddbase.AbstractEntityFactory;
  * @version $Id$
  * @author daisuke
  */
-public class SampleMainEntityFactory extends AbstractEntityFactory<SampleMainEntity> {
+public class SampleMainEntityFactory extends UUIDEntityFactory<SampleMainEntity> {
 	
 	private String string;
 	

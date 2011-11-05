@@ -18,16 +18,17 @@
  */
 package org.jiemamy.dddbase;
 
-import java.util.UUID;
+import java.io.Serializable;
 
 /**
  * 実体参照 {@link EntityRef} や ENTITY ID より、実体を引き当てる責務を表すインターフェイス。
  * 
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.1.3
  */
-public interface EntityResolver {
+public interface EntityResolver<ID extends Serializable> {
 	
 	/**
 	 * このリゾルバが指定した実体参照を解決できる（実体を引き当てられる）かどうかを返す。
@@ -38,7 +39,7 @@ public interface EntityResolver {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.2
 	 */
-	boolean contains(EntityRef<?> ref) throws RepositoryException;
+	boolean contains(EntityRef<?, ID> ref) throws RepositoryException;
 	
 	/**
 	 * このリゾルバが指定したIDを持つ実体を引き当てられるかどうかを返す。
@@ -49,7 +50,7 @@ public interface EntityResolver {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.2
 	 */
-	boolean contains(UUID id) throws RepositoryException;
+	boolean contains(ID id) throws RepositoryException;
 	
 	/**
 	 * 指定した実体参照が指す実体（{@link Entity}）を解決して返す。
@@ -67,7 +68,7 @@ public interface EntityResolver {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
-	<E extends Entity>E resolve(EntityRef<E> ref) throws RepositoryException;
+	<E extends Entity<ID>>E resolve(EntityRef<E, ID> ref) throws RepositoryException;
 	
 	/**
 	 * 指定したIDを持つ実体（{@link Entity}）を解決して返す。
@@ -84,5 +85,5 @@ public interface EntityResolver {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
-	Entity resolve(UUID id) throws RepositoryException;
+	Entity<ID> resolve(ID id) throws RepositoryException;
 }

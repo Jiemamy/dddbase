@@ -18,8 +18,7 @@
  */
 package org.jiemamy.dddbase;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.io.Serializable;
 import java.util.UUID;
 
 import org.apache.commons.lang.ClassUtils;
@@ -28,15 +27,16 @@ import org.apache.commons.lang.Validate;
 /**
  * {@link Entity}の骨格実装クラス。
  * 
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.0.0
  */
-public abstract class AbstractEntity implements Entity {
+public abstract class AbstractEntity<ID extends Serializable> implements Entity<ID> {
 	
-	final UUID id;
+	final ID id;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -44,21 +44,23 @@ public abstract class AbstractEntity implements Entity {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
-	public AbstractEntity(UUID id) {
+	public AbstractEntity(ID id) {
 		Validate.notNull(id);
 		this.id = id;
 	}
 	
 	@Override
-	public AbstractEntity clone() {
+	@SuppressWarnings("unchecked")
+	public AbstractEntity<ID> clone() {
 		try {
-			return (AbstractEntity) super.clone();
+			return (AbstractEntity<ID>) super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new Error("clone not supported");
 		}
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public final boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
@@ -69,23 +71,11 @@ public abstract class AbstractEntity implements Entity {
 		if (obj instanceof Entity == false) {
 			return false;
 		}
-		return id.equals(((Entity) obj).getId());
+		return id.equals(((Entity<ID>) obj).getId());
 	}
 	
-	public final UUID getId() {
+	public final ID getId() {
 		return id;
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * <p>デフォルト実装として、空のリストを返す。必要に応じてオーバーライドすべきである。</p>
-	 * 
-	 * @return 空のリスト
-	 * @since 1.0.0
-	 */
-	public Collection<? extends Entity> getSubEntities() {
-		return Collections.emptyList();
 	}
 	
 	@Override
@@ -93,8 +83,8 @@ public abstract class AbstractEntity implements Entity {
 		return id.hashCode();
 	}
 	
-	public EntityRef<? extends AbstractEntity> toReference() {
-		return new DefaultEntityRef<AbstractEntity>(this);
+	public EntityRef<? extends AbstractEntity<ID>, ID> toReference() {
+		return new DefaultEntityRef<AbstractEntity<ID>, ID>(this);
 	}
 	
 	@Override
@@ -102,7 +92,12 @@ public abstract class AbstractEntity implements Entity {
 		StringBuilder sb = new StringBuilder();
 		sb.append(ClassUtils.getShortClassName(getClass()));
 		sb.append("@ih=").append(Integer.toHexString(System.identityHashCode(this)));
-		sb.append("/id=").append(id.toString().substring(0, 8));
+		sb.append("/id=");
+		if (id instanceof UUID) {
+			sb.append(id.toString().substring(0, 8));
+		} else {
+			sb.append(id.toString());
+		}
 		return sb.toString();
 	}
 }

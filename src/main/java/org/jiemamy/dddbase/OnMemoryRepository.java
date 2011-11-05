@@ -18,10 +18,10 @@
  */
 package org.jiemamy.dddbase;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -34,23 +34,25 @@ import org.jiemamy.dddbase.utils.MutationMonitor;
 /**
  * {@link Repository}のオンメモリ実装クラス。
  * 
- * @param <T> 管理するエンティティの型
+ * @param <E> 管理するエンティティの型
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.0.0
  */
-public class OnMemoryRepository<T extends Entity> extends OnMemoryEntityResolver<T> implements Repository<T> {
+public class OnMemoryRepository<E extends Entity<ID>, ID extends Serializable> extends OnMemoryEntityResolver<E, ID>
+		implements Repository<E, ID> {
 	
 	private Map<RepositoryEventListener, DispatchStrategy> listeners = Maps.newHashMap();
 	
 	private DispatchStrategy defaultStrategy = new DispatchStrategy() {
 		
-		public boolean judgeIftargetOf(RepositoryEventListener listener, RepositoryEvent<?> event) {
+		public boolean judgeIftargetOf(RepositoryEventListener listener, RepositoryEvent<?, ?> event) {
 			return true;
 		}
 	};
 	
-
+	
 	public void addListener(RepositoryEventListener listener) {
 		Validate.notNull(listener);
 		addListener(listener, null);
@@ -62,23 +64,23 @@ public class OnMemoryRepository<T extends Entity> extends OnMemoryEntityResolver
 	}
 	
 	@Override
-	public OnMemoryRepository<T> clone() {
-		OnMemoryRepository<T> clone = (OnMemoryRepository<T>) super.clone();
+	public OnMemoryRepository<E, ID> clone() {
+		OnMemoryRepository<E, ID> clone = (OnMemoryRepository<E, ID>) super.clone();
 		return clone;
 	}
 	
-	public T delete(EntityRef<? extends T> ref) {
+	public E delete(EntityRef<? extends E, ID> ref) {
 		Validate.notNull(ref);
-		Map<UUID, T> storage = getStorage();
+		Map<ID, E> storage = getStorage();
 		if (storage.containsKey(ref.getReferentId()) == false) {
 			throw new EntityNotFoundException("id=" + ref.getReferentId());
 		}
-		T deleted = getStorage().remove(ref.getReferentId());
-		fireEvent(new RepositoryEvent<T>(this, deleted, null));
+		E deleted = getStorage().remove(ref.getReferentId());
+		fireEvent(new RepositoryEvent<E, ID>(this, deleted, null));
 		return deleted;
 	}
 	
-	public void fireEvent(RepositoryEvent<?> event) {
+	public void fireEvent(RepositoryEvent<?, ?> event) {
 		for (Map.Entry<RepositoryEventListener, DispatchStrategy> entry : listeners.entrySet()) {
 			RepositoryEventListener listener = entry.getKey();
 			DispatchStrategy strategy = entry.getValue();
@@ -91,7 +93,7 @@ public class OnMemoryRepository<T extends Entity> extends OnMemoryEntityResolver
 		}
 	}
 	
-	public Set<T> getEntitiesAsSet() {
+	public Set<E> getEntitiesAsSet() {
 		return MutationMonitor.monitor(CloneUtil.cloneEntityHashSet(getStorage().values()));
 	}
 	
@@ -105,21 +107,21 @@ public class OnMemoryRepository<T extends Entity> extends OnMemoryEntityResolver
 		this.defaultStrategy = defaultStrategy;
 	}
 	
-	public T store(T entity) {
+	public E store(E entity) {
 		Validate.notNull(entity);
 		chechConsistency(entity);
 		
 		@SuppressWarnings("unchecked")
-		T clone = (T) entity.clone();
+		E clone = (E) entity.clone();
 		
-		T old = getStorage().put(clone.getId(), clone);
-		fireEvent(new RepositoryEvent<T>(this, old, entity));
+		E old = getStorage().put(clone.getId(), clone);
+		fireEvent(new RepositoryEvent<E, ID>(this, old, entity));
 		return old;
 	}
 	
 	int managedAllEntityCount() {
-		Set<UUID> collector = Sets.newHashSet();
-		for (T entity : getStorage().values()) {
+		Set<ID> collector = Sets.newHashSet();
+		for (E entity : getStorage().values()) {
 			collectAllId(entity, collector);
 		}
 		return collector.size();
@@ -129,14 +131,14 @@ public class OnMemoryRepository<T extends Entity> extends OnMemoryEntityResolver
 		return getStorage().size();
 	}
 	
-	private void chechConsistency(T entityToAdd) {
+	private void chechConsistency(E entityToAdd) {
 		// create copy for check
-		Map<UUID, T> copy = Maps.newHashMap(getStorage());
+		Map<ID, E> copy = Maps.newHashMap(getStorage());
 		copy.remove(entityToAdd.getId());
-		Set<UUID> idsToAdd = collectAllId(entityToAdd, new HashSet<UUID>());
+		Set<ID> idsToAdd = collectAllId(entityToAdd, new HashSet<ID>());
 		
-		Set<UUID> base = Sets.newHashSet();
-		for (T entity : copy.values()) {
+		Set<ID> base = Sets.newHashSet();
+		for (E entity : copy.values()) {
 			collectAllId(entity, base);
 		}
 		
@@ -146,10 +148,13 @@ public class OnMemoryRepository<T extends Entity> extends OnMemoryEntityResolver
 		}
 	}
 	
-	private Set<UUID> collectAllId(Entity entity, Set<UUID> collector) {
+	private Set<ID> collectAllId(Entity<ID> entity, Set<ID> collector) {
 		collector.add(entity.getId());
-		for (Entity e : entity.getSubEntities()) {
-			collectAllId(e, collector);
+		if (entity instanceof HierarchicalEntity) {
+			HierarchicalEntity<ID> he = (HierarchicalEntity<ID>) entity;
+			for (Entity<ID> e : he.getSubEntities()) {
+				collectAllId(e, collector);
+			}
 		}
 		return collector;
 	}

@@ -16,6 +16,7 @@
  */
 package org.jiemamy.dddbase;
 
+import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -23,12 +24,13 @@ import java.util.Set;
  * 
  * <p>{@link Entity}を保持・追跡する責務を持つ。</p> 
  * 
- * @param <T> 管理するエンティティの型
+ * @param <E> 管理するエンティティの型
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.0.0
  */
-public interface Repository<T extends Entity> extends EntityResolver {
+public interface Repository<E extends Entity<ID>, ID extends Serializable> extends EntityResolver<ID> {
 	
 	/**
 	 * 指定したリスナを登録する。
@@ -61,7 +63,7 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
-	T delete(EntityRef<? extends T> ref) throws RepositoryException;
+	E delete(EntityRef<? extends E, ID> ref) throws RepositoryException;
 	
 	/**
 	 * 発生したイベントをリスナに通知する。
@@ -70,7 +72,7 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
-	void fireEvent(RepositoryEvent<?> event);
+	void fireEvent(RepositoryEvent<?, ?> event);
 	
 	/**
 	 * 管理している主たる実体を{@link Set}として返す。
@@ -83,7 +85,7 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
 	 * @since 1.0.0
 	 */
-	Set<T> getEntitiesAsSet() throws RepositoryException;
+	Set<E> getEntitiesAsSet() throws RepositoryException;
 	
 	/**
 	 * 指定されたリスナを削除する。
@@ -122,5 +124,5 @@ public interface Repository<T extends Entity> extends EntityResolver {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
-	T store(T entity) throws RepositoryException;
+	E store(E entity) throws RepositoryException;
 }

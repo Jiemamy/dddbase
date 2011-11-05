@@ -23,14 +23,14 @@ import java.util.UUID;
 /**
  * {@link EntityFactory}の抽象実装クラス。
  * 
- * @param <T> 生成する {@link Entity}の型
+ * @param <E> 生成する {@link Entity}の型
  * @version $Id$
  * @author daisuke
- * @since 1.0.0
+ * @since 1.4.0
  */
-public abstract class AbstractEntityFactory<T extends Entity> implements EntityFactory<T> {
+public abstract class UUIDEntityFactory<E extends Entity<UUID>> implements EntityFactory<E, UUID> {
 	
-	public T build() {
+	public E build() {
 		return build(UUID.randomUUID());
 	}
 	

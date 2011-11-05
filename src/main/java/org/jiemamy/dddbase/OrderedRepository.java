@@ -18,18 +18,20 @@
  */
 package org.jiemamy.dddbase;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
 /**
  * {@link OrderedEntity}を管理する REPOSITORY インターフェイス。
  * 
- * @param <T> 管理するエンティティの型
+ * @param <E> 管理するエンティティの型
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.2.0
  */
-public interface OrderedRepository<T extends OrderedEntity> extends Repository<T> {
+public interface OrderedRepository<E extends OrderedEntity<ID>, ID extends Serializable> extends Repository<E, ID> {
 	
 	/**
 	 * 管理している実体を {@link List} として返す。
@@ -44,7 +46,7 @@ public interface OrderedRepository<T extends OrderedEntity> extends Repository<T
 	 * @throws RepositoryException リポジトリの実装（DBやファイル等）にアクセスできない場合
 	 * @since 1.2.0
 	 */
-	List<T> getEntitiesAsList() throws RepositoryException;
+	List<E> getEntitiesAsList() throws RepositoryException;
 	
 	/**
 	 * {@inheritDoc}
@@ -66,7 +68,7 @@ public interface OrderedRepository<T extends OrderedEntity> extends Repository<T
 	 * 
 	 * @since 1.2.0
 	 */
-	T store(T entity) throws RepositoryException;
+	E store(E entity) throws RepositoryException;
 	
 	/**
 	 * 保持エンティティのリストの順序を入れ替える。

@@ -51,7 +51,7 @@ public final class CloneUtil {
 	 * @return {@link ArrayList}
 	 * @since 1.0.0
 	 */
-	public static <E extends Entity>ArrayList<E> cloneEntityArrayList(Collection<E> collection) {
+	public static <E extends Entity<?>>ArrayList<E> cloneEntityArrayList(Collection<E> collection) {
 		ArrayList<E> cloneCollection = Lists.newArrayListWithExpectedSize(collection.size());
 		for (E element : collection) {
 			@SuppressWarnings("unchecked")
@@ -71,7 +71,7 @@ public final class CloneUtil {
 	 * @return {@link ConcurrentHashMap}
 	 * @since 1.0.0
 	 */
-	public static <K, V extends Entity>ConcurrentHashMap<K, V> cloneEntityConcurrentHashMap(Map<K, V> map) {
+	public static <K, V extends Entity<?>>ConcurrentHashMap<K, V> cloneEntityConcurrentHashMap(Map<K, V> map) {
 		ConcurrentHashMap<K, V> cloneMap = new ConcurrentHashMap<K, V>(map.size());
 		for (Entry<K, V> element : map.entrySet()) {
 			@SuppressWarnings("unchecked")
@@ -91,7 +91,7 @@ public final class CloneUtil {
 	 * @return {@link HashMap}
 	 * @since 1.0.0
 	 */
-	public static <K, V extends Entity>HashMap<K, V> cloneEntityHashMap(Map<K, V> map) {
+	public static <K, V extends Entity<?>>HashMap<K, V> cloneEntityHashMap(Map<K, V> map) {
 		HashMap<K, V> cloneMap = Maps.newHashMapWithExpectedSize(map.size());
 		for (Entry<K, V> element : map.entrySet()) {
 			@SuppressWarnings("unchecked")
@@ -110,7 +110,7 @@ public final class CloneUtil {
 	 * @return {@link HashSet}
 	 * @since 1.0.0
 	 */
-	public static <E extends Entity>HashSet<E> cloneEntityHashSet(Collection<E> collection) {
+	public static <E extends Entity<?>>HashSet<E> cloneEntityHashSet(Collection<E> collection) {
 		HashSet<E> cloneCollection = Sets.newHashSetWithExpectedSize(collection.size());
 		for (E element : collection) {
 			@SuppressWarnings("unchecked")
@@ -129,7 +129,7 @@ public final class CloneUtil {
 	 * @return {@link LinkedHashSet}
 	 * @since 1.0.0
 	 */
-	public static <E extends Entity>LinkedHashSet<E> cloneEntityLinkedHashSet(Collection<E> collection) {
+	public static <E extends Entity<?>>LinkedHashSet<E> cloneEntityLinkedHashSet(Collection<E> collection) {
 		LinkedHashSet<E> cloneCollection = Sets.newLinkedHashSet();
 		for (E element : collection) {
 			@SuppressWarnings("unchecked")

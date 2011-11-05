@@ -40,7 +40,7 @@ public class DefaultEntityRefTest {
 	
 	private static final UUID ID2 = UUID.randomUUID();
 	
-
+	
 	/**
 	 * equalsの挙動テスト。
 	 * 
@@ -48,9 +48,9 @@ public class DefaultEntityRefTest {
 	 */
 	@Test
 	public void test01_equals() throws Exception {
-		DefaultEntityRef<Entity> ref1 = new DefaultEntityRef<Entity>(ID1);
-		DefaultEntityRef<Entity> ref2a = new DefaultEntityRef<Entity>(ID2);
-		DefaultEntityRef<Entity> ref2b = DefaultEntityRef.of(ID2);
+		DefaultEntityRef<Entity<UUID>, UUID> ref1 = new DefaultEntityRef<Entity<UUID>, UUID>(ID1);
+		DefaultEntityRef<Entity<UUID>, UUID> ref2a = new DefaultEntityRef<Entity<UUID>, UUID>(ID2);
+		DefaultEntityRef<Entity<UUID>, UUID> ref2b = DefaultEntityRef.of(ID2);
 		
 		assertThat(ref1.equals(ref1), is(true));
 		assertThat(ref1.hashCode(), is(ref1.hashCode()));
@@ -81,12 +81,12 @@ public class DefaultEntityRefTest {
 	 */
 	@Test
 	public void test02_isReferenceOf() throws Exception {
-		DefaultEntityRef<Entity> ref1 = new DefaultEntityRef<Entity>(ID1);
-		DefaultEntityRef<Entity> ref2a = new DefaultEntityRef<Entity>(ID2);
-		DefaultEntityRef<Entity> ref2b = DefaultEntityRef.of(ID2);
+		DefaultEntityRef<Entity<UUID>, UUID> ref1 = new DefaultEntityRef<Entity<UUID>, UUID>(ID1);
+		DefaultEntityRef<Entity<UUID>, UUID> ref2a = new DefaultEntityRef<Entity<UUID>, UUID>(ID2);
+		DefaultEntityRef<Entity<UUID>, UUID> ref2b = DefaultEntityRef.of(ID2);
 		
-		Entity e1 = new SampleMainEntity(ID1);
-		Entity e2 = new SampleMainEntity(ID2);
+		Entity<UUID> e1 = new SampleMainEntity(ID1);
+		Entity<UUID> e2 = new SampleMainEntity(ID2);
 		
 		assertThat(ref1.isReferenceOf(e1), is(true));
 		assertThat(ref1.isReferenceOf(e2), is(false));

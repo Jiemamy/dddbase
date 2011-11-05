@@ -34,6 +34,6 @@ public interface DispatchStrategy {
 	 * @return dispatchが必要な場合は{@code true}、そうでない場合は{@code false}
 	 * @since 1.0.0
 	 */
-	boolean judgeIftargetOf(RepositoryEventListener listener, RepositoryEvent<?> event);
+	boolean judgeIftargetOf(RepositoryEventListener listener, RepositoryEvent<?, ?> event);
 	
 }

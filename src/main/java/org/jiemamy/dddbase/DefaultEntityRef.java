@@ -18,19 +18,20 @@
  */
 package org.jiemamy.dddbase;
 
-import java.util.UUID;
+import java.io.Serializable;
 
 import org.apache.commons.lang.Validate;
 
 /**
  * 参照オブジェクトのデフォルト実装。
  * 
- * @param <T> 参照対象オブジェクトの型
+ * @param <E> 参照対象オブジェクトの型
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.0.0
  */
-public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
+public class DefaultEntityRef<E extends Entity<ID>, ID extends Serializable> implements EntityRef<E, ID> {
 	
 	/**
 	 * インスタンスを生成する。
@@ -40,14 +41,14 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	 * @return 参照オブジェクト
 	 * @since 1.0.0
 	 */
-	public static <T extends Entity>DefaultEntityRef<T> of(UUID referentId) {
-		return new DefaultEntityRef<T>(referentId);
+	public static <T extends Entity<ID>, ID extends Serializable>DefaultEntityRef<T, ID> of(ID referentId) {
+		return new DefaultEntityRef<T, ID>(referentId);
 	}
 	
-
-	final UUID referentId;
 	
-
+	final ID referentId;
+	
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -56,7 +57,7 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	 * @throws IllegalArgumentException 引数に{@code referent.getId()}が{@code null}であるエンティティを与えた場合
 	 * @since 1.0.0
 	 */
-	public DefaultEntityRef(T referent) {
+	public DefaultEntityRef(E referent) {
 		Validate.notNull(referent);
 		Validate.notNull(referent.getId());
 		referentId = referent.getId();
@@ -69,12 +70,13 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
-	public DefaultEntityRef(UUID referentId) {
+	public DefaultEntityRef(ID referentId) {
 		Validate.notNull(referentId);
 		this.referentId = referentId;
 	}
 	
 	@Override
+	@SuppressWarnings("unchecked")
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
@@ -82,13 +84,13 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 		if (obj == null) {
 			return false;
 		}
-		if (obj instanceof EntityRef<?> == false) {
+		if (obj instanceof EntityRef == false) {
 			return false;
 		}
-		return referentId.equals(((EntityRef<?>) obj).getReferentId());
+		return referentId.equals(((EntityRef<E, ID>) obj).getReferentId());
 	}
 	
-	public UUID getReferentId() {
+	public ID getReferentId() {
 		return referentId;
 	}
 	
@@ -97,7 +99,7 @@ public class DefaultEntityRef<T extends Entity> implements EntityRef<T> {
 		return referentId.hashCode();
 	}
 	
-	public boolean isReferenceOf(Entity target) {
+	public boolean isReferenceOf(Entity<ID> target) {
 		return referentId.equals(target.getId());
 	}
 	

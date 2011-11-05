@@ -18,22 +18,38 @@
  */
 package org.jiemamy.dddbase;
 
-import java.util.UUID;
+import java.io.Serializable;
+import java.util.Collection;
+
+import com.google.common.collect.Lists;
 
 import org.apache.commons.lang.Validate;
 
 /**
  * 複数の{@link EntityResolver}に対するクエリを1つに束ねるクラス。
  * 
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.1.3
  */
-public class CompositeEntityResolver implements EntityResolver {
+public class CompositeEntityResolver<ID extends Serializable> implements EntityResolver<ID> {
 	
-	private final EntityResolver[] resolvers;
+	private final Collection<EntityResolver<ID>> resolvers;
 	
-
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param resolvers リゾルバ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 1.4.0
+	 */
+	public CompositeEntityResolver(Collection<? extends EntityResolver<ID>> resolvers) {
+		Validate.noNullElements(resolvers);
+		this.resolvers = Lists.newArrayList(resolvers);
+	}
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -41,13 +57,14 @@ public class CompositeEntityResolver implements EntityResolver {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.1.3
 	 */
-	public CompositeEntityResolver(EntityResolver... resolvers) {
+	@Deprecated
+	public CompositeEntityResolver(EntityResolver<ID>[] resolvers) {
 		Validate.noNullElements(resolvers);
-		this.resolvers = resolvers;
+		this.resolvers = Lists.newArrayList(resolvers);
 	}
 	
-	public boolean contains(EntityRef<?> ref) throws RepositoryException {
-		for (EntityResolver resolver : resolvers) {
+	public boolean contains(EntityRef<?, ID> ref) throws RepositoryException {
+		for (EntityResolver<ID> resolver : resolvers) {
 			if (resolver.contains(ref)) {
 				return true;
 			}
@@ -55,8 +72,8 @@ public class CompositeEntityResolver implements EntityResolver {
 		return false;
 	}
 	
-	public boolean contains(UUID id) throws RepositoryException {
-		for (EntityResolver resolver : resolvers) {
+	public boolean contains(ID id) throws RepositoryException {
+		for (EntityResolver<ID> resolver : resolvers) {
 			if (resolver.contains(id)) {
 				return true;
 			}
@@ -64,8 +81,8 @@ public class CompositeEntityResolver implements EntityResolver {
 		return false;
 	}
 	
-	public <E extends Entity>E resolve(EntityRef<E> ref) throws RepositoryException {
-		for (EntityResolver resolver : resolvers) {
+	public <E extends Entity<ID>>E resolve(EntityRef<E, ID> ref) throws RepositoryException {
+		for (EntityResolver<ID> resolver : resolvers) {
 			try {
 				return resolver.resolve(ref);
 			} catch (EntityNotFoundException e) {
@@ -75,8 +92,8 @@ public class CompositeEntityResolver implements EntityResolver {
 		throw new EntityNotFoundException("id=" + ref.getReferentId());
 	}
 	
-	public Entity resolve(UUID id) throws RepositoryException {
-		for (EntityResolver resolver : resolvers) {
+	public Entity<ID> resolve(ID id) throws RepositoryException {
+		for (EntityResolver<ID> resolver : resolvers) {
 			try {
 				return resolver.resolve(id);
 			} catch (EntityNotFoundException e) {

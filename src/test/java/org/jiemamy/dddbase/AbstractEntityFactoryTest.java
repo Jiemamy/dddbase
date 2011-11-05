@@ -33,7 +33,7 @@ import org.jiemamy.dddbase.sample.SampleMainEntityFactory;
 import org.jiemamy.dddbase.sample.SampleSubEntity;
 
 /**
- * {@link AbstractEntityFactory}のテストクラス。
+ * {@link UUIDEntityFactory}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke

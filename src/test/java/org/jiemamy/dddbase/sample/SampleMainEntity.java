@@ -26,6 +26,7 @@ import com.google.common.collect.Lists;
 import org.jiemamy.dddbase.AbstractEntity;
 import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
+import org.jiemamy.dddbase.HierarchicalEntity;
 import org.jiemamy.dddbase.OnMemoryRepository;
 import org.jiemamy.dddbase.utils.CloneUtil;
 
@@ -35,15 +36,15 @@ import org.jiemamy.dddbase.utils.CloneUtil;
  * @version $Id$
  * @author daisuke
  */
-public class SampleMainEntity extends AbstractEntity {
+public class SampleMainEntity extends AbstractEntity<UUID> implements HierarchicalEntity<UUID> {
 	
 	private String string;
 	
 	private Collection<String> values = Lists.newArrayList();
 	
-	private OnMemoryRepository<SampleSubEntity> children = new OnMemoryRepository<SampleSubEntity>();
+	private OnMemoryRepository<SampleSubEntity, UUID> children = new OnMemoryRepository<SampleSubEntity, UUID>();
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -79,7 +80,6 @@ public class SampleMainEntity extends AbstractEntity {
 		return string;
 	}
 	
-	@Override
 	public Collection<? extends SampleSubEntity> getSubEntities() {
 		return children.getEntitiesAsSet();
 	}
@@ -103,8 +103,8 @@ public class SampleMainEntity extends AbstractEntity {
 	}
 	
 	@Override
-	public EntityRef<? extends SampleMainEntity> toReference() {
-		return new DefaultEntityRef<SampleMainEntity>(this);
+	public EntityRef<? extends SampleMainEntity, UUID> toReference() {
+		return new DefaultEntityRef<SampleMainEntity, UUID>(this);
 	}
 	
 	@Override

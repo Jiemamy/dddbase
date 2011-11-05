@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2011 Jiemamy Project and the Others.
- * Created on 2010/12/17
+ * Created on 2011/11/05
  *
  * This file is part of Jiemamy.
  *
@@ -16,38 +16,28 @@
  * either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.jiemamy.dddbase.sample;
+package org.jiemamy.dddbase;
 
-import java.util.UUID;
-
-import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.dddbase.DefaultEntityRef;
-import org.jiemamy.dddbase.EntityRef;
+import java.io.Serializable;
+import java.util.Collection;
 
 /**
- * テスト用サブエンティティ実装。
+ * TODO for daisuke
  * 
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  */
-public class SampleSubEntity extends AbstractEntity<UUID> {
+public interface HierarchicalEntity<ID extends Serializable> extends Entity<ID> {
 	
 	/**
-	 * インスタンスを生成する。
+	 * 子エンティティの集合を取得する。
 	 * 
-	 * @param id ENTITY ID
+	 * <p>このエンティティが保持するエンティティであり、{@link Repository}では直接管理されない
+	 * エンティティ。（間接的には {@link Repository} が自動的に管理する）</p>
+	 * 
+	 * @return 子エンティティの集合
+	 * @since 1.0.0
 	 */
-	public SampleSubEntity(UUID id) {
-		super(id);
-	}
-	
-	@Override
-	public SampleSubEntity clone() {
-		return (SampleSubEntity) super.clone();
-	}
-	
-	@Override
-	public EntityRef<? extends SampleSubEntity, UUID> toReference() {
-		return new DefaultEntityRef<SampleSubEntity, UUID>(this);
-	}
+	Collection<? extends Entity<ID>> getSubEntities();
 }

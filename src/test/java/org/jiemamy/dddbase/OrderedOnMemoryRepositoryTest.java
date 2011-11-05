@@ -45,9 +45,9 @@ public class OrderedOnMemoryRepositoryTest {
 	
 	private static final UUID ID4 = UUID.fromString("dddddddd-9a57-458c-a0a7-221149808cbd");
 	
-	private OrderedOnMemoryRepository<SampleOrderedEntity> repos;
+	private OrderedOnMemoryRepository<SampleOrderedEntity, UUID> repos;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 
@@ -55,7 +55,7 @@ public class OrderedOnMemoryRepositoryTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		repos = new OrderedOnMemoryRepository<SampleOrderedEntity>();
+		repos = new OrderedOnMemoryRepository<SampleOrderedEntity, UUID>();
 	}
 	
 	/**
@@ -206,7 +206,7 @@ public class OrderedOnMemoryRepositoryTest {
 		assertThat(repos.resolve(e3.toReference()).getIndex(), is(1));
 	}
 	
-	private void check(List<? extends OrderedEntity> list) {
+	private void check(List<? extends OrderedEntity<?>> list) {
 		for (int i = 0; i < list.size(); i++) {
 			assertThat(list.get(i).getIndex(), is(i));
 		}

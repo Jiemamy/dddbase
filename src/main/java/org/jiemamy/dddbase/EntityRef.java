@@ -18,6 +18,7 @@
  */
 package org.jiemamy.dddbase;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -25,13 +26,14 @@ import java.util.UUID;
  * 
  * <p>このインターフェイスの実装は、イミュータブルでなければならない(must)。</p>
  * 
- * @param <T> 実体のモデル型
+ * @param <E> 実体のモデル型
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.0.0
  * @see Entity
  */
-public interface EntityRef<T extends Entity> extends ValueObject {
+public interface EntityRef<E extends Entity<ID>, ID extends Serializable> extends ValueObject {
 	
 	/**
 	 * 参照先要素の同一性を調べる。
@@ -48,7 +50,7 @@ public interface EntityRef<T extends Entity> extends ValueObject {
 	 * @return 実体を特定する記述子としてのモデルID
 	 * @since 1.0.0
 	 */
-	UUID getReferentId();
+	ID getReferentId();
 	
 	/**
 	 * この参照オブジェクトが引数{@code target}の参照かどうか調べる。
@@ -64,5 +66,5 @@ public interface EntityRef<T extends Entity> extends ValueObject {
 	 * @return この参照オブジェクトが引数{@code target}の参照の場合は{@code true}、そうでない場合は{@code false}
 	 * @since 1.0.0
 	 */
-	boolean isReferenceOf(Entity target);
+	boolean isReferenceOf(Entity<ID> target);
 }

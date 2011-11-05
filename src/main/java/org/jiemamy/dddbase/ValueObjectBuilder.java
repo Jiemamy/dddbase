@@ -35,7 +35,7 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	
 	List<BuilderConfigurator<S>> configurators = Lists.newArrayList();
 	
-
+	
 	/**
 	 * ビルダの設定に基づき、引数の{@link ValueObject}の内容を変更した新しいインスタンスを生成する。
 	 * 
@@ -116,14 +116,14 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 	 */
 	protected abstract S newInstance();
 	
-
+	
 	/**
 	 * {@link ValueObjectBuilder#build()}内で順次実行されるビルダの設定を定義するインタフェース。
 	 * 
 	 * @param <S> 設定対象ビルダーの型
 	 * @since 1.0.0
 	 */
-	public static interface BuilderConfigurator<S> {
+	public interface BuilderConfigurator<S> {
 		
 		/**
 		 * {@link ValueObjectBuilder#build()}内で呼ばれる際に実行するビルドアクションを定義する。

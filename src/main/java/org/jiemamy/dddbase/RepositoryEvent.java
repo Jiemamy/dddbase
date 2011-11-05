@@ -18,25 +18,27 @@
  */
 package org.jiemamy.dddbase;
 
+import java.io.Serializable;
 import java.util.EventObject;
 
 /**
  * リポジトリの {@link Entity} が追加・変更・削除されたことを表すイベント。
  * 
- * @since 1.3.0
- * @param <T> 変更が起こったリポジトリが管理する{@link Entity}の型
+ * @param <E> 変更が起こったリポジトリが管理する{@link Entity}の型
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @author shin1ogawa
+ * @since 1.3.0
  */
 @SuppressWarnings("serial")
-public class RepositoryEvent<T extends Entity> extends EventObject {
+public class RepositoryEvent<E extends Entity<ID>, ID extends Serializable> extends EventObject {
 	
-	private final T before;
+	private final E before;
 	
-	private final T after;
+	private final E after;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -44,7 +46,7 @@ public class RepositoryEvent<T extends Entity> extends EventObject {
 	 * @param before 変更前の{@link Entity}（新規の場合は {@code null}）
 	 * @param after 変更後の{@link Entity}（削除の場合は {@code null}）
 	 */
-	public RepositoryEvent(Repository<T> source, T before, T after) {
+	public RepositoryEvent(Repository<E, ID> source, E before, E after) {
 		super(source);
 		this.before = before;
 		this.after = after;
@@ -55,7 +57,7 @@ public class RepositoryEvent<T extends Entity> extends EventObject {
 	 * 
 	 * @return 変更後の{@link Entity}（削除の場合は {@code null}）
 	 */
-	public T getAfter() {
+	public E getAfter() {
 		return after;
 	}
 	
@@ -64,14 +66,14 @@ public class RepositoryEvent<T extends Entity> extends EventObject {
 	 * 
 	 * @return 変更前の{@link Entity}（新規の場合は {@code null}）
 	 */
-	public T getBefore() {
+	public E getBefore() {
 		return before;
 	}
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public Repository<T> getSource() {
-		return (Repository<T>) super.getSource();
+	public Repository<E, ID> getSource() {
+		return (Repository<E, ID>) super.getSource();
 	}
 	
 	@Override

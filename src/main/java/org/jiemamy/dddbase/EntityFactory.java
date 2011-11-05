@@ -18,17 +18,18 @@
  */
 package org.jiemamy.dddbase;
 
-import java.util.UUID;
+import java.io.Serializable;
 
 /**
  * {@link Entity}のインスタンスを生成するためのFACTORY。
  * 
- * @param <T> 生成する {@link Entity}の型
+ * @param <E> 生成する {@link Entity}の型
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.0.0
  */
-public interface EntityFactory<T extends Entity> {
+public interface EntityFactory<E extends Entity<ID>, ID extends Serializable> {
 	
 	/**
 	 * ファクトリの状態に基づいて {@link Entity}のインスタンスを生成する。
@@ -38,7 +39,7 @@ public interface EntityFactory<T extends Entity> {
 	 * @return 新しい {@link Entity}のインスタンス
 	 * @since 1.0.0
 	 */
-	T build();
+	E build();
 	
 	/**
 	 * ファクトリの状態に基づいて {@link Entity}のインスタンスを生成する。
@@ -48,6 +49,6 @@ public interface EntityFactory<T extends Entity> {
 	 * @throws IllegalArgumentException 引数{@code id}に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
-	T build(UUID id);
+	E build(ID id);
 	
 }

@@ -65,9 +65,9 @@ public class OnMemoryRepositoryTest {
 	
 	private static final UUID ID4 = UUID.randomUUID();
 	
-	private OnMemoryRepository<SampleMainEntity> repos;
+	private OnMemoryRepository<SampleMainEntity, UUID> repos;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 
@@ -75,7 +75,7 @@ public class OnMemoryRepositoryTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		repos = new OnMemoryRepository<SampleMainEntity>();
+		repos = new OnMemoryRepository<SampleMainEntity, UUID>();
 	}
 	
 	/**
@@ -123,11 +123,11 @@ public class OnMemoryRepositoryTest {
 		e1.addChild(se1);
 		repos.store(e1);
 		
-		assertThat(repos.resolve(ID1), is(equalTo((Entity) e1)));
-		assertThat(repos.resolve(ID2), is(equalTo((Entity) se1)));
+		assertThat(repos.resolve(ID1), is(equalTo((Entity<UUID>) e1)));
+		assertThat(repos.resolve(ID2), is(equalTo((Entity<UUID>) se1)));
 		
-		assertThat(repos.resolve(ID1), is(not(sameInstance((Entity) e1))));
-		assertThat(repos.resolve(ID2), is(not(sameInstance((Entity) se1))));
+		assertThat(repos.resolve(ID1), is(not(sameInstance((Entity<UUID>) e1))));
+		assertThat(repos.resolve(ID2), is(not(sameInstance((Entity<UUID>) se1))));
 		
 		SampleMainEntity resolved = (SampleMainEntity) repos.resolve(ID1);
 		resolved.setString("!!");
@@ -171,13 +171,13 @@ public class OnMemoryRepositoryTest {
 		e1.addChild(se1);
 		repos.store(e1);
 		
-		Entity resolved1 = repos.resolve(ID1);
-		Entity resolved2 = repos.resolve(ID2);
+		Entity<UUID> resolved1 = repos.resolve(ID1);
+		Entity<UUID> resolved2 = repos.resolve(ID2);
 		
-		assertThat(resolved1, is(equalTo((Entity) e1)));
-		assertThat(resolved2, is(equalTo((Entity) se1)));
-		assertThat(resolved1, is(not(sameInstance((Entity) e1))));
-		assertThat(resolved2, is(not(sameInstance((Entity) se1))));
+		assertThat(resolved1, is(equalTo((Entity<UUID>) e1)));
+		assertThat(resolved2, is(equalTo((Entity<UUID>) se1)));
+		assertThat(resolved1, is(not(sameInstance((Entity<UUID>) e1))));
+		assertThat(resolved2, is(not(sameInstance((Entity<UUID>) se1))));
 	}
 	
 	/**
@@ -187,7 +187,7 @@ public class OnMemoryRepositoryTest {
 	 */
 	@Test(expected = EntityNotFoundException.class)
 	public void test05_削除しようとしたエンティティが見つからない場合は例外() throws Exception {
-		repos.delete(new DefaultEntityRef<SampleMainEntity>(ID0));
+		repos.delete(new DefaultEntityRef<SampleMainEntity, UUID>(ID0));
 	}
 	
 	/**
@@ -321,7 +321,7 @@ public class OnMemoryRepositoryTest {
 	}
 	
 	/**
-	 * {@link OnMemoryRepository#contains(UUID)}のテスト。
+	 * {@link OnMemoryRepository#contains(java.io.Serializable)}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
@@ -378,8 +378,8 @@ public class OnMemoryRepositoryTest {
 		
 		verify(listener).repositoryUpdated(any(RepositoryEvent.class));
 		verifyNoMoreInteractions(listener);
-		RepositoryEvent<SampleMainEntity> event = captor.getValue();
-		assertThat(event.getSource(), is((Repository<SampleMainEntity>) repos));
+		RepositoryEvent<SampleMainEntity, UUID> event = captor.getValue();
+		assertThat(event.getSource(), is((Repository<SampleMainEntity, UUID>) repos));
 		assertThat(event.getBefore(), is(nullValue()));
 		assertThat(event.getAfter(), is(e1a));
 	}
@@ -412,8 +412,8 @@ public class OnMemoryRepositoryTest {
 		
 		verify(listener).repositoryUpdated(any(RepositoryEvent.class));
 		verifyNoMoreInteractions(listener);
-		RepositoryEvent<SampleMainEntity> event = captor.getValue();
-		assertThat(event.getSource(), is((Repository<SampleMainEntity>) repos));
+		RepositoryEvent<SampleMainEntity, UUID> event = captor.getValue();
+		assertThat(event.getSource(), is((Repository<SampleMainEntity, UUID>) repos));
 		assertThat(event.getBefore().getString(), is("before"));
 		assertThat(event.getAfter().getString(), is("after"));
 	}
@@ -443,8 +443,8 @@ public class OnMemoryRepositoryTest {
 		
 		verify(listener).repositoryUpdated(any(RepositoryEvent.class));
 		verifyNoMoreInteractions(listener);
-		RepositoryEvent<SampleMainEntity> event = captor.getValue();
-		assertThat(event.getSource(), is((Repository<SampleMainEntity>) repos));
+		RepositoryEvent<SampleMainEntity, UUID> event = captor.getValue();
+		assertThat(event.getSource(), is((Repository<SampleMainEntity, UUID>) repos));
 		assertThat(event.getBefore(), is(e1a));
 		assertThat(event.getAfter(), is(nullValue()));
 	}

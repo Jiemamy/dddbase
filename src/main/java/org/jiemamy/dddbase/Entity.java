@@ -18,8 +18,8 @@
  */
 package org.jiemamy.dddbase;
 
+import java.io.Serializable;
 import java.util.Collection;
-import java.util.UUID;
 
 /**
  * DDD における ENTITY を表すインターフェイス。
@@ -28,12 +28,13 @@ import java.util.UUID;
  * また、ENTITYはIDを持ち、そのIDはENTITYのライフサイクルを通じて不変である。
  * {@link EntityRef}により参照可能なオブジェクトでもある。</p>
  * 
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.0.0
  * @see EntityRef
  */
-public interface Entity extends Cloneable {
+public interface Entity<ID extends Serializable> extends Cloneable {
 	
 	/**
 	 * エンティティのクローンを取得する。
@@ -50,7 +51,7 @@ public interface Entity extends Cloneable {
 	 * @since 1.0.0
 	 * @see Object#clone()
 	 */
-	Entity clone();
+	Entity<ID> clone();
 	
 	/**
 	 * このENTITYと比較対象オブジェクトの同一性を検証する。
@@ -77,18 +78,7 @@ public interface Entity extends Cloneable {
 	* @return ENTITY ID
 	* @since 1.0.0
 	*/
-	UUID getId();
-	
-	/**
-	 * 子エンティティの集合を取得する。
-	 * 
-	 * <p>このエンティティが保持するエンティティであり、{@link Repository}では直接管理されない
-	 * エンティティ。（間接的には {@link Repository} が自動的に管理する）</p>
-	 * 
-	 * @return 子エンティティの集合
-	 * @since 1.0.0
-	 */
-	Collection<? extends Entity> getSubEntities();
+	ID getId();
 	
 	/**
 	 * このENTITYのハッシュ値を返す。
@@ -105,7 +95,8 @@ public interface Entity extends Cloneable {
 	 * このENTITYの参照オブジェクト（{@link EntityRef}）を返す。
 	 * 
 	 * @return 参照オブジェクト
+	 * @throws UnsupportedOperationException エンティティが参照をサポートしない場合
 	 * @since 1.0.0
 	 */
-	EntityRef<? extends Entity> toReference();
+	EntityRef<? extends Entity<ID>, ID> toReference();
 }

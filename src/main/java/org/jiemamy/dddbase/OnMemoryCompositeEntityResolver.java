@@ -18,16 +18,31 @@
  */
 package org.jiemamy.dddbase;
 
-import java.util.UUID;
+import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * 複数の{@link OnMemoryEntityResolver}に対するクエリを1つに束ねるクラス。
  * 
+ * @param <E> エンティティの型
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.1.3
  */
-public class OnMemoryCompositeEntityResolver extends CompositeEntityResolver {
+public class OnMemoryCompositeEntityResolver<E extends Entity<ID>, ID extends Serializable> extends
+		CompositeEntityResolver<ID> {
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param resolvers リゾルバ
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 1.4.0
+	 */
+	public OnMemoryCompositeEntityResolver(Collection<OnMemoryEntityResolver<E, ID>> resolvers) {
+		super(resolvers);
+	}
 	
 	/**
 	 * インスタンスを生成する。
@@ -35,13 +50,15 @@ public class OnMemoryCompositeEntityResolver extends CompositeEntityResolver {
 	 * @param resolvers リゾルバ
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.1.3
+	 * @deprecated user {@link #OnMemoryCompositeEntityResolver(Collection)}
 	 */
-	public OnMemoryCompositeEntityResolver(OnMemoryEntityResolver<?>... resolvers) {
+	@Deprecated
+	public OnMemoryCompositeEntityResolver(OnMemoryEntityResolver<E, ID>... resolvers) {
 		super(resolvers);
 	}
 	
 	@Override
-	public boolean contains(EntityRef<?> ref) {
+	public boolean contains(EntityRef<?, ID> ref) {
 		try {
 			return super.contains(ref);
 		} catch (RepositoryException e) {
@@ -50,7 +67,7 @@ public class OnMemoryCompositeEntityResolver extends CompositeEntityResolver {
 	}
 	
 	@Override
-	public boolean contains(UUID id) {
+	public boolean contains(ID id) {
 		try {
 			return super.contains(id);
 		} catch (RepositoryException e) {
@@ -59,7 +76,7 @@ public class OnMemoryCompositeEntityResolver extends CompositeEntityResolver {
 	}
 	
 	@Override
-	public <E extends Entity>E resolve(EntityRef<E> ref) {
+	public <E2 extends Entity<ID>>E2 resolve(EntityRef<E2, ID> ref) {
 		try {
 			return super.resolve(ref);
 		} catch (RepositoryException e) {
@@ -68,7 +85,7 @@ public class OnMemoryCompositeEntityResolver extends CompositeEntityResolver {
 	}
 	
 	@Override
-	public Entity resolve(UUID id) {
+	public Entity<ID> resolve(ID id) {
 		try {
 			return super.resolve(id);
 		} catch (RepositoryException e) {

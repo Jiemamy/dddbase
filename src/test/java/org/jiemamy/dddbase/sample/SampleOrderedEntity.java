@@ -31,11 +31,11 @@ import org.jiemamy.dddbase.OrderedEntity;
  * @version $Id$
  * @author daisuke
  */
-public class SampleOrderedEntity extends AbstractOrderedEntity {
+public class SampleOrderedEntity extends AbstractOrderedEntity<UUID> {
 	
 	private String string;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 
@@ -84,8 +84,8 @@ public class SampleOrderedEntity extends AbstractOrderedEntity {
 	}
 	
 	@Override
-	public EntityRef<? extends SampleOrderedEntity> toReference() {
-		return new DefaultEntityRef<SampleOrderedEntity>(this);
+	public EntityRef<? extends SampleOrderedEntity, UUID> toReference() {
+		return new DefaultEntityRef<SampleOrderedEntity, UUID>(this);
 	}
 	
 	@Override

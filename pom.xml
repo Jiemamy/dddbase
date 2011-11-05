@@ -6,7 +6,6 @@
     <version>1.7.1</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.jiemamy</groupId>
   <artifactId>dddbase</artifactId>
   <name>Domain Driven Design Base</name>
   <version>1.4.0-SNAPSHOT</version>

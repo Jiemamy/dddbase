@@ -18,16 +18,19 @@
  */
 package org.jiemamy.dddbase;
 
+import java.io.Serializable;
+
 /**
  * リポジトリ上で順序付きで管理されるENTITY。
  * 
+ * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.2.0
  */
-public interface OrderedEntity extends Entity {
+public interface OrderedEntity<ID extends Serializable> extends Entity<ID> {
 	
-	OrderedEntity clone();
+	OrderedEntity<ID> clone();
 	
 	/**
 	 * リポジトリ内でこのエンティティが位置するリストインデックスを返す。
@@ -51,5 +54,5 @@ public interface OrderedEntity extends Entity {
 	 */
 	void setIndex(int index);
 	
-	EntityRef<? extends OrderedEntity> toReference();
+	EntityRef<? extends OrderedEntity<ID>, ID> toReference();
 }

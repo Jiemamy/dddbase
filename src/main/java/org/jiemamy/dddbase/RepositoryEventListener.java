@@ -35,6 +35,6 @@ public interface RepositoryEventListener {
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
-	void repositoryUpdated(RepositoryEvent<?> event);
+	void repositoryUpdated(RepositoryEvent<?, ?> event);
 	
 }
