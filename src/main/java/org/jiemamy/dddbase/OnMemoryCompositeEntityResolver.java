@@ -40,7 +40,7 @@ public class OnMemoryCompositeEntityResolver<E extends Entity<ID>, ID extends Se
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.4.0
 	 */
-	public OnMemoryCompositeEntityResolver(Collection<OnMemoryEntityResolver<E, ID>> resolvers) {
+	public OnMemoryCompositeEntityResolver(Collection<OnMemoryEntityResolver<? extends E, ID>> resolvers) {
 		super(resolvers);
 	}
 	

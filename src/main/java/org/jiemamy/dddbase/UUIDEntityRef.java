@@ -18,29 +18,15 @@
  */
 package org.jiemamy.dddbase;
 
-import java.io.Serializable;
-import java.util.Collection;
+import java.util.UUID;
 
 /**
- * 階層構造を持つ {@link Entity} インターフェイス。
+ * {@link UUIDEntity}に特化した{@link EntityRef}インターフェイス。
  * 
- * <p>子エンティティは、このエンティティと同じIDの型を持つ。</p>
- * 
- * @param <ID> IDの型
+ * @param <E> エンティティの型
  * @version $Id$
- * @since 1.4.0
  * @author daisuke
  */
-public interface HierarchicalEntity<ID extends Serializable> extends Entity<ID> {
+public interface UUIDEntityRef<E extends UUIDEntity> extends EntityRef<E, UUID> {
 	
-	/**
-	 * 子エンティティの集合を取得する。
-	 * 
-	 * <p>このエンティティが保持するエンティティであり、{@link Repository}では直接管理されない
-	 * エンティティ。（間接的には {@link Repository} が自動的に管理する）</p>
-	 * 
-	 * @return 子エンティティの集合
-	 * @since 1.0.0
-	 */
-	Collection<? extends Entity<ID>> getSubEntities();
 }
