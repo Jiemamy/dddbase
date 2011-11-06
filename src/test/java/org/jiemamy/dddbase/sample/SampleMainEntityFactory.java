@@ -39,7 +39,7 @@ public class SampleMainEntityFactory extends UUIDEntityFactory<SampleMainEntity>
 	
 	private Collection<SampleSubEntity> children = Lists.newArrayList();
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 */

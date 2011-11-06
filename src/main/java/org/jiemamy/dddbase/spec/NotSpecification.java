@@ -32,7 +32,7 @@ public class NotSpecification<T> extends AbstractSpecification<T> {
 	
 	final Specification<T> spec1;
 	
-
+	
 	/**
 	 * Create a new NOT specification based on another spec.
 	 *

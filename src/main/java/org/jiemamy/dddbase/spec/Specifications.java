@@ -92,12 +92,12 @@ public final class Specifications {
 	private Specifications() {
 	}
 	
-
+	
 	static class AlwaysFalseSpecification extends AbstractSpecification<Object> {
 		
 		static final AlwaysFalseSpecification INSTANCE = new AlwaysFalseSpecification();
 		
-
+		
 		public boolean isSatisfiedBy(Object t) {
 			return false;
 		}
@@ -108,7 +108,7 @@ public final class Specifications {
 		
 		static final AlwaysTrueSpecification INSTANCE = new AlwaysTrueSpecification();
 		
-
+		
 		public boolean isSatisfiedBy(Object t) {
 			return true;
 		}

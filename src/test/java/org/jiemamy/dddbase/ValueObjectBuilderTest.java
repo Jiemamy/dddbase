@@ -148,7 +148,7 @@ public class ValueObjectBuilderTest {
 		assertThat(applied.getString(), is("bar"));
 	}
 	
-
+	
 	// テスト用ビルダークラス
 	static class BuilderMock extends ValueObjectBuilder<ValueObject, BuilderMock> {
 		

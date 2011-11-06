@@ -22,7 +22,7 @@ class GreaterThanOrEqualsSpec extends AbstractSpecification<Number> {
 	
 	private final int threshold;
 	
-
+	
 	GreaterThanOrEqualsSpec(int threshold) {
 		this.threshold = threshold;
 	}
@@ -30,5 +30,4 @@ class GreaterThanOrEqualsSpec extends AbstractSpecification<Number> {
 	public boolean isSatisfiedBy(Number t) {
 		return threshold <= t.intValue();
 	}
-	
 }

@@ -40,7 +40,7 @@ public class EntityTest {
 	
 	private static final UUID ID2 = UUID.randomUUID();
 	
-
+	
 	/**
 	 * IDを指定しないエンティティは作れない。
 	 * 

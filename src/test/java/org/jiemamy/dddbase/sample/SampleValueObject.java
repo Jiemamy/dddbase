@@ -32,7 +32,7 @@ public final class SampleValueObject implements ValueObject {
 	
 	private final String string;
 	
-
+	
 	/**
 	 * インスタンスを生成する。
 	 * 

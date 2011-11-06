@@ -44,7 +44,7 @@ public final class MutationMonitor {
 	
 	private static boolean debug;
 	
-
+	
 	/**
 	 * デバッグモードであるかどうかを返す。
 	 * 

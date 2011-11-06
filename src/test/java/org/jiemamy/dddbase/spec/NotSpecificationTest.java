@@ -37,7 +37,7 @@ public class NotSpecificationTest {
 	
 	static final Specification<Number> UNDER5 = new LessThanOrEqualsSpec(5);
 	
-
+	
 	/**
 	 * 3以下でない。
 	 * 

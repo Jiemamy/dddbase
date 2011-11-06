@@ -33,7 +33,7 @@ public class OrSpecification<T> extends AbstractSpecification<T> {
 	
 	final Specification<T> spec2;
 	
-
+	
 	/**
 	 * Create a new OR specification based on two other spec.
 	 *

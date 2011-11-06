@@ -57,7 +57,7 @@ public class MutationMonitorTest {
 	
 	private boolean savedDebugStatus;
 	
-
+	
 	/**
 	 * テストを初期化する。
 	 * 

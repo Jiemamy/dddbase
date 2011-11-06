@@ -59,7 +59,7 @@ public class DddBaseReleaseTest {
 		}
 	}
 	
-
+	
 	/**
 	 * fixmeレベルのタスクタグが残っていないこと。
 	 * 

@@ -32,7 +32,7 @@ public class SampleValueObjectBuilder extends ValueObjectBuilder<SampleValueObje
 	
 	private int number;
 	
-
+	
 	/**
 	 * 数値を設定する。
 	 * 

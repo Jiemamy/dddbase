@@ -37,7 +37,7 @@ public class OrSpecificationTest {
 	
 	static final Specification<Number> UNDER5 = new LessThanOrEqualsSpec(5);
 	
-
+	
 	/**
 	 * 3以上または9以上。
 	 * 

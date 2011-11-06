@@ -46,7 +46,7 @@ public class AbstractEntityFactoryTest {
 	
 	private static final UUID ID3 = UUID.randomUUID();
 	
-
+	
 	/**
 	 * 生成したインスタンスの挙動テスト。
 	 * 

@@ -37,7 +37,7 @@ public class AbstractSpecificationTest {
 	
 	static final Specification<Number> UNDER5 = new LessThanOrEqualsSpec(5);
 	
-
+	
 	/**
 	 * {@link AbstractSpecification#and(Specification)}のテスト。
 	 * 

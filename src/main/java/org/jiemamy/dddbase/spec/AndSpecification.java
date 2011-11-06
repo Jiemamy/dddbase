@@ -33,7 +33,7 @@ public class AndSpecification<T> extends AbstractSpecification<T> {
 	
 	final Specification<T> spec2;
 	
-
+	
 	/**
 	 * Create a new AND specification based on two other spec.
 	 *

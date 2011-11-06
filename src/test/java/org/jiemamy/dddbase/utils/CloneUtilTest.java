@@ -86,7 +86,7 @@ public class CloneUtilTest {
 				}
 			});
 	
-
+	
 	/**
 	 * {@link CloneUtil#cloneEntityArrayList(java.util.Collection)}のテスト。
 	 * 
