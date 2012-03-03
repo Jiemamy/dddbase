@@ -18,18 +18,16 @@
  */
 package org.jiemamy.dddbase;
 
-import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * {@link OrderedEntity}の骨格実装クラス。
  * 
- * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.2.0
  */
-public abstract class AbstractOrderedEntity<ID extends Serializable> extends AbstractEntity<ID> implements
-		OrderedEntity<ID> {
+public abstract class AbstractOrderedEntity extends AbstractEntity implements OrderedEntity {
 	
 	private int index = -1;
 	
@@ -41,13 +39,13 @@ public abstract class AbstractOrderedEntity<ID extends Serializable> extends Abs
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.2.0
 	 */
-	public AbstractOrderedEntity(ID id) {
+	public AbstractOrderedEntity(UUID id) {
 		super(id);
 	}
 	
 	@Override
-	public AbstractOrderedEntity<ID> clone() {
-		return (AbstractOrderedEntity<ID>) super.clone();
+	public AbstractOrderedEntity clone() {
+		return (AbstractOrderedEntity) super.clone();
 	}
 	
 	public int getIndex() {
@@ -59,8 +57,8 @@ public abstract class AbstractOrderedEntity<ID extends Serializable> extends Abs
 	}
 	
 	@Override
-	public EntityRef<? extends AbstractOrderedEntity<ID>, ID> toReference() {
-		return new DefaultEntityRef<AbstractOrderedEntity<ID>, ID>(this);
+	public EntityRef<? extends AbstractOrderedEntity> toReference() {
+		return new EntityRef<AbstractOrderedEntity>(this);
 	}
 	
 	@Override

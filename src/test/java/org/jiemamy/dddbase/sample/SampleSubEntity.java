@@ -21,7 +21,6 @@ package org.jiemamy.dddbase.sample;
 import java.util.UUID;
 
 import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 
 /**
@@ -30,7 +29,7 @@ import org.jiemamy.dddbase.EntityRef;
  * @version $Id$
  * @author daisuke
  */
-public class SampleSubEntity extends AbstractEntity<UUID> {
+public class SampleSubEntity extends AbstractEntity {
 	
 	/**
 	 * インスタンスを生成する。
@@ -47,7 +46,7 @@ public class SampleSubEntity extends AbstractEntity<UUID> {
 	}
 	
 	@Override
-	public EntityRef<? extends SampleSubEntity, UUID> toReference() {
-		return new DefaultEntityRef<SampleSubEntity, UUID>(this);
+	public EntityRef<? extends SampleSubEntity> toReference() {
+		return new EntityRef<SampleSubEntity>(this);
 	}
 }

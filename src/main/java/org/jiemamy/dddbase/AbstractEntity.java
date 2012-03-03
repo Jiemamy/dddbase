@@ -18,7 +18,6 @@
  */
 package org.jiemamy.dddbase;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 import org.apache.commons.lang.ClassUtils;
@@ -27,14 +26,13 @@ import org.apache.commons.lang.Validate;
 /**
  * {@link Entity}の骨格実装クラス。
  * 
- * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.0.0
  */
-public abstract class AbstractEntity<ID extends Serializable> implements Entity<ID> {
+public abstract class AbstractEntity implements Entity {
 	
-	final ID id;
+	final UUID id;
 	
 	
 	/**
@@ -44,23 +42,21 @@ public abstract class AbstractEntity<ID extends Serializable> implements Entity<
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
-	public AbstractEntity(ID id) {
+	public AbstractEntity(UUID id) {
 		Validate.notNull(id);
 		this.id = id;
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
-	public AbstractEntity<ID> clone() {
+	public AbstractEntity clone() {
 		try {
-			return (AbstractEntity<ID>) super.clone();
+			return (AbstractEntity) super.clone();
 		} catch (CloneNotSupportedException e) {
 			throw new Error("clone not supported");
 		}
 	}
 	
 	@Override
-	@SuppressWarnings("unchecked")
 	public final boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
@@ -71,10 +67,10 @@ public abstract class AbstractEntity<ID extends Serializable> implements Entity<
 		if (obj instanceof Entity == false) {
 			return false;
 		}
-		return id.equals(((Entity<ID>) obj).getId());
+		return id.equals(((Entity) obj).getId());
 	}
 	
-	public final ID getId() {
+	public final UUID getId() {
 		return id;
 	}
 	
@@ -83,8 +79,8 @@ public abstract class AbstractEntity<ID extends Serializable> implements Entity<
 		return id.hashCode();
 	}
 	
-	public EntityRef<? extends AbstractEntity<ID>, ID> toReference() {
-		return new DefaultEntityRef<AbstractEntity<ID>, ID>(this);
+	public EntityRef<? extends AbstractEntity> toReference() {
+		return new EntityRef<AbstractEntity>(this);
 	}
 	
 	@Override
@@ -92,12 +88,7 @@ public abstract class AbstractEntity<ID extends Serializable> implements Entity<
 		StringBuilder sb = new StringBuilder();
 		sb.append(ClassUtils.getShortClassName(getClass()));
 		sb.append("@ih=").append(Integer.toHexString(System.identityHashCode(this)));
-		sb.append("/id=");
-		if (id instanceof UUID) {
-			sb.append(id.toString().substring(0, 8));
-		} else {
-			sb.append(id.toString());
-		}
+		sb.append("/id=").append(id.toString().substring(0, 8));
 		return sb.toString();
 	}
 }

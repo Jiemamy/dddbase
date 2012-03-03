@@ -18,7 +18,6 @@
  */
 package org.jiemamy.dddbase;
 
-import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,20 +31,19 @@ import org.jiemamy.dddbase.utils.CloneUtil;
  * {@link OrderedRepository}のオンメモリ実装クラス。
  * 
  * @param <E> 管理するエンティティの型
- * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.2.0
  */
-public class OrderedOnMemoryRepository<E extends OrderedEntity<ID>, ID extends Serializable> extends
-		OnMemoryRepository<E, ID> implements OrderedRepository<E, ID> {
+public class OrderedOnMemoryRepository<E extends OrderedEntity> extends OnMemoryRepository<E> implements
+		OrderedRepository<E> {
 	
 	private List<E> list = Lists.newArrayList();
 	
 	
 	@Override
-	public synchronized OrderedOnMemoryRepository<E, ID> clone() {
-		OrderedOnMemoryRepository<E, ID> clone = (OrderedOnMemoryRepository<E, ID>) super.clone();
+	public synchronized OrderedOnMemoryRepository<E> clone() {
+		OrderedOnMemoryRepository<E> clone = (OrderedOnMemoryRepository<E>) super.clone();
 		synchronized (clone) {
 			clone.list = CloneUtil.cloneEntityArrayList(this.list);
 		}
@@ -53,7 +51,7 @@ public class OrderedOnMemoryRepository<E extends OrderedEntity<ID>, ID extends S
 	}
 	
 	@Override
-	public synchronized E delete(EntityRef<? extends E, ID> ref) {
+	public synchronized E delete(EntityRef<? extends E> ref) {
 		E deleted = super.delete(ref);
 		list.remove(deleted);
 		for (int i = 0; i < list.size(); i++) {

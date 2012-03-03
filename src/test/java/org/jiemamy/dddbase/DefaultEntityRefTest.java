@@ -29,7 +29,7 @@ import org.junit.Test;
 import org.jiemamy.dddbase.sample.SampleMainEntity;
 
 /**
- * {@link DefaultEntityRef}のテストクラス。
+ * {@link EntityRef}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
@@ -48,9 +48,9 @@ public class DefaultEntityRefTest {
 	 */
 	@Test
 	public void test01_equals() throws Exception {
-		DefaultEntityRef<Entity<UUID>, UUID> ref1 = new DefaultEntityRef<Entity<UUID>, UUID>(ID1);
-		DefaultEntityRef<Entity<UUID>, UUID> ref2a = new DefaultEntityRef<Entity<UUID>, UUID>(ID2);
-		DefaultEntityRef<Entity<UUID>, UUID> ref2b = DefaultEntityRef.of(ID2);
+		EntityRef<Entity> ref1 = new EntityRef<Entity>(ID1);
+		EntityRef<Entity> ref2a = new EntityRef<Entity>(ID2);
+		EntityRef<Entity> ref2b = EntityRef.of(ID2);
 		
 		assertThat(ref1.equals(ref1), is(true));
 		assertThat(ref1.hashCode(), is(ref1.hashCode()));
@@ -75,18 +75,18 @@ public class DefaultEntityRefTest {
 	}
 	
 	/**
-	 * {@link DefaultEntityRef#isReferenceOf(Entity)}のテスト。
+	 * {@link EntityRef#isReferenceOf(Entity)}のテスト。
 	 * 
 	 * @throws Exception 例外が発生した場合
 	 */
 	@Test
 	public void test02_isReferenceOf() throws Exception {
-		DefaultEntityRef<Entity<UUID>, UUID> ref1 = new DefaultEntityRef<Entity<UUID>, UUID>(ID1);
-		DefaultEntityRef<Entity<UUID>, UUID> ref2a = new DefaultEntityRef<Entity<UUID>, UUID>(ID2);
-		DefaultEntityRef<Entity<UUID>, UUID> ref2b = DefaultEntityRef.of(ID2);
+		EntityRef<Entity> ref1 = new EntityRef<Entity>(ID1);
+		EntityRef<Entity> ref2a = new EntityRef<Entity>(ID2);
+		EntityRef<Entity> ref2b = EntityRef.of(ID2);
 		
-		Entity<UUID> e1 = new SampleMainEntity(ID1);
-		Entity<UUID> e2 = new SampleMainEntity(ID2);
+		Entity e1 = new SampleMainEntity(ID1);
+		Entity e2 = new SampleMainEntity(ID2);
 		
 		assertThat(ref1.isReferenceOf(e1), is(true));
 		assertThat(ref1.isReferenceOf(e2), is(false));

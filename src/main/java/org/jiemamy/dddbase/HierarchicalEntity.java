@@ -18,7 +18,6 @@
  */
 package org.jiemamy.dddbase;
 
-import java.io.Serializable;
 import java.util.Collection;
 
 /**
@@ -26,12 +25,11 @@ import java.util.Collection;
  * 
  * <p>子エンティティは、このエンティティと同じIDの型を持つ。</p>
  * 
- * @param <ID> IDの型
  * @version $Id$
  * @since 1.4.0
  * @author daisuke
  */
-public interface HierarchicalEntity<ID extends Serializable> extends Entity<ID> {
+public interface HierarchicalEntity extends Entity {
 	
 	/**
 	 * 子エンティティの集合を取得する。
@@ -42,5 +40,5 @@ public interface HierarchicalEntity<ID extends Serializable> extends Entity<ID> 
 	 * @return 子エンティティの集合
 	 * @since 1.0.0
 	 */
-	Collection<? extends Entity<ID>> getSubEntities();
+	Collection<? extends Entity> getSubEntities();
 }

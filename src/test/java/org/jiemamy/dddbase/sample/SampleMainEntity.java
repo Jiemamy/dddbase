@@ -24,7 +24,6 @@ import java.util.UUID;
 import com.google.common.collect.Lists;
 
 import org.jiemamy.dddbase.AbstractEntity;
-import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.HierarchicalEntity;
 import org.jiemamy.dddbase.OnMemoryRepository;
@@ -36,13 +35,13 @@ import org.jiemamy.dddbase.utils.CloneUtil;
  * @version $Id$
  * @author daisuke
  */
-public class SampleMainEntity extends AbstractEntity<UUID> implements HierarchicalEntity<UUID> {
+public class SampleMainEntity extends AbstractEntity implements HierarchicalEntity {
 	
 	private String string;
 	
 	private Collection<String> values = Lists.newArrayList();
 	
-	private OnMemoryRepository<SampleSubEntity, UUID> children = new OnMemoryRepository<SampleSubEntity, UUID>();
+	private OnMemoryRepository<SampleSubEntity> children = new OnMemoryRepository<SampleSubEntity>();
 	
 	
 	/**
@@ -103,8 +102,8 @@ public class SampleMainEntity extends AbstractEntity<UUID> implements Hierarchic
 	}
 	
 	@Override
-	public EntityRef<? extends SampleMainEntity, UUID> toReference() {
-		return new DefaultEntityRef<SampleMainEntity, UUID>(this);
+	public EntityRef<? extends SampleMainEntity> toReference() {
+		return new EntityRef<SampleMainEntity>(this);
 	}
 	
 	@Override

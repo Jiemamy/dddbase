@@ -132,7 +132,5 @@ public abstract class ValueObjectBuilder<T extends ValueObject, S extends ValueO
 		 * @since 1.0.0
 		 */
 		void configure(S builder);
-		
 	}
-	
 }

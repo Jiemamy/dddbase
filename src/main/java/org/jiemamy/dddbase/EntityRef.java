@@ -1,6 +1,6 @@
 /*
  * Copyright 2007-2012 Jiemamy Project and the Others.
- * Created on 2009/01/20
+ * Created on 2009/01/19
  *
  * This file is part of Jiemamy.
  *
@@ -18,22 +18,61 @@
  */
 package org.jiemamy.dddbase;
 
-import java.io.Serializable;
 import java.util.UUID;
 
+import org.apache.commons.lang.Validate;
+
 /**
- * {@link Entity}に対する参照（実体参照）インターフェイス。
+ * 参照オブジェクトのデフォルト実装。
  * 
- * <p>このインターフェイスの実装は、イミュータブルでなければならない(must)。</p>
- * 
- * @param <E> 実体のモデル型
- * @param <ID> IDの型
+ * @param <E> 参照対象オブジェクトの型
  * @version $Id$
  * @author daisuke
  * @since 1.0.0
- * @see Entity
  */
-public interface EntityRef<E extends Entity<ID>, ID extends Serializable> extends ValueObject {
+public class EntityRef<E extends Entity> {
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param <T> 参照対象オブジェクトの型
+	 * @param referentId 参照先のモデルID
+	 * @return 参照オブジェクト
+	 * @since 1.0.0
+	 */
+	public static <T extends Entity>EntityRef<T> of(UUID referentId) {
+		return new EntityRef<T>(referentId);
+	}
+	
+	
+	final UUID referentId;
+	
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param referent 定義オブジェクト
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @throws IllegalArgumentException 引数に{@code referent.getId()}が{@code null}であるエンティティを与えた場合
+	 * @since 1.0.0
+	 */
+	public EntityRef(E referent) {
+		Validate.notNull(referent);
+		Validate.notNull(referent.getId());
+		referentId = referent.getId();
+	}
+	
+	/**
+	 * インスタンスを生成する。
+	 * 
+	 * @param referentId 参照先のモデルID
+	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
+	 * @since 1.0.0
+	 */
+	public EntityRef(UUID referentId) {
+		Validate.notNull(referentId);
+		this.referentId = referentId;
+	}
 	
 	/**
 	 * 参照先要素の同一性を調べる。
@@ -42,7 +81,20 @@ public interface EntityRef<E extends Entity<ID>, ID extends Serializable> extend
 	 * @return 同じIDの要素を参照している場合は{@code true}、そうでない場合は{@code false}
 	 * @since 1.0.0
 	 */
-	boolean equals(Object obj);
+	@Override
+	@SuppressWarnings("unchecked")
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (obj instanceof EntityRef == false) {
+			return false;
+		}
+		return referentId.equals(((EntityRef<E>) obj).getReferentId());
+	}
 	
 	/**
 	 * 実体を特定する記述子としてのモデルIDを取得する。
@@ -50,7 +102,14 @@ public interface EntityRef<E extends Entity<ID>, ID extends Serializable> extend
 	 * @return 実体を特定する記述子としてのモデルID
 	 * @since 1.0.0
 	 */
-	ID getReferentId();
+	public UUID getReferentId() {
+		return referentId;
+	}
+	
+	@Override
+	public int hashCode() {
+		return referentId.hashCode();
+	}
 	
 	/**
 	 * この参照オブジェクトが引数{@code target}の参照かどうか調べる。
@@ -66,5 +125,12 @@ public interface EntityRef<E extends Entity<ID>, ID extends Serializable> extend
 	 * @return この参照オブジェクトが引数{@code target}の参照の場合は{@code true}、そうでない場合は{@code false}
 	 * @since 1.0.0
 	 */
-	boolean isReferenceOf(Entity<ID> target);
+	public boolean isReferenceOf(Entity target) {
+		return referentId.equals(target.getId());
+	}
+	
+	@Override
+	public String toString() {
+		return "Ref(" + referentId.toString().substring(0, 8) + ")";
+	}
 }

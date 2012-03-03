@@ -21,7 +21,6 @@ package org.jiemamy.dddbase.sample;
 import java.util.UUID;
 
 import org.jiemamy.dddbase.AbstractOrderedEntity;
-import org.jiemamy.dddbase.DefaultEntityRef;
 import org.jiemamy.dddbase.EntityRef;
 import org.jiemamy.dddbase.OrderedEntity;
 
@@ -31,7 +30,7 @@ import org.jiemamy.dddbase.OrderedEntity;
  * @version $Id$
  * @author daisuke
  */
-public class SampleOrderedEntity extends AbstractOrderedEntity<UUID> {
+public class SampleOrderedEntity extends AbstractOrderedEntity {
 	
 	private String string;
 	
@@ -84,8 +83,8 @@ public class SampleOrderedEntity extends AbstractOrderedEntity<UUID> {
 	}
 	
 	@Override
-	public EntityRef<? extends SampleOrderedEntity, UUID> toReference() {
-		return new DefaultEntityRef<SampleOrderedEntity, UUID>(this);
+	public EntityRef<? extends SampleOrderedEntity> toReference() {
+		return new EntityRef<SampleOrderedEntity>(this);
 	}
 	
 	@Override

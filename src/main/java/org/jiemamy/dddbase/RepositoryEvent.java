@@ -18,21 +18,19 @@
  */
 package org.jiemamy.dddbase;
 
-import java.io.Serializable;
 import java.util.EventObject;
 
 /**
  * リポジトリの {@link Entity} が追加・変更・削除されたことを表すイベント。
  * 
  * @param <E> 変更が起こったリポジトリが管理する{@link Entity}の型
- * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @author shin1ogawa
  * @since 1.3.0
  */
 @SuppressWarnings("serial")
-public class RepositoryEvent<E extends Entity<ID>, ID extends Serializable> extends EventObject {
+public class RepositoryEvent<E extends Entity> extends EventObject {
 	
 	private final E before;
 	
@@ -46,7 +44,7 @@ public class RepositoryEvent<E extends Entity<ID>, ID extends Serializable> exte
 	 * @param before 変更前の{@link Entity}（新規の場合は {@code null}）
 	 * @param after 変更後の{@link Entity}（削除の場合は {@code null}）
 	 */
-	public RepositoryEvent(Repository<E, ID> source, E before, E after) {
+	public RepositoryEvent(Repository<E> source, E before, E after) {
 		super(source);
 		this.before = before;
 		this.after = after;
@@ -72,8 +70,8 @@ public class RepositoryEvent<E extends Entity<ID>, ID extends Serializable> exte
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public Repository<E, ID> getSource() {
-		return (Repository<E, ID>) super.getSource();
+	public Repository<E> getSource() {
+		return (Repository<E>) super.getSource();
 	}
 	
 	@Override

@@ -23,7 +23,7 @@ import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
-import org.jiemamy.dddbase.UUIDEntityFactory;
+import org.jiemamy.dddbase.EntityFactory;
 
 /**
  * サンプルとしての{@link SampleMainEntity}ビルダ実装。
@@ -31,7 +31,7 @@ import org.jiemamy.dddbase.UUIDEntityFactory;
  * @version $Id$
  * @author daisuke
  */
-public class SampleMainEntityFactory extends UUIDEntityFactory<SampleMainEntity> {
+public class SampleMainEntityFactory implements EntityFactory<SampleMainEntity> {
 	
 	private String string;
 	
@@ -75,6 +75,10 @@ public class SampleMainEntityFactory extends UUIDEntityFactory<SampleMainEntity>
 	public SampleMainEntityFactory addValue(String value) {
 		values.add(value);
 		return this;
+	}
+	
+	public SampleMainEntity build() {
+		return build(UUID.randomUUID());
 	}
 	
 	public SampleMainEntity build(UUID id) {

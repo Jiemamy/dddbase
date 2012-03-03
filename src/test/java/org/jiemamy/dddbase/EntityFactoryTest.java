@@ -33,12 +33,12 @@ import org.jiemamy.dddbase.sample.SampleMainEntityFactory;
 import org.jiemamy.dddbase.sample.SampleSubEntity;
 
 /**
- * {@link UUIDEntityFactory}のテストクラス。
+ * {@link EntityFactory}のテストクラス。
  * 
  * @version $Id$
  * @author daisuke
  */
-public class AbstractEntityFactoryTest {
+public class EntityFactoryTest {
 	
 	private static final UUID ID1 = UUID.randomUUID();
 	

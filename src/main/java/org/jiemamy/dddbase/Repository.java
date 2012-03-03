@@ -16,7 +16,6 @@
  */
 package org.jiemamy.dddbase;
 
-import java.io.Serializable;
 import java.util.Set;
 
 /**
@@ -25,12 +24,11 @@ import java.util.Set;
  * <p>{@link Entity}を保持・追跡する責務を持つ。</p> 
  * 
  * @param <E> 管理するエンティティの型
- * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.0.0
  */
-public interface Repository<E extends Entity<ID>, ID extends Serializable> extends EntityResolver<ID> {
+public interface Repository<E extends Entity> extends EntityResolver {
 	
 	/**
 	 * 指定したリスナを登録する。
@@ -63,7 +61,7 @@ public interface Repository<E extends Entity<ID>, ID extends Serializable> exten
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
-	E delete(EntityRef<? extends E, ID> ref) throws RepositoryException;
+	E delete(EntityRef<? extends E> ref) throws RepositoryException;
 	
 	/**
 	 * 発生したイベントをリスナに通知する。
@@ -72,7 +70,7 @@ public interface Repository<E extends Entity<ID>, ID extends Serializable> exten
 	 * @throws IllegalArgumentException 引数に{@code null}を与えた場合
 	 * @since 1.0.0
 	 */
-	void fireEvent(RepositoryEvent<?, ?> event);
+	void fireEvent(RepositoryEvent<?> event);
 	
 	/**
 	 * 管理している主たる実体を{@link Set}として返す。

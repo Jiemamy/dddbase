@@ -18,7 +18,6 @@
  */
 package org.jiemamy.dddbase;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
@@ -26,12 +25,11 @@ import java.util.Set;
  * {@link OrderedEntity}を管理する REPOSITORY インターフェイス。
  * 
  * @param <E> 管理するエンティティの型
- * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.2.0
  */
-public interface OrderedRepository<E extends OrderedEntity<ID>, ID extends Serializable> extends Repository<E, ID> {
+public interface OrderedRepository<E extends OrderedEntity> extends Repository<E> {
 	
 	/**
 	 * 管理している実体を {@link List} として返す。

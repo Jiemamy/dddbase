@@ -18,10 +18,10 @@
  */
 package org.jiemamy.dddbase;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -35,19 +35,17 @@ import org.jiemamy.dddbase.utils.MutationMonitor;
  * {@link Repository}のオンメモリ実装クラス。
  * 
  * @param <E> 管理するエンティティの型
- * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.0.0
  */
-public class OnMemoryRepository<E extends Entity<ID>, ID extends Serializable> extends OnMemoryEntityResolver<E, ID>
-		implements Repository<E, ID> {
+public class OnMemoryRepository<E extends Entity> extends OnMemoryEntityResolver<E> implements Repository<E> {
 	
 	private Map<RepositoryEventListener, DispatchStrategy> listeners = Maps.newHashMap();
 	
 	private DispatchStrategy defaultStrategy = new DispatchStrategy() {
 		
-		public boolean judgeIftargetOf(RepositoryEventListener listener, RepositoryEvent<?, ?> event) {
+		public boolean judgeIftargetOf(RepositoryEventListener listener, RepositoryEvent<?> event) {
 			return true;
 		}
 	};
@@ -64,23 +62,23 @@ public class OnMemoryRepository<E extends Entity<ID>, ID extends Serializable> e
 	}
 	
 	@Override
-	public OnMemoryRepository<E, ID> clone() {
-		OnMemoryRepository<E, ID> clone = (OnMemoryRepository<E, ID>) super.clone();
+	public OnMemoryRepository<E> clone() {
+		OnMemoryRepository<E> clone = (OnMemoryRepository<E>) super.clone();
 		return clone;
 	}
 	
-	public E delete(EntityRef<? extends E, ID> ref) {
+	public E delete(EntityRef<? extends E> ref) {
 		Validate.notNull(ref);
-		Map<ID, E> storage = getStorage();
+		Map<UUID, E> storage = getStorage();
 		if (storage.containsKey(ref.getReferentId()) == false) {
 			throw new EntityNotFoundException("id=" + ref.getReferentId());
 		}
 		E deleted = getStorage().remove(ref.getReferentId());
-		fireEvent(new RepositoryEvent<E, ID>(this, deleted, null));
+		fireEvent(new RepositoryEvent<E>(this, deleted, null));
 		return deleted;
 	}
 	
-	public void fireEvent(RepositoryEvent<?, ?> event) {
+	public void fireEvent(RepositoryEvent<?> event) {
 		for (Map.Entry<RepositoryEventListener, DispatchStrategy> entry : listeners.entrySet()) {
 			RepositoryEventListener listener = entry.getKey();
 			DispatchStrategy strategy = entry.getValue();
@@ -115,12 +113,12 @@ public class OnMemoryRepository<E extends Entity<ID>, ID extends Serializable> e
 		E clone = (E) entity.clone();
 		
 		E old = getStorage().put(clone.getId(), clone);
-		fireEvent(new RepositoryEvent<E, ID>(this, old, entity));
+		fireEvent(new RepositoryEvent<E>(this, old, entity));
 		return old;
 	}
 	
 	int managedAllEntityCount() {
-		Set<ID> collector = Sets.newHashSet();
+		Set<UUID> collector = Sets.newHashSet();
 		for (E entity : getStorage().values()) {
 			collectAllId(entity, collector);
 		}
@@ -133,11 +131,11 @@ public class OnMemoryRepository<E extends Entity<ID>, ID extends Serializable> e
 	
 	private void chechConsistency(E entityToAdd) {
 		// create copy for check
-		Map<ID, E> copy = Maps.newHashMap(getStorage());
+		Map<UUID, E> copy = Maps.newHashMap(getStorage());
 		copy.remove(entityToAdd.getId());
-		Set<ID> idsToAdd = collectAllId(entityToAdd, new HashSet<ID>());
+		Set<UUID> idsToAdd = collectAllId(entityToAdd, new HashSet<UUID>());
 		
-		Set<ID> base = Sets.newHashSet();
+		Set<UUID> base = Sets.newHashSet();
 		for (E entity : copy.values()) {
 			collectAllId(entity, base);
 		}
@@ -148,11 +146,11 @@ public class OnMemoryRepository<E extends Entity<ID>, ID extends Serializable> e
 		}
 	}
 	
-	private Set<ID> collectAllId(Entity<ID> entity, Set<ID> collector) {
+	private Set<UUID> collectAllId(Entity entity, Set<UUID> collector) {
 		collector.add(entity.getId());
 		if (entity instanceof HierarchicalEntity) {
-			HierarchicalEntity<ID> he = (HierarchicalEntity<ID>) entity;
-			for (Entity<ID> e : he.getSubEntities()) {
+			HierarchicalEntity he = (HierarchicalEntity) entity;
+			for (Entity e : he.getSubEntities()) {
 				collectAllId(e, collector);
 			}
 		}

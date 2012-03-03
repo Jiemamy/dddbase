@@ -47,11 +47,11 @@ public class CompositeEntityResolverTest {
 	
 	static final UUID ID2 = UUID.randomUUID();
 	
-	static final Entity<UUID> E0 = new SampleMainEntity(ID0);
+	static final Entity E0 = new SampleMainEntity(ID0);
 	
-	static final Entity<UUID> E1 = new SampleMainEntity(ID1);
+	static final Entity E1 = new SampleMainEntity(ID1);
 	
-	static final Entity<UUID> E2 = new SampleMainEntity(ID2);
+	static final Entity E2 = new SampleMainEntity(ID2);
 	
 	
 	/**
@@ -61,12 +61,10 @@ public class CompositeEntityResolverTest {
 	 */
 	@Test
 	public void test01_contains() throws Exception {
-		@SuppressWarnings("unchecked")
-		EntityResolver<UUID> res1 = mock(EntityResolver.class);
-		@SuppressWarnings("unchecked")
-		EntityResolver<UUID> res2 = mock(EntityResolver.class);
+		EntityResolver res1 = mock(EntityResolver.class);
+		EntityResolver res2 = mock(EntityResolver.class);
 		
-		List<EntityResolver<UUID>> resolvers = Lists.newArrayList();
+		List<EntityResolver> resolvers = Lists.newArrayList();
 		resolvers.add(res1);
 		resolvers.add(res2);
 		
@@ -76,21 +74,21 @@ public class CompositeEntityResolverTest {
 		when(res2.contains(ID0)).thenReturn(false);
 		when(res2.contains(ID1)).thenReturn(false);
 		when(res2.contains(ID2)).thenReturn(true);
-		when(res1.contains(DefaultEntityRef.of(ID0))).thenReturn(false);
-		when(res1.contains(DefaultEntityRef.of(ID1))).thenReturn(true);
-		when(res1.contains(DefaultEntityRef.of(ID2))).thenReturn(false);
-		when(res2.contains(DefaultEntityRef.of(ID0))).thenReturn(false);
-		when(res2.contains(DefaultEntityRef.of(ID1))).thenReturn(false);
-		when(res2.contains(DefaultEntityRef.of(ID2))).thenReturn(true);
+		when(res1.contains(EntityRef.of(ID0))).thenReturn(false);
+		when(res1.contains(EntityRef.of(ID1))).thenReturn(true);
+		when(res1.contains(EntityRef.of(ID2))).thenReturn(false);
+		when(res2.contains(EntityRef.of(ID0))).thenReturn(false);
+		when(res2.contains(EntityRef.of(ID1))).thenReturn(false);
+		when(res2.contains(EntityRef.of(ID2))).thenReturn(true);
 		
-		CompositeEntityResolver<UUID> com = new CompositeEntityResolver<UUID>(resolvers);
+		CompositeEntityResolver com = new CompositeEntityResolver(resolvers);
 		
 		assertThat(com.contains(ID0), is(false));
 		assertThat(com.contains(ID1), is(true));
 		assertThat(com.contains(ID2), is(true));
-		assertThat(com.contains(DefaultEntityRef.of(ID0)), is(false));
-		assertThat(com.contains(DefaultEntityRef.of(ID1)), is(true));
-		assertThat(com.contains(DefaultEntityRef.of(ID2)), is(true));
+		assertThat(com.contains(EntityRef.of(ID0)), is(false));
+		assertThat(com.contains(EntityRef.of(ID1)), is(true));
+		assertThat(com.contains(EntityRef.of(ID2)), is(true));
 	}
 	
 	/**
@@ -100,12 +98,10 @@ public class CompositeEntityResolverTest {
 	 */
 	@Test
 	public void test02_resolve() throws Exception {
-		@SuppressWarnings("unchecked")
-		EntityResolver<UUID> res1 = mock(EntityResolver.class);
-		@SuppressWarnings("unchecked")
-		EntityResolver<UUID> res2 = mock(EntityResolver.class);
+		EntityResolver res1 = mock(EntityResolver.class);
+		EntityResolver res2 = mock(EntityResolver.class);
 		
-		List<EntityResolver<UUID>> resolvers = Lists.newArrayList();
+		List<EntityResolver> resolvers = Lists.newArrayList();
 		resolvers.add(res1);
 		resolvers.add(res2);
 		
@@ -115,14 +111,14 @@ public class CompositeEntityResolverTest {
 		when(res2.resolve(ID0)).thenThrow(new EntityNotFoundException("id=" + ID0));
 		when(res2.resolve(ID1)).thenThrow(new EntityNotFoundException("id=" + ID1));
 		when(res2.resolve(ID2)).thenReturn(E2);
-		when(res1.resolve(DefaultEntityRef.of(ID0))).thenThrow(new EntityNotFoundException("id=" + ID0));
-		when(res1.resolve(DefaultEntityRef.of(ID1))).thenReturn(E1);
-		when(res1.resolve(DefaultEntityRef.of(ID2))).thenThrow(new EntityNotFoundException("id=" + ID2));
-		when(res2.resolve(DefaultEntityRef.of(ID0))).thenThrow(new EntityNotFoundException("id=" + ID0));
-		when(res2.resolve(DefaultEntityRef.of(ID1))).thenThrow(new EntityNotFoundException("id=" + ID1));
-		when(res2.resolve(DefaultEntityRef.of(ID2))).thenReturn(E2);
+		when(res1.resolve(EntityRef.of(ID0))).thenThrow(new EntityNotFoundException("id=" + ID0));
+		when(res1.resolve(EntityRef.of(ID1))).thenReturn(E1);
+		when(res1.resolve(EntityRef.of(ID2))).thenThrow(new EntityNotFoundException("id=" + ID2));
+		when(res2.resolve(EntityRef.of(ID0))).thenThrow(new EntityNotFoundException("id=" + ID0));
+		when(res2.resolve(EntityRef.of(ID1))).thenThrow(new EntityNotFoundException("id=" + ID1));
+		when(res2.resolve(EntityRef.of(ID2))).thenReturn(E2);
 		
-		CompositeEntityResolver<UUID> com = new CompositeEntityResolver<UUID>(resolvers);
+		CompositeEntityResolver com = new CompositeEntityResolver(resolvers);
 		
 		try {
 			com.resolve(ID0);
@@ -135,13 +131,13 @@ public class CompositeEntityResolverTest {
 		assertThat(com.resolve(ID2), is(E2));
 		
 		try {
-			com.resolve(DefaultEntityRef.of(ID0));
+			com.resolve(EntityRef.of(ID0));
 			fail();
 		} catch (EntityNotFoundException e) {
 			assertThat(e.getMessage(), is("id=" + ID0));
 		}
 		
-		assertThat(com.resolve(DefaultEntityRef.of(ID1)), is(E1));
-		assertThat(com.resolve(DefaultEntityRef.of(ID2)), is(E2));
+		assertThat(com.resolve(EntityRef.of(ID1)), is(E1));
+		assertThat(com.resolve(EntityRef.of(ID2)), is(E2));
 	}
 }

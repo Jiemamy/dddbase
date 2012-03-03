@@ -18,9 +18,9 @@
  */
 package org.jiemamy.dddbase;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.ClassUtils;
@@ -32,42 +32,38 @@ import org.jiemamy.dddbase.utils.CloneUtil;
  * {@link EntityResolver}のオンメモリ実装抽象クラス。
  * 
  * @param <E> このリゾルバが保持する主たる{@link Entity}の型
- * @param <ID> IDの型
  * @version $Id$
  * @author daisuke
  * @since 1.1.3
  */
-public abstract class OnMemoryEntityResolver<E extends Entity<ID>, ID extends Serializable> implements
-		EntityResolver<ID>, Cloneable {
+public abstract class OnMemoryEntityResolver<E extends Entity> implements EntityResolver, Cloneable {
 	
-	private static <ID extends Serializable>Map<ID, Entity<ID>> collectAll(Entity<ID> entity,
-			Map<ID, Entity<ID>> collector) {
+	private static Map<UUID, Entity> collectAll(Entity entity, Map<UUID, Entity> collector) {
 		collector.put(entity.getId(), entity);
 		if (entity instanceof HierarchicalEntity) {
-			for (Entity<ID> e : ((HierarchicalEntity<ID>) entity).getSubEntities()) {
+			for (Entity e : ((HierarchicalEntity) entity).getSubEntities()) {
 				collectAll(e, collector);
 			}
 		}
 		return collector;
 	}
 	
-	private static <ID extends Serializable>Map<ID, Entity<ID>> getAll(Iterable<? extends Entity<ID>> entities,
-			Map<ID, Entity<ID>> collector) {
-		for (Entity<ID> entity : entities) {
+	private static Map<UUID, Entity> getAll(Iterable<? extends Entity> entities, Map<UUID, Entity> collector) {
+		for (Entity entity : entities) {
 			collectAll(entity, collector);
 		}
 		return collector;
 	}
 	
 	
-	private Map<ID, E> storage = new ConcurrentHashMap<ID, E>();
+	private Map<UUID, E> storage = new ConcurrentHashMap<UUID, E>();
 	
 	
 	@Override
-	public OnMemoryEntityResolver<E, ID> clone() {
+	public OnMemoryEntityResolver<E> clone() {
 		try {
 			@SuppressWarnings("unchecked")
-			OnMemoryEntityResolver<E, ID> clone = (OnMemoryEntityResolver<E, ID>) super.clone();
+			OnMemoryEntityResolver<E> clone = (OnMemoryEntityResolver<E>) super.clone();
 			clone.storage = CloneUtil.cloneEntityConcurrentHashMap(storage);
 			return clone;
 		} catch (CloneNotSupportedException e) {
@@ -75,26 +71,25 @@ public abstract class OnMemoryEntityResolver<E extends Entity<ID>, ID extends Se
 		}
 	}
 	
-	public boolean contains(EntityRef<?, ID> ref) {
+	public boolean contains(EntityRef<?> ref) {
 		Validate.notNull(ref);
 		return contains(ref.getReferentId());
 	}
 	
-	public boolean contains(ID id) {
+	public boolean contains(UUID id) {
 		Validate.notNull(id);
-		return getAll(storage.values(), new HashMap<ID, Entity<ID>>()).containsKey(id);
+		return getAll(storage.values(), new HashMap<UUID, Entity>()).containsKey(id);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public <E2 extends Entity<ID>>E2 resolve(EntityRef<E2, ID> ref) {
+	public <E2 extends Entity>E2 resolve(EntityRef<E2> ref) {
 		Validate.notNull(ref);
 		return (E2) resolve(ref.getReferentId());
 	}
 	
-	public Entity<ID> resolve(ID id) {
+	public Entity resolve(UUID id) {
 		Validate.notNull(id);
-		Map<ID, Entity<ID>> map =
-				getAll(CloneUtil.cloneEntityArrayList(storage.values()), new HashMap<ID, Entity<ID>>());
+		Map<UUID, Entity> map = getAll(CloneUtil.cloneEntityArrayList(storage.values()), new HashMap<UUID, Entity>());
 		if (map.containsKey(id) == false) {
 			throw new EntityNotFoundException("id=" + id);
 		}
@@ -119,7 +114,7 @@ public abstract class OnMemoryEntityResolver<E extends Entity<ID>, ID extends Se
 	 * @return ストレージ
 	 * @since 1.1.3
 	 */
-	protected Map<ID, E> getStorage() {
+	protected Map<UUID, E> getStorage() {
 		return storage;
 	}
 }
