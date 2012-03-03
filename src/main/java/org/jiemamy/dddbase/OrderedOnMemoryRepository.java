@@ -61,7 +61,7 @@ public class OrderedOnMemoryRepository<E extends OrderedEntity> extends OnMemory
 	}
 	
 	public synchronized List<E> getEntitiesAsList() {
-		return CloneUtil.cloneEntityArrayList(list);
+		return list;
 	}
 	
 	@Override
@@ -71,31 +71,19 @@ public class OrderedOnMemoryRepository<E extends OrderedEntity> extends OnMemory
 			int index = list.indexOf(entity);
 			old = super.store(entity);
 			entity.setIndex(index);
-			@SuppressWarnings("unchecked")
-			E clone = (E) entity.clone();
-			list.set(index, clone);
+			list.set(index, entity);
 			for (int i = index + 1; i < list.size(); i++) {
 				list.get(i).setIndex(i);
 			}
 		} else {
-			E target;
 			if (entity.getIndex() < 0 || entity.getIndex() >= list.size()) {
 				entity.setIndex(list.size());
-				@SuppressWarnings("unchecked")
-				E clone = (E) entity.clone();
-				target = clone;
-			} else {
-				@SuppressWarnings("unchecked")
-				E clone = (E) entity.clone();
-				target = clone;
-				for (int i = clone.getIndex(); i < list.size(); i++) {
-					super.store(target);
-					target = list.set(i, target);
-					target.setIndex(i + 1);
-				}
 			}
-			old = super.store(target);
-			list.add(target);
+			list.add(entity.getIndex(), entity);
+			for (int i = entity.getIndex(); i < list.size(); i++) {
+				list.get(i).setIndex(i);
+			}
+			old = super.store(entity);
 		}
 		return old;
 	}

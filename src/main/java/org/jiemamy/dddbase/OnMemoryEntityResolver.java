@@ -89,7 +89,7 @@ public abstract class OnMemoryEntityResolver<E extends Entity> implements Entity
 	
 	public Entity resolve(UUID id) {
 		Validate.notNull(id);
-		Map<UUID, Entity> map = getAll(CloneUtil.cloneEntityArrayList(storage.values()), new HashMap<UUID, Entity>());
+		Map<UUID, Entity> map = getAll(storage.values(), new HashMap<UUID, Entity>());
 		if (map.containsKey(id) == false) {
 			throw new EntityNotFoundException("id=" + id);
 		}

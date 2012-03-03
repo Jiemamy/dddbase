@@ -21,9 +21,7 @@ package org.jiemamy.dddbase;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.sameInstance;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -125,14 +123,6 @@ public class OnMemoryRepositoryTest {
 		
 		assertThat(repos.resolve(ID1), is(equalTo((Entity) e1)));
 		assertThat(repos.resolve(ID2), is(equalTo((Entity) se1)));
-		
-		assertThat(repos.resolve(ID1), is(not(sameInstance((Entity) e1))));
-		assertThat(repos.resolve(ID2), is(not(sameInstance((Entity) se1))));
-		
-		SampleMainEntity resolved = (SampleMainEntity) repos.resolve(ID1);
-		resolved.setString("!!");
-		assertThat(e1.getString(), is(not("!!")));
-		assertThat(((SampleMainEntity) repos.resolve(ID1)).getString(), is(not("!!")));
 	}
 	
 	/**
@@ -149,35 +139,6 @@ public class OnMemoryRepositoryTest {
 		
 		assertThat(repos.resolve(e1.toReference()), is(equalTo(e1)));
 		assertThat(repos.resolve(se1.toReference()), is(equalTo(se1)));
-		
-		assertThat(repos.resolve(e1.toReference()), is(not(sameInstance(e1))));
-		assertThat(repos.resolve(se1.toReference()), is(not(sameInstance(se1))));
-		
-		SampleMainEntity resolved = repos.resolve(e1.toReference());
-		resolved.setString("!!");
-		assertThat(e1.getString(), is(not("!!")));
-		assertThat(repos.resolve(e1.toReference()).getString(), is(not("!!")));
-	}
-	
-	/**
-	 * リポジトリにストアしたオブジェクトと、リゾルブで得たオブジェクトは等価だが、同じインスタンスではない。
-	 * 
-	 * @throws Exception 例外が発生した場合
-	 */
-	@Test
-	public void test04_リポジトリにストアしたオブジェクトと_リゾルブで得たオブジェクトは等価だが_同じインスタンスではない() throws Exception {
-		SampleMainEntity e1 = new SampleMainEntity(ID1);
-		SampleSubEntity se1 = new SampleSubEntity(ID2);
-		e1.addChild(se1);
-		repos.store(e1);
-		
-		Entity resolved1 = repos.resolve(ID1);
-		Entity resolved2 = repos.resolve(ID2);
-		
-		assertThat(resolved1, is(equalTo((Entity) e1)));
-		assertThat(resolved2, is(equalTo((Entity) se1)));
-		assertThat(resolved1, is(not(sameInstance((Entity) e1))));
-		assertThat(resolved2, is(not(sameInstance((Entity) se1))));
 	}
 	
 	/**
@@ -311,13 +272,6 @@ public class OnMemoryRepositoryTest {
 		for (SampleMainEntity retrieved : repos.getEntitiesAsSet()) {
 			map.put(retrieved.getId(), retrieved);
 		}
-		assertThat(map.get(ID1), is(not(sameInstance(e1))));
-		assertThat(map.get(ID2), is(not(sameInstance(e2))));
-		assertThat(map.get(ID3), is(not(sameInstance(e3))));
-		assertThat(map.get(ID4), is(not(sameInstance(e4))));
-		
-		map.get(ID1).setString("!!");
-		assertThat(repos.resolve(e1.toReference()).getString(), is(not("!!")));
 	}
 	
 	/**

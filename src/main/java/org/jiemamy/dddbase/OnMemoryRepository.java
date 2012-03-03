@@ -28,9 +28,6 @@ import com.google.common.collect.Sets;
 
 import org.apache.commons.lang.Validate;
 
-import org.jiemamy.dddbase.utils.CloneUtil;
-import org.jiemamy.dddbase.utils.MutationMonitor;
-
 /**
  * {@link Repository}のオンメモリ実装クラス。
  * 
@@ -92,7 +89,7 @@ public class OnMemoryRepository<E extends Entity> extends OnMemoryEntityResolver
 	}
 	
 	public Set<E> getEntitiesAsSet() {
-		return MutationMonitor.monitor(CloneUtil.cloneEntityHashSet(getStorage().values()));
+		return Sets.newHashSet(getStorage().values());
 	}
 	
 	public void removeListener(RepositoryEventListener listener) {
@@ -109,10 +106,7 @@ public class OnMemoryRepository<E extends Entity> extends OnMemoryEntityResolver
 		Validate.notNull(entity);
 		chechConsistency(entity);
 		
-		@SuppressWarnings("unchecked")
-		E clone = (E) entity.clone();
-		
-		E old = getStorage().put(clone.getId(), clone);
+		E old = getStorage().put(entity.getId(), entity);
 		fireEvent(new RepositoryEvent<E>(this, old, entity));
 		return old;
 	}
