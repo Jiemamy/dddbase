@@ -76,7 +76,7 @@ public abstract class AbstractEntity implements Entity {
 	
 	@Override
 	public final int hashCode() {
-		return id.hashCode();
+		return id == null ? 0 : id.hashCode();
 	}
 	
 	public EntityRef<? extends AbstractEntity> toReference() {

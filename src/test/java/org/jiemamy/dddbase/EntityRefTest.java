@@ -34,7 +34,7 @@ import org.jiemamy.dddbase.sample.SampleMainEntity;
  * @version $Id$
  * @author daisuke
  */
-public class DefaultEntityRefTest {
+public class EntityRefTest {
 	
 	private static final UUID ID1 = UUID.randomUUID();
 	
