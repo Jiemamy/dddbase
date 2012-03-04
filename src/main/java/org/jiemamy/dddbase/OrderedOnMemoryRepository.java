@@ -102,5 +102,4 @@ public class OrderedOnMemoryRepository<E extends OrderedEntity> extends OnMemory
 		sb.append(list.toString());
 		return sb.toString();
 	}
-	
 }
